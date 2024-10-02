@@ -323,6 +323,17 @@
         window.addEventListener('scroll', checkVisibility);
         // Llama a la función al cargar
         window.addEventListener('load', checkVisibility);
+    <script>
+        const imagen = document.querySelector('.imagen-sobre-nosotros');
+    
+        imagen.addEventListener('click', function() {
+            this.classList.toggle('girar'); // Agrega o quita la clase 'girar'
+            
+            // Remueve la clase después de que el giro haya terminado para poder volver a aplicarlo
+            setTimeout(() => {
+                this.classList.remove('girar');
+            }, 600); // Tiempo que coincide con la duración de la transición
+        });
     </script>
 </body>
 </html>

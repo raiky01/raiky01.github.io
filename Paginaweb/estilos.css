@@ -351,3 +351,34 @@ header h1 {
 #formRegistro button:hover {
     background-color: #444; /* Color al pasar el mouse */
 }
+/* Estilo base */
+body {
+    font-family: 'Poppins', sans-serif; /* Usa la fuente importada */
+}
+
+/* Ajustes para el contenedor de productos */
+.productos-container {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+}
+
+/* Ajustes a los productos */
+.producto {
+    width: calc(33.33% - 30px); /* 3 productos por fila en pantallas grandes */
+    margin: 15px;
+}
+
+/* Cambios en los puntos de ruptura */
+@media (max-width: 768px) {
+    .producto {
+        width: calc(50% - 30px); /* 2 productos por fila */
+    }
+}
+
+@media (max-width: 480px) {
+    .producto {
+        width: 100%; /* 1 producto por fila */
+    }
+}
+

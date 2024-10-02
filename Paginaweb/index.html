@@ -2,8 +2,10 @@
 <html lang="es">
 <head>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;700&display=swap" rel="stylesheet">
+
     <link rel="stylesheet" href="estilos.css">
 
+    
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Raiky Pizza</title>
@@ -17,7 +19,7 @@
         }
 
         header {
-            background-color: #ffbe00;
+            background-color: #ffbe00; /* Color principal */
             color: white;
             padding: 1rem;
             text-align: center;
@@ -45,7 +47,7 @@
         }
 
         h3 {
-            margin-top: 40px;
+            margin-top: 40px; /* Espacio entre secciones */
         }
 
         .producto {
@@ -57,16 +59,17 @@
             text-align: center;
             width: calc(30% - 40px);
             transition: transform 0.3s;
-            display: inline-block;
-            vertical-align: top;
-            opacity: 0; /* Inicialmente oculto */
-            transform: translateY(20px); /* Para un efecto de entrada */
-            transition: opacity 0.5s ease, transform 0.5s ease; /* Efecto de desvanecimiento */
+            display: inline-block; /* Asegura que los productos estén en línea */
+            vertical-align: top; /* Alinea verticalmente */
         }
 
-        .producto.visible {
-            opacity: 1; /* Se muestra */
-            transform: translateY(0); /* Restablece la posición */
+        .producto:hover {
+            transform: scale(1.05);
+        }
+
+        .producto img {
+            width: 100%;
+            border-radius: 10px;
         }
 
         .boton {
@@ -80,13 +83,13 @@
         }
 
         .boton:hover {
-            background-color: #444;
+            background-color: #444; /* Gris oscuro al pasar el mouse */
         }
 
         footer {
             text-align: center;
             padding: 20px;
-            background: #ffbe00;
+            background: #ffbe00; /* Color principal */
             color: white;
             position: relative;
             bottom: 0;
@@ -95,13 +98,13 @@
 
         @media (max-width: 768px) {
             .producto {
-                width: calc(45% - 40px);
+                width: calc(45% - 40px); /* 2 productos por fila */
             }
         }
 
         @media (max-width: 480px) {
             .producto {
-                width: 100%;
+                width: 100%; /* 1 producto por fila */
             }
         }
 
@@ -112,6 +115,8 @@
     </style>
 </head>
 <body>
+   
+
     <header>
         <div class="logo">
             <h1>Raiky Pizza</h1>
@@ -138,6 +143,7 @@
         <img src="sobre_nosotros.jpg" alt="Nuestra Pizzería" class="imagen-sobre-nosotros">
         <p>En Raiky Pizza, nos apasiona ofrecerte la mejor pizza y tacos con ingredientes frescos y de calidad. ¡Ven a disfrutar de nuestras especialidades!</p>
     </section>
+    
 
     <section id="menu">
         <h2>Menú</h2>
@@ -150,10 +156,11 @@
                 <p>Queso Blanco, Salsa de tomate.</p>
                 <p class="precio">Precio: $100.00</p>
                 <a href="https://wa.me/5352461307?text=¡Hola!%20Quiero%20hacer%20un%20pedido%20de%20Pizza%20de%20Queso." 
+
                 target="_blank"
-                class="boton">Ordenar ahora</a>
-            
-            
+                class="boton"
+                >Ordenar ahora</a>
+
             </div>
             <div class="producto">
                 <img src="jamon.jpg" alt="Pizza de Jamón">
@@ -227,50 +234,55 @@
             <div class="producto">
                 <img src="taco1.jpg" alt="Taco de Res">
                 <h3>Taco de Res</h3>
-                <p>Carne de res, cebolla, cilantro, mayonesa, salsa.</p>
+                <p>Carne de res, cebolla, cilantro,mayonesa, salsa.</p>
                 <p class="precio">Precio: $750.00</p>
-                <a href="https://wa.me/5352461307?text=¡Hola!%20Quiero%20hacer%20un%20pedido%20de%20Taco%20de%20Res." 
+                <a href="https://wa.me/5352461307?text=¡Hola!%20Quiero%20hacer%20un%20pedido%20de%20Taco%20de%20Res."
+
                 target="_blank"
-                class="boton">Ordenar ahora</a>
+                class="boton"
+                >Ordenar ahora</a>
+
+            </div>
+            <div class="producto">
+                <img src="taco2.jpg" alt="Taco de Pollo">
+                <h3>Taco de Pollo</h3>
+                <p>Pollo a la parrilla, aguacate,cebolla, salsa.</p>
+                <p class="precio">Precio: $600.00</p>
+                <a href="https://wa.me/5352461307?text=¡Hola!%20Quiero%20hacer%20un%20pedido%20de%20Taco%20de%20Pollo."
+
+                target="_blank"
+                class="boton"
+                >Ordenar ahora</a>
+
+            </div>
+            <div class="producto">
+                <img src="taco3.jpg" alt="Taco Vegetariano">
+                <h3>Taco Vegetariano</h3>
+                <p>Frijoles, aguacate,curtidos,aceitunas.</p>
+                <p class="precio">Precio: $500.00</p>
+                <a href="https://wa.me/5352461307?text=¡Hola!%20Quiero%20hacer%20un%20pedido%20de%20Taco%20Vegetariano 
+
+                target="_blank"
+                class="boton"
+                >Ordenar ahora</a>
+
+            </div>
+            <div class="producto">
+                <img src="taco4.jpg" alt="Taco de Cerdo">
+                <h3>Taco de Cerdo</h3>
+                <p>Carne de cerdo,cebolla ,mayonesa,ketchup,aceitunas.</p>
+                <p class="precio">Precio: $750.00</p>
+                <a href="https://wa.me/5352461307?text=¡Hola!%20Quiero%20hacer%20un%20pedido%20de%20Taco%20de%20Cerdo." 
+
+                target="_blank"
+                class="boton"
+                >Ordenar ahora</a>
+
             </div>
         </div>
-        <div class="producto">
-            <img src="taco2.jpg" alt="Taco de Pollo">
-            <h3>Taco de Pollo</h3>
-            <p>Pollo a la parrilla, aguacate,cebolla, salsa.</p>
-            <p class="precio">Precio: $600.00</p>
-            <a href="https://wa.me/5352461307?text=¡Hola!%20Quiero%20hacer%20un%20pedido%20de%20Taco%20de%20Pollo."
-
-            target="_blank"
-            class="boton"
-            >Ordenar ahora</a>
-
-        </div>
-        <div class="producto">
-            <img src="taco3.jpg" alt="Taco Vegetariano">
-            <h3>Taco Vegetariano</h3>
-            <p>Frijoles, aguacate,curtidos,aceitunas.</p>
-            <p class="precio">Precio: $500.00</p>
-            <a href="https://wa.me/5352461307?text=¡Hola!%20Quiero%20hacer%20un%20pedido%20de%20Taco%20Vegetariano 
-
-            target="_blank"
-            class="boton"
-            >Ordenar ahora</a>
-
-        </div>
-        <div class="producto">
-            <img src="taco4.jpg" alt="Taco de Cerdo">
-            <h3>Taco de Cerdo</h3>
-            <p>Carne de cerdo,cebolla ,mayonesa,ketchup,aceitunas.</p>
-            <p class="precio">Precio: $750.00</p>
-            <a href="https://wa.me/5352461307?text=¡Hola!%20Quiero%20hacer%20un%20pedido%20de%20Taco%20de%20Cerdo." 
-
-            target="_blank"
-            class="boton"
-            >Ordenar ahora</a>
-
-        </div>
     </section>
+
+   
 
     <section id="contacto">
         <h2>Contacto</h2>
@@ -283,7 +295,7 @@
             <a href="mailto:contacto@mipizzeria.com">Enviar un correo</a>
         </p>
         <form>
-            <label for="nombre">Nombre:</label>
+            <label for="Raiky Pizza">Nombre:</label>
             <input type="text" id="nombre" name="nombre" required>
             <label for="email">Email:</label>
             <input type="email" id="email" name="email" required>
@@ -296,33 +308,7 @@
     <footer>
         <p>&copy; 2024 Raiky Pizza. Todos los derechos reservados.</p>
     </footer>
-
-    <script>
-        // Función para detectar si un elemento está en la vista
-        function isElementInViewport(el) {
-            const rect = el.getBoundingClientRect();
-            return (
-                rect.top >= 0 &&
-                rect.left >= 0 &&
-                rect.bottom <= (window.innerHeight || document.documentElement.clientHeight) &&
-                rect.right <= (window.innerWidth || document.documentElement.clientWidth)
-            );
-        }
-
-        // Función para mostrar los productos al hacer scroll
-        function checkVisibility() {
-            const productos = document.querySelectorAll('.producto');
-            productos.forEach(producto => {
-                if (isElementInViewport(producto)) {
-                    producto.classList.add('visible'); // Añade la clase para mostrar
-                }
-            });
-        }
-
-        // Detecta el scroll
-        window.addEventListener('scroll', checkVisibility);
-        // Llama a la función al cargar
-        window.addEventListener('load', checkVisibility);
+   
     <script>
         const imagen = document.querySelector('.imagen-sobre-nosotros');
     
@@ -335,5 +321,26 @@
             }, 600); // Tiempo que coincide con la duración de la transición
         });
     </script>
+    
+    <script>
+        document.getElementById('formRegistro').addEventListener('submit', function(event) {
+            event.preventDefault(); // Evitar el envío predeterminado
+    
+            const formData = new FormData(this);
+    
+            fetch('registro.php', {
+                method: 'POST',
+                body: formData
+            })
+            .then(response => response.text())
+            .then(data => {
+                alert(data); // Muestra el mensaje de éxito o error
+                this.reset(); // Reiniciar el formulario
+            })
+            .catch(error => console.error('Error:', error));
+        });
+    </script>
+    
 </body>
+
 </html>

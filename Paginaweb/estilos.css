@@ -1,0 +1,353 @@
+/* Importando Google Fonts */
+@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap');
+
+body {
+    font-family: 'Roboto', sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #f0f0f0; /* Color de fondo más suave */
+    color: #333;
+}
+
+header {
+    background-color: #ffbe00; /* Color principal */
+    color: white;
+    padding: 1rem;
+    text-align: center;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); /* Sombra sutil */
+}
+
+nav ul {
+    list-style-type: none;
+    padding: 0;
+    display: flex;
+    justify-content: center;
+}
+
+nav ul li {
+    margin: 0 20px; /* Espaciado ajustado */
+}
+
+nav ul li a {
+    color: white;
+    text-decoration: none;
+    font-weight: bold;
+    transition: color 0.3s;
+}
+
+nav ul li a:hover {
+    color: #f0e68c; /* Color más claro en hover */
+}
+
+section {
+    padding: 40px 20px; /* Espaciado más amplio */
+}
+
+h2, h3 {
+    color: #333; /* Color de encabezados */
+    margin-bottom: 20px; /* Espacio debajo de encabezados */
+}
+
+.productos-container {
+    display: flex;
+    flex-wrap: wrap; /* Permite que los elementos se ajusten en múltiples filas */
+    justify-content: center; /* Centra los productos */
+    gap: 20px; /* Espacio entre los productos */
+}
+
+.producto {
+    background: white;
+    border-radius: 10px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1); /* Sombra más pronunciada */
+    padding: 20px;
+    text-align: center;
+    width: calc(33% - 40px); /* Un 33% de ancho */
+    transition: transform 0.3s, box-shadow 0.3s; /* Transiciones suaves */
+}
+
+.producto:hover {
+    transform: translateY(-5px); /* Levantar un poco el producto */
+    box-shadow: 0 6px 18px rgba(0, 0, 0, 0.2); /* Aumentar sombra en hover */
+}
+
+.producto img {
+    width: 100%;
+    border-radius: 10px 10px 0 0; /* Bordes redondeados solo en la parte superior */
+}
+
+.boton {
+    display: inline-block; /* Asegurar que el botón ocupa solo lo necesario */
+    background-color: black;
+    color: white;
+    border: none;
+    padding: 12px 20px; /* Aumentar el padding para mayor comodidad */
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s, transform 0.3s;
+    text-decoration: none; /* Sin subrayado */
+    margin-top: 10px; /* Espaciado superior */
+}
+
+.boton:hover {
+    background-color: #444; /* Gris oscuro al pasar el mouse */
+    transform: translateY(-2px); /* Elevar ligeramente el botón en hover */
+}
+
+footer {
+    text-align: center;
+    padding: 20px;
+    background: #ffbe00; /* Color principal */
+    color: white;
+    position: relative;
+    bottom: 0;
+    width: 100%;
+    box-shadow: 0 -2px 5px rgba(0, 0, 0, 0.1); /* Sombra en el footer */
+}
+
+@media (max-width: 768px) {
+    .producto {
+        width: calc(45% - 40px); /* 2 productos por fila */
+    }
+}
+
+@media (max-width: 480px) {
+    .producto {
+        width: 100%; /* 1 producto por fila */
+    }
+}
+
+.imagen-sobre-nosotros {
+    max-width: 100%;
+    border-radius: 10px;
+}
+.producto img {
+    width: 100%; /* Mantiene el ancho al 100% del contenedor */
+    height: 200px; /* Establece una altura fija */
+    object-fit: cover; /* Corta la imagen para que encaje sin distorsión */
+    border-radius: 10px; /* Opcional: mantiene el borde redondeado */
+}
+.precio {
+    color: red; /* Cambia el color a rojo */
+    font-weight: bold; /* Opcional: resalta el texto en negrita */
+}
+body {
+    font-family: 'Poppins', sans-serif; /* Cambiar a Poppins */
+    margin: 0;
+    padding: 0;
+    background-color: #ffeaa7; /* Color de fondo suave, amarillo claro */
+    color: #333;
+}
+
+header h1 {
+    animation: bounce 2s infinite; /* Efecto de rebote infinito */
+    font-size: 2.5rem; /* Tamaño del texto del título */
+    margin: 0; /* Eliminar márgenes para mejor alineación */
+}
+
+nav ul li a {
+    font-size: 1.2rem; /* Ajustar tamaño del texto de los enlaces */
+}
+
+section h2, section h3 {
+    font-family: 'Poppins', sans-serif; /* Asegurarse de que los encabezados también usen Poppins */
+}
+
+header {
+    background: linear-gradient(to right, #ffbe00, #f39c12); /* Degradado amarillo */
+    color: white;
+    padding: 1.5rem 0;
+    text-align: center;
+    position: relative;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+}
+
+nav ul {
+    list-style-type: none;
+    padding: 0;
+    display: flex;
+    justify-content: center;
+    margin: 20px 0 0;
+}
+
+nav
+
+#contacto {
+    background-color: #fff; /* Fondo blanco para la sección */
+    border-radius: 10px; /* Bordes redondeados */
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1); /* Sombra sutil */
+    padding: 20px; /* Espaciado interno */
+    margin: 20px; /* Espaciado externo */
+}
+
+#contacto h2 {
+    font-size: 2em; /* Tamaño de fuente más grande */
+    color: #333; /* Color oscuro para el encabezado */
+    margin-bottom: 10px; /* Espacio debajo del encabezado */
+}
+
+#contacto p {
+    font-size: 1.1em; /* Tamaño de fuente aumentado */
+    color: #555; /* Color gris para el texto */
+    line-height: 1.5; /* Espacio entre líneas */
+}
+
+#contacto label {
+    font-weight: bold; /* Texto en negrita */
+    margin-top: 10px; /* Espacio encima del label */
+}
+
+#contacto input,
+#contacto textarea {
+    width: 100%; /* Ancho completo */
+    padding: 10px; /* Espaciado interno */
+    margin: 10px 0; /* Espaciado vertical */
+    border: 1px solid #ccc; /* Borde gris claro */
+    border-radius: 5px; /* Bordes redondeados */
+}
+
+#contacto button {
+    background-color: #ffbe00; /* Color de fondo del botón */
+    color: white; /* Color del texto del botón */
+    padding: 10px 15px; /* Espaciado interno del botón */
+    border: none; /* Sin borde */
+    border-radius: 5px; /* Bordes redondeados */
+    cursor: pointer; /* Cambiar cursor al pasar */
+    transition: background-color 0.3s; /* Transición suave */
+}
+
+#contacto button:hover {
+    background-color: #444; /* Color de fondo al pasar el mouse */
+}
+:root {
+    --color-principal: #ffbe00; /* Color amarillo */
+    --color-secundario: #444; /* Gris oscuro */
+    --color-fondo: #f5f5f5; /* Fondo suave */
+    --color-texto: #333; /* Texto oscuro */
+}
+header h1 {
+    transition: transform 0.3s;
+}
+
+header h1:hover {
+    transform: scale(1.05); /* Aumentar el tamaño del texto al pasar el mouse */
+}
+
+.imagen-sobre-nosotros {
+    max-width: 10%; /* Ajusta según necesites */
+    height: auto; /* Mantiene la proporción de aspecto */
+    border-radius: 10px; /* Bordes redondeados */
+    margin-top: 20px; /* Espaciado superior */
+    display: block; /* Para centrar la imagen */
+    margin-left: auto; /* Centrar horizontalmente */
+    margin-right: auto; /* Centrar horizontalmente */
+    transition: transform 0.6s ease; /* Transición suave */
+}
+
+/* Clase para el giro */
+.girar {
+    transform: rotateY(360deg); /* Efecto de giro en el eje Y */
+}
+header {
+    background: linear-gradient(to right, #ffbe00, #f39c12); /* Degradado amarillo */
+    color: white;
+    padding: 1.5rem 0;
+    text-align: center;
+    position: relative;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2); /* Sombra más profunda */
+}
+
+header .logo h1 {
+    font-size: 2.5rem; /* Tamaño del texto del logo */
+    margin: 0;
+    transition: transform 0.3s; /* Transición para el efecto hover */
+}
+
+header .logo h1:hover {
+    transform: scale(1.1); /* Efecto de aumentar el tamaño al pasar el mouse */
+}
+
+nav ul {
+    list-style-type: none;
+    padding: 0;
+    display: flex;
+    justify-content: center;
+    margin: 20px 0 0; /* Margen superior ajustado */
+}
+
+nav ul li {
+    margin: 0 20px; /* Espaciado ajustado */
+}
+
+nav ul li a {
+    color: white;
+    text-decoration: none;
+    font-weight: bold;
+    font-size: 1.2rem; /* Tamaño de fuente aumentado */
+    padding: 8px 12px; /* Espaciado alrededor del texto */
+    border-radius: 5px; /* Bordes redondeados */
+    transition: background-color 0.3s, transform 0.3s; /* Transición suave */
+}
+
+nav ul li a:hover {
+    background-color: rgba(255, 255, 255, 0.2); /* Fondo blanco semitransparente al pasar el mouse */
+    transform: translateY(-3px); /* Elevar ligeramente el enlace al pasar el mouse */
+}
+
+@keyframes bounce {
+    0%, 20%, 50%, 80%, 100% {
+        transform: translateY(0);
+    }
+    40% {
+        transform: translateY(-10px);
+    }
+    60% {
+        transform: translateY(-5px);
+    }
+}
+
+header h1 {
+    animation: bounce 2s infinite; /* Efecto de rebote infinito */
+    font-size: 2.5rem; /* Tamaño del texto del título */
+    margin: 0; /* Eliminar márgenes para mejor alineación */
+}
+#registro {
+    background-color: #fff; /* Fondo blanco */
+    border-radius: 10px; /* Bordes redondeados */
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1); /* Sombra sutil */
+    padding: 20px; /* Espaciado interno */
+    margin: 20px; /* Espaciado externo */
+}
+
+#registro h2 {
+    color: #333; /* Color del encabezado */
+}
+
+#formRegistro {
+    display: flex;
+    flex-direction: column; /* Coloca los elementos en columna */
+}
+
+#formRegistro label {
+    margin-top: 10px; /* Espacio superior */
+}
+
+#formRegistro input {
+    padding: 10px; /* Espaciado interno */
+    margin: 10px 0; /* Espaciado vertical */
+    border: 1px solid #ccc; /* Borde gris claro */
+    border-radius: 5px; /* Bordes redondeados */
+}
+
+#formRegistro button {
+    background-color: #ffbe00; /* Color de fondo */
+    color: white; /* Color del texto */
+    padding: 10px; /* Espaciado interno */
+    border: none; /* Sin borde */
+    border-radius: 5px; /* Bordes redondeados */
+    cursor: pointer; /* Cambiar cursor al pasar */
+    transition: background-color 0.3s; /* Transición suave */
+}
+
+#formRegistro button:hover {
+    background-color: #444; /* Color al pasar el mouse */
+}

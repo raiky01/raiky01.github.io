@@ -1,0 +1,347 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;700&display=swap" rel="stylesheet">
+
+    <link rel="stylesheet" href="estilos.css">
+
+    
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Raiky Pizza</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f9f9f9;
+            color: #333;
+        }
+
+        header {
+            background-color: #ffbe00; /* Color principal */
+            color: white;
+            padding: 1rem;
+            text-align: center;
+        }
+
+        nav ul {
+            list-style-type: none;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+        }
+
+        nav ul li {
+            margin: 0 15px;
+        }
+
+        nav ul li a {
+            color: white;
+            text-decoration: none;
+            font-weight: bold;
+        }
+
+        section {
+            padding: 20px;
+        }
+
+        h3 {
+            margin-top: 40px; /* Espacio entre secciones */
+        }
+
+        .producto {
+            background: white;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            margin: 15px;
+            padding: 20px;
+            text-align: center;
+            width: calc(30% - 40px);
+            transition: transform 0.3s;
+            display: inline-block; /* Asegura que los productos estén en línea */
+            vertical-align: top; /* Alinea verticalmente */
+        }
+
+        .producto:hover {
+            transform: scale(1.05);
+        }
+
+        .producto img {
+            width: 100%;
+            border-radius: 10px;
+        }
+
+        .boton {
+            background-color: black;
+            color: white;
+            border: none;
+            padding: 10px 15px;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        .boton:hover {
+            background-color: #444; /* Gris oscuro al pasar el mouse */
+        }
+
+        footer {
+            text-align: center;
+            padding: 20px;
+            background: #ffbe00; /* Color principal */
+            color: white;
+            position: relative;
+            bottom: 0;
+            width: 100%;
+        }
+
+        @media (max-width: 768px) {
+            .producto {
+                width: calc(45% - 40px); /* 2 productos por fila */
+            }
+        }
+
+        @media (max-width: 480px) {
+            .producto {
+                width: 100%; /* 1 producto por fila */
+            }
+        }
+
+        .imagen-sobre-nosotros {
+            max-width: 100%;
+            border-radius: 10px;
+        }
+    </style>
+</head>
+<body>
+   
+
+    <header>
+        <div class="logo">
+            <h1>Raiky Pizza</h1>
+        </div>
+        <nav>
+            <ul>
+                <li><a href="#inicio">Inicio</a></li>
+                <li><a href="#menu">Menú</a></li>
+                <li><a href="#sobre">Sobre Nosotros</a></li>
+                <li><a href="#contacto">Contacto</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <section id="inicio">
+        <div style="text-align: center; padding: 20px;">
+            <h2>Bienvenidos a la mejor pizzería de la ciudad</h2>
+            <p>Disfruta de nuestras deliciosas pizzas y tacos, preparados con los mejores ingredientes.</p>
+        </div>
+    </section>
+
+    <section id="sobre">
+        <h2>Sobre Nosotros</h2>
+        <img src="sobre_nosotros.jpg" alt="Nuestra Pizzería" class="imagen-sobre-nosotros">
+        <p>En Raiky Pizza, nos apasiona ofrecerte la mejor pizza y tacos con ingredientes frescos y de calidad. ¡Ven a disfrutar de nuestras especialidades!</p>
+    </section>
+    
+
+    <section id="menu">
+        <h2>Menú</h2>
+        
+        <h3>Pizzas</h3>
+        <div class="productos-container">
+            <div class="producto">
+                <img src="napolitana.jpg" alt="Pizza de Queso">
+                <h3>Pizza de Queso</h3>
+                <p>Queso Blanco, Salsa de tomate.</p>
+                <p class="precio">Precio: $100.00</p>
+                <a href="https://wa.me/5352461307?text=¡Hola!%20Quiero%20hacer%20un%20pedido%20de%20Pizza%20de%20Queso." 
+
+                target="_blank"
+                class="boton"
+                >Ordenar ahora</a>
+
+            </div>
+            <div class="producto">
+                <img src="jamon.jpg" alt="Pizza de Jamón">
+                <h3>Pizza de Jamón</h3>
+                <p>Queso Blanco,Jamón, Salsa de tomate.</p>
+                <p class="precio">Precio: $150.00</p>
+                
+                    <a href="https://wa.me/5352461307?text=¡Hola!%20Quiero%20hacer%20un%20pedido%20de%20Pizza%20de%20Jamon." 
+
+                    target="_blank"
+                    class="boton"
+                    >Ordenar ahora</a>
+
+                 
+                </p>
+                
+                
+            </div>
+            <div class="producto">
+                <img src="hawaiana.jpg" alt="Pizza Hawaiana">
+                <h3>Pizza Hawaiana</h3>
+                <p>Queso blanco, jamon, piña.</p>
+                <p class="precio">Precio: $200.00</p>
+                <a href="https://wa.me/5352461307?text=¡Hola!%20Quiero%20hacer%20un%20pedido%20de%20Pizza%20Hawaiana."
+
+                    target="_blank"
+                    class="boton"
+                    >Ordenar ahora</a>
+
+            </div>
+            <div class="producto">
+                <img src="pimiento.jpeg" alt="Pizza de Pimientos">
+                <h3>Pizza de Pimientos</h3>
+                <p>Queso Blanco, pimientos, Salsa de tomate.</p>
+                <p class="precio">Precio: $150.00</p>
+                <a href="https://wa.me/5352461307?text=¡Hola!%20Quiero%20hacer%20un%20pedido%20de%20Pizza%20de%20Pimientos."
+
+                target="_blank"
+                class="boton"
+                >Ordenar ahora</a>
+
+            </div>
+            <div class="producto">
+                <img src="cebolla.jpg" alt="Pizza de Cebolla">
+                <h3>Pizza de Cebolla</h3>
+                <p>Queso Blanco, cebolla.</p>
+                <p class="precio">Precio: $150.00</p>
+                <a href="https://wa.me/5352461307?text=¡Hola!%20Quiero%20hacer%20un%20pedido%20de%20Pizza%20de%20Cebolla."
+
+                target="_blank"
+                class="boton"
+                >Ordenar ahora</a>
+
+            </div>
+            <div class="producto">
+                <img src="mixta.jpg" alt="Pizza Mixta">
+                <h3>Pizza Mixta</h3>
+                <p>Queso Blanco, Jamón, cebolla, Pimientos,Salsa de tomate.</p>
+                <p class="precio">Precio: $300.00</p>
+                <a href="https://wa.me/5352461307?text=¡Hola!%20Quiero%20hacer%20un%20pedido%20de%20Pizza%20Mixta."
+
+                target="_blank"
+                class="boton"
+                >Ordenar ahora</a>
+
+            </div>
+        </div>
+
+        <h3>Tacos</h3>
+        <div class="productos-container">
+            <div class="producto">
+                <img src="taco1.jpg" alt="Taco de Res">
+                <h3>Taco de Res</h3>
+                <p>Carne de res, cebolla, cilantro,mayonesa, salsa.</p>
+                <p class="precio">Precio: $750.00</p>
+                <a href="https://wa.me/5352461307?text=¡Hola!%20Quiero%20hacer%20un%20pedido%20de%20Taco%20de%20Res."
+
+                target="_blank"
+                class="boton"
+                >Ordenar ahora</a>
+
+            </div>
+            <div class="producto">
+                <img src="taco2.jpg" alt="Taco de Pollo">
+                <h3>Taco de Pollo</h3>
+                <p>Pollo a la parrilla, aguacate,cebolla, salsa.</p>
+                <p class="precio">Precio: $600.00</p>
+                <a href="https://wa.me/5352461307?text=¡Hola!%20Quiero%20hacer%20un%20pedido%20de%20Taco%20de%20Pollo."
+
+                target="_blank"
+                class="boton"
+                >Ordenar ahora</a>
+
+            </div>
+            <div class="producto">
+                <img src="taco3.jpg" alt="Taco Vegetariano">
+                <h3>Taco Vegetariano</h3>
+                <p>Frijoles, aguacate,curtidos,aceitunas.</p>
+                <p class="precio">Precio: $500.00</p>
+                <a href="https://wa.me/5352461307?text=¡Hola!%20Quiero%20hacer%20un%20pedido%20de%20Taco%20Vegetariano 
+
+                target="_blank"
+                class="boton"
+                >Ordenar ahora</a>
+
+            </div>
+            <div class="producto">
+                <img src="taco4.jpg" alt="Taco de Cerdo">
+                <h3>Taco de Cerdo</h3>
+                <p>Carne de cerdo,cebolla ,mayonesa,ketchup,aceitunas.</p>
+                <p class="precio">Precio: $750.00</p>
+                <a href="https://wa.me/5352461307?text=¡Hola!%20Quiero%20hacer%20un%20pedido%20de%20Taco%20de%20Cerdo." 
+
+                target="_blank"
+                class="boton"
+                >Ordenar ahora</a>
+
+            </div>
+        </div>
+    </section>
+
+   
+
+    <section id="contacto">
+        <h2>Contacto</h2>
+        <p>Dirección: Campechuela, Cuba</p>
+        <p>Teléfono: +5352461307</p>
+        <p>
+            <a href="https://www.google.com/maps?q=Campechuela,Cuba" target="_blank">Ver en Google Maps</a>
+        </p>
+        <p>
+            <a href="mailto:contacto@mipizzeria.com">Enviar un correo</a>
+        </p>
+        <form>
+            <label for="Raiky Pizza">Nombre:</label>
+            <input type="text" id="nombre" name="nombre" required>
+            <label for="email">Email:</label>
+            <input type="email" id="email" name="email" required>
+            <label for="mensaje">Mensaje:</label>
+            <textarea id="mensaje" name="mensaje" required></textarea>
+            <button type="submit">Enviar</button>
+        </form>
+    </section>
+
+    <footer>
+        <p>&copy; 2024 Raiky Pizza. Todos los derechos reservados.</p>
+    </footer>
+   
+    <script>
+        const imagen = document.querySelector('.imagen-sobre-nosotros');
+    
+        imagen.addEventListener('click', function() {
+            this.classList.toggle('girar'); // Agrega o quita la clase 'girar'
+            
+            // Remueve la clase después de que el giro haya terminado para poder volver a aplicarlo
+            setTimeout(() => {
+                this.classList.remove('girar');
+            }, 600); // Tiempo que coincide con la duración de la transición
+        });
+    </script>
+    
+    <script>
+        document.getElementById('formRegistro').addEventListener('submit', function(event) {
+            event.preventDefault(); // Evitar el envío predeterminado
+    
+            const formData = new FormData(this);
+    
+            fetch('registro.php', {
+                method: 'POST',
+                body: formData
+            })
+            .then(response => response.text())
+            .then(data => {
+                alert(data); // Muestra el mensaje de éxito o error
+                this.reset(); // Reiniciar el formulario
+            })
+            .catch(error => console.error('Error:', error));
+        });
+    </script>
+    
+</body>
+
+</html>
+

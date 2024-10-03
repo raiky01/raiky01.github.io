@@ -154,18 +154,23 @@
     });
 
     document.getElementById('realizar-pedido').addEventListener('click', () => {
-        if (carrito.length === 0) {
-            alert('Tu carrito está vacío');
-            return;
-        }
+    if (carrito.length === 0) {
+        alert('Tu carrito está vacío');
+        return;
+    }
 
-        const mensaje = `Orden realizada:\n` + 
-            carrito.map(item => `${item.nombre} (Cantidad: ${item.cantidad}) - Precio: $${(item.precio * item.cantidad).toFixed(2)}`).join('\n') +
-            `\nTotal: $${carrito.reduce((total, item) => total + item.precio * item.cantidad, 0).toFixed(2)}`;
+    const mensaje = `Orden realizada:\n` + 
+        carrito.map(item => `${item.nombre} (Cantidad: ${item.cantidad}) - Precio: $${(item.precio * item.cantidad).toFixed(2)}`).join('\n') +
+        `\nTotal: $${carrito.reduce((total, item) => total + item.precio * item.cantidad, 0).toFixed(2)}`;
 
-        const telefono = '5352461307';
-        const url = `https://api.whatsapp.com/send?phone=${telefono}&text=${encodeURIComponent(mensaje)}`;
-        window.open(url);
+    const telefono = '5352461307';
+    const url = `https://api.whatsapp.com/send?phone=${telefono}&text=${encodeURIComponent(mensaje)}`;
+    window.open(url);
+
+    // Vaciar el carrito después de realizar el pedido
+    vaciarCarrito();
+});
+
     });
 
     document.getElementById('vaciar-carrito').addEventListener('click', vaciarCarrito); // Event listener para vaciar carrito

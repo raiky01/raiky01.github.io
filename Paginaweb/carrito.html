@@ -144,8 +144,8 @@
 
     document.getElementById('carrito-items').addEventListener('click', (e) => {
         if (e.target.classList.contains('eliminar')) {
-            const index = e.target.dataset.index;
-            eliminarProducto(index);
+            const index = e.target.dataset.index; // Obtener el índice del producto a eliminar
+            eliminarProducto(index); // Llamar a la función para eliminar solo ese producto
         }
     });
 

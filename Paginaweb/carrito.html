@@ -8,14 +8,14 @@
     <style>
         body {
             font-family: 'Poppins', sans-serif;
-            margin: 0; /* Eliminar márgenes */
-            padding: 0; /* Eliminar padding */
+            margin: 0;
+            padding: 0;
             background-color: #f3f4f6;
             color: #333;
             display: flex;
             flex-direction: column;
             align-items: center;
-            width: 100%; /* Asegurarse de que ocupa todo el ancho */
+            width: 100%;
         }
         header {
             background-color: #ffbe00;
@@ -30,12 +30,12 @@
         }
         .productos-carrito {
             max-width: 800px;
-            width: 100%; /* Asegurarse de que ocupa todo el ancho */
+            width: 100%;
             background: white;
             border-radius: 8px;
             box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
             padding: 20px;
-            margin: 20px 0; /* Asegurarse de que tiene margen vertical */
+            margin: 20px 0;
         }
         .producto-carrito {
             display: flex;
@@ -65,14 +65,14 @@
         }
         #regresar {
             position: absolute;
-            top: 20px;
-            left: 20px;
+            top: 10px; /* Mueve el botón un poco hacia arriba */
+            left: 10px; /* Mueve el botón un poco hacia la izquierda */
             background-color: black;
             color: white;
             border: none;
             border-radius: 50%;
-            width: 40px;
-            height: 40px;
+            width: 50px; /* Aumenta el ancho */
+            height: 50px; /* Aumenta la altura */
             display: flex;
             align-items: center;
             justify-content: center;
@@ -81,18 +81,17 @@
         }
         #regresar:before {
             content: '←';
-            font-size: 24px;
+            font-size: 28px; /* Aumenta el tamaño de la flecha */
             line-height: 0;
         }
         .botones-container {
             display: flex;
-            justify-content: space-between; /* Para separar los botones */
-            width: 100%; /* Para que ocupen el 100% del contenedor */
-            max-width: 400px; /* Limitar el ancho total */
+            justify-content: space-between;
+            width: 100%;
+            max-width: 400px;
             margin-top: 20px;
         }
 
-        /* Estilo para asegurar que todo se vea bien en pantallas pequeñas */
         @media (max-width: 480px) {
             .botones-container {
                 flex-direction: column; /* Colocar botones en columna */
@@ -113,7 +112,9 @@
 
 <button id="regresar"></button>
 
-<div class="productos-carrito" id="productos-carrito"></div>
+<div class="productos-carrito" id="productos-carrito">
+    <p id="mensaje-vacio" style="display: none;">El carrito está vacío.</p>
+</div>
 <p class="total" id="total-carrito">Total: $0.00</p>
 <div class="botones-container">
     <button id="realizar-pedido" class="boton">Realizar Pedido</button>
@@ -122,32 +123,39 @@
 
 <script>
     let carrito = JSON.parse(localStorage.getItem('carrito')) || [];
-    let total = carrito.reduce((acc, item) => acc + item.precio, 0);
+    let total = calcularTotal();
+
+    function calcularTotal() {
+        return carrito.reduce((acc, item) => acc + (item.precio * item.cantidad), 0);
+    }
 
     function mostrarCarrito() {
         const contenedor = document.getElementById('productos-carrito');
         contenedor.innerHTML = '';
-        carrito.forEach((item, index) => {
-            const div = document.createElement('div');
-            div.className = 'producto-carrito';
-            div.innerHTML = `
-                <span>${item.nombre}: $${item.precio.toFixed(2)}</span>
-                <button class="boton" onclick="eliminarProducto(${index})">Eliminar</button>
-            `;
-            contenedor.appendChild(div);
-        });
+        if (carrito.length === 0) {
+            document.getElementById('mensaje-vacio').style.display = 'block';
+        } else {
+            document.getElementById('mensaje-vacio').style.display = 'none';
+            carrito.forEach((item, index) => {
+                const div = document.createElement('div');
+                div.className = 'producto-carrito';
+                div.innerHTML = `
+                    <span>${item.nombre} (${item.cantidad}): $${(item.precio * item.cantidad).toFixed(2)}</span>
+                    <button class="boton" onclick="eliminarProducto(${index})">Eliminar</button>
+                `;
+                contenedor.appendChild(div);
+            });
+        }
         document.getElementById('total-carrito').innerText = `Total: $${total.toFixed(2)}`;
     }
 
     function eliminarProducto(index) {
-        total -= carrito[index].precio;
+        const cantidad = carrito[index].cantidad;
+        total -= carrito[index].precio * cantidad;
         carrito.splice(index, 1);
         localStorage.setItem('carrito', JSON.stringify(carrito));
         mostrarCarrito();
-        if (carrito.length === 0) {
-            total = 0;
-            document.getElementById('total-carrito').innerText = `Total: $${total.toFixed(2)}`;
-        }
+        alert('Producto eliminado del carrito.');
     }
 
     document.getElementById('vaciar-carrito').onclick = () => {
@@ -162,7 +170,7 @@
             alert('El carrito está vacío. Agrega productos para realizar un pedido.');
             return;
         }
-        const mensaje = carrito.map(item => `${item.nombre}: $${item.precio.toFixed(2)}`).join('%0A');
+        const mensaje = carrito.map(item => `${item.nombre} (${item.cantidad}): $${(item.precio * item.cantidad).toFixed(2)}`).join('%0A');
         const totalMensaje = `Total: $${total.toFixed(2)}%0APedido realizado`;
         const enlaceWhatsApp = `https://wa.me/5352461307?text=${mensaje}%0A${totalMensaje}`;
         window.open(enlaceWhatsApp, '_blank');
@@ -173,10 +181,8 @@
     };
 
     window.addEventListener('load', mostrarCarrito);
-    window.addEventListener('beforeunload', () => {
-        localStorage.removeItem('carrito');
-    });
 </script>
 
 </body>
 </html>
+

@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Carrito de Compras</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Poppins', sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f3f4f6;
+            color: #333;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        header {
+            background-color: #ffbe00;
+            width: 100%;
+            padding: 20px;
+            text-align: center;
+            position: relative;
+        }
+        h1 {
+            margin: 0;
+            color: white;
+        }
+        .productos-carrito {
+            max-width: 800px;
+            width: 100%;
+            background: white;
+            border-radius: 8px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+            padding: 20px;
+            margin: 20px;
+        }
+        .producto-carrito {
+            display: flex;
+            justify-content: space-between;
+            padding: 10px;
+            border-bottom: 1px solid #eaeaea;
+        }
+        .producto-carrito:last-child {
+            border-bottom: none;
+        }
+        .boton {
+            background-color: black;
+            color: white;
+            border: none;
+            padding: 10px 15px;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+        .boton:hover {
+            background-color: #444;
+        }
+        .total {
+            font-size: 1.5em;
+            margin: 20px 0;
+            text-align: right;
+        }
+        #regresar {
+            position: absolute;
+            top: 20px;
+            left: 20px;
+            background-color: black;
+            color: white;
+            border: none;
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+        }
+        #regresar:before {
+            content: '←';
+            font-size: 24px;
+            line-height: 0;
+        }
+        .botones-container {
+            display: flex;
+            justify-content: space-between; /* Para separar los botones */
+            width: 100%; /* Para que ocupen el 100% del contenedor */
+            max-width: 400px; /* Limitar el ancho total */
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+
+<header>
+    <h1>Carrito de Compras</h1>
+</header>
+
+<button id="regresar"></button>
+
+<div class="productos-carrito" id="productos-carrito"></div>
+<p class="total" id="total-carrito">Total: $0.00</p>
+<div class="botones-container">
+    <button id="realizar-pedido" class="boton">Realizar Pedido</button>
+    <button id="vaciar-carrito" class="boton">Vaciar Carrito</button>
+</div>
+
+<script>
+    let carrito = JSON.parse(localStorage.getItem('carrito')) || [];
+    let total = carrito.reduce((acc, item) => acc + item.precio, 0);
+
+    function mostrarCarrito() {
+        const contenedor = document.getElementById('productos-carrito');
+        contenedor.innerHTML = '';
+        carrito.forEach((item, index) => {
+            const div = document.createElement('div');
+            div.className = 'producto-carrito';
+            div.innerHTML = `
+                <span>${item.nombre}: $${item.precio.toFixed(2)}</span>
+                <button class="boton" onclick="eliminarProducto(${index})">Eliminar</button>
+            `;
+            contenedor.appendChild(div);
+        });
+        document.getElementById('total-carrito').innerText = `Total: $${total.toFixed(2)}`;
+    }
+
+    function eliminarProducto(index) {
+        total -= carrito[index].precio;
+        carrito.splice(index, 1);
+        localStorage.setItem('carrito', JSON.stringify(carrito));
+        mostrarCarrito();
+        if (carrito.length === 0) {
+            total = 0;
+            document.getElementById('total-carrito').innerText = `Total: $${total.toFixed(2)}`;
+        }
+    }
+
+    document.getElementById('vaciar-carrito').onclick = () => {
+        carrito = [];
+        total = 0;
+        localStorage.setItem('carrito', JSON.stringify(carrito));
+        mostrarCarrito();
+    };
+
+    document.getElementById('realizar-pedido').onclick = () => {
+        if (carrito.length === 0) {
+            alert('El carrito está vacío. Agrega productos para realizar un pedido.');
+            return;
+        }
+        const mensaje = carrito.map(item => `${item.nombre}: $${item.precio.toFixed(2)}`).join('%0A');
+        const totalMensaje = `Total: $${total.toFixed(2)}%0APedido realizado`;
+        const enlaceWhatsApp = `https://wa.me/1234567890?text=${mensaje}%0A${totalMensaje}`;
+        window.open(enlaceWhatsApp, '_blank');
+    };
+
+    document.getElementById('regresar').onclick = () => {
+        window.history.back();
+    };
+
+    window.addEventListener('load', mostrarCarrito);
+    window.addEventListener('beforeunload', () => {
+        localStorage.removeItem('carrito');
+    });
+</script>
+
+</body>
+</html>

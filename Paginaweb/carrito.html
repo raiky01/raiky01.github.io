@@ -3,54 +3,52 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Carrito de Compras</title>
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;700&display=swap" rel="stylesheet">
+    <title>Carrito de Compras - Raiky Pizza</title>
     <style>
         body {
             font-family: 'Poppins', sans-serif;
             margin: 0;
             padding: 0;
-            background-color: #f3f4f6;
+            background-color: #f9f9f9;
             color: #333;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            width: 100%;
         }
         header {
-            background-color: #ffbe00;
-            width: 100%;
-            padding: 20px;
-            text-align: center;
-            position: relative;
-        }
-        h1 {
-            margin: 0;
+            background-color: #ffbe00; 
             color: white;
+            padding: 1rem;
+            text-align: center;
         }
-        .productos-carrito {
-            max-width: 800px;
-            width: 100%;
-            background: white;
-            border-radius: 8px;
-            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-            padding: 20px;
+        h2 {
+            text-align: center;
             margin: 20px 0;
         }
-        .producto-carrito {
+        .productos-container {
             display: flex;
-            justify-content: space-between;
-            padding: 10px;
-            border-bottom: 1px solid #eaeaea;
+            flex-direction: column; /* Cambiar a columna para apilar productos */
+            padding: 20px;
         }
-        .producto-carrito:last-child {
-            border-bottom: none;
+        .producto {
+            background: white;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            margin: 15px 0; /* Espacio entre productos */
+            padding: 10px;
+            text-align: left; /* Alinear texto a la izquierda */
+            width: 100%; /* Ocupa todo el ancho */
+            display: flex;
+            align-items: center; /* Alinear verticalmente */
+        }
+        .producto img {
+            width: 80px; /* Tamaño ajustado */
+            height: auto;
+            border-radius: 10px;
+            margin-right: 10px; /* Espacio entre imagen y texto */
         }
         .boton {
             background-color: black;
             color: white;
             border: none;
-            padding: 10px 15px;
+            padding: 5px 10px;
             border-radius: 5px;
             cursor: pointer;
             transition: background-color 0.3s;
@@ -59,48 +57,19 @@
             background-color: #444;
         }
         .total {
-            font-size: 1.5em;
+            font-weight: bold;
+            font-size: 1.2rem;
             margin: 20px 0;
-            text-align: right;
+            text-align: center;
         }
-        #regresar {
-            position: absolute;
-            top: 5px;
-            left: 5px;
-            background-color: black;
+        footer {
+            text-align: center;
+            padding: 20px;
+            background: #ffbe00;
             color: white;
-            border: none;
-            border-radius: 50%;
-            width: 50px;
-            height: 50px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            cursor: pointer;
-            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
-        }
-        #regresar:before {
-            content: '←';
-            font-size: 28px;
-            line-height: 0;
-        }
-        .botones-container {
-            display: flex;
-            justify-content: space-between;
+            position: relative;
+            bottom: 0;
             width: 100%;
-            max-width: 400px;
-            margin-top: 20px;
-        }
-
-        @media (max-width: 480px) {
-            .botones-container {
-                flex-direction: column;
-                align-items: center;
-            }
-            .boton {
-                width: 100%;
-                margin-bottom: 10px;
-            }
         }
     </style>
 </head>
@@ -110,75 +79,74 @@
     <h1>Carrito de Compras</h1>
 </header>
 
-<button id="regresar"></button>
+<section>
+    <h2>Productos en el carrito</h2>
+    <div class="productos-container" id="carrito-items"></div>
+    <div class="total" id="total-precio">Total: $0.00</div>
+    <button class="boton" id="realizar-pedido">Realizar Pedido</button>
+</section>
 
-<div class="productos-carrito" id="productos-carrito">
-    <p id="mensaje-vacio" style="display: none;">El carrito está vacío.</p>
-</div>
-<p class="total" id="total-carrito">Total: $0.00</p>
-<div class="botones-container">
-    <button id="realizar-pedido" class="boton">Realizar Pedido</button>
-    <button id="vaciar-carrito" class="boton">Vaciar Carrito</button>
-</div>
+<footer>
+    <p>&copy; 2023 Raiky Pizza. Todos los derechos reservados.</p>
+</footer>
 
 <script>
     let carrito = JSON.parse(localStorage.getItem('carrito')) || [];
-    let total = calcularTotal();
-
-    function calcularTotal() {
-        return carrito.reduce((acc, item) => acc + (item.precio * item.cantidad), 0);
-    }
 
     function mostrarCarrito() {
-        const contenedor = document.getElementById('productos-carrito');
-        contenedor.innerHTML = '';
-        if (carrito.length === 0) {
-            document.getElementById('mensaje-vacio').style.display = 'block';
-        } else {
-            document.getElementById('mensaje-vacio').style.display = 'none';
-            carrito.forEach((item, index) => {
-                const div = document.createElement('div');
-                div.className = 'producto-carrito';
-                div.innerHTML = `
-                    <span>${item.nombre} (${item.cantidad}): $${(item.precio * item.cantidad).toFixed(2)}</span>
-                    <button class="boton" onclick="eliminarProducto(${index})">Eliminar</button>
-                `;
-                contenedor.appendChild(div);
-            });
-        }
-        document.getElementById('total-carrito').innerText = `Total: $${total.toFixed(2)}`;
+        const carritoItems = document.getElementById('carrito-items');
+        const totalPrecio = document.getElementById('total-precio');
+        carritoItems.innerHTML = '';
+        let total = 0;
+
+        carrito.forEach((item, index) => {
+            const productoDiv = document.createElement('div');
+            productoDiv.classList.add('producto');
+
+            productoDiv.innerHTML = `
+                <img src="${item.imagen}" alt="${item.nombre}">
+                <div>
+                    <h3>${item.nombre}</h3>
+                    <p>Precio: $${item.precio.toFixed(2)}</p>
+                    <p>Cantidad: ${item.cantidad}</p>
+                    <button class="boton eliminar" data-index="${index}">Eliminar</button>
+                </div>
+            `;
+            carritoItems.appendChild(productoDiv);
+
+            total += item.precio * item.cantidad; // Sumar el precio total
+        });
+
+        totalPrecio.innerText = `Total: $${total.toFixed(2)}`;
     }
 
     function eliminarProducto(index) {
-        const cantidad = carrito[index].cantidad;
-        total -= carrito[index].precio * cantidad;
         carrito.splice(index, 1);
         localStorage.setItem('carrito', JSON.stringify(carrito));
         mostrarCarrito();
-        alert('Producto eliminado del carrito.');
     }
 
-    document.getElementById('vaciar-carrito').onclick = () => {
-        carrito = [];
-        total = 0;
-        localStorage.setItem('carrito', JSON.stringify(carrito));
-        mostrarCarrito();
-    };
+    document.getElementById('carrito-items').addEventListener('click', (e) => {
+        if (e.target.classList.contains('eliminar')) {
+            const index = e.target.dataset.index;
+            eliminarProducto(index);
+        }
+    });
 
-    document.getElementById('realizar-pedido').onclick = () => {
+    document.getElementById('realizar-pedido').addEventListener('click', () => {
         if (carrito.length === 0) {
-            alert('El carrito está vacío. Agrega productos para realizar un pedido.');
+            alert('Tu carrito está vacío');
             return;
         }
-        const mensaje = carrito.map(item => `${item.nombre} (${item.cantidad}): $${(item.precio * item.cantidad).toFixed(2)}`).join('%0A');
-        const totalMensaje = `Total: $${total.toFixed(2)}%0APedido realizado`;
-        const enlaceWhatsApp = `https://wa.me/5352461307?text=${mensaje}%0A${totalMensaje}`;
-        window.open(enlaceWhatsApp, '_blank');
-    };
 
-    document.getElementById('regresar').onclick = () => {
-        window.history.back();
-    };
+        const mensaje = `Orden realizada:\n` + 
+            carrito.map(item => `${item.nombre} (Cantidad: ${item.cantidad}) - Precio: $${(item.precio * item.cantidad).toFixed(2)}`).join('\n') +
+            `\nTotal: $${carrito.reduce((total, item) => total + item.precio * item.cantidad, 0).toFixed(2)}`;
+
+        const telefono = '5352461207';
+        const url = `https://api.whatsapp.com/send?phone=${telefono}&text=${encodeURIComponent(mensaje)}`;
+        window.open(url);
+    });
 
     window.addEventListener('load', mostrarCarrito);
 </script>

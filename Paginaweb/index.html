@@ -7,7 +7,7 @@
     <title>Raiky Pizza</title>
     <style>
         body {
-            font-family: 'Arial', sans-serif;
+            font-family: 'Poppins', sans-serif;
             margin: 0;
             padding: 0;
             background-color: #f9f9f9;
@@ -232,13 +232,14 @@
             const producto = boton.parentElement;
             const nombre = producto.querySelector('h3').innerText;
             const precio = parseFloat(producto.querySelector('.precio').innerText.replace('Precio: $', ''));
+            const imagen = producto.querySelector('img').src; // Capturamos la URL de la imagen
 
             // Verificar si el producto ya existe en el carrito
             const existente = carrito.find(item => item.nombre === nombre);
             if (existente) {
                 existente.cantidad++;
             } else {
-                carrito.push({ nombre, precio, cantidad: 1 });
+                carrito.push({ nombre, precio, cantidad: 1, imagen }); // Guardamos también la imagen
             }
             
             total += precio;
@@ -258,5 +259,6 @@
 
 </body>
 </html>
+
 
 

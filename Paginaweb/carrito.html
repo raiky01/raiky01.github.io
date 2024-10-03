@@ -6,6 +6,9 @@
     <title>Carrito de Compras - Raiky Pizza</title>
     <style>
         body {
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh; /* Asegura que el cuerpo ocupe toda la altura */
             font-family: 'Poppins', sans-serif;
             margin: 0;
             padding: 0;
@@ -26,6 +29,7 @@
             display: flex;
             flex-direction: column; /* Cambiar a columna para apilar productos */
             padding: 20px;
+            flex: 1; /* Permitir que el contenedor principal se expanda */
         }
         .producto {
             background: white;
@@ -73,9 +77,6 @@
             padding: 20px;
             background: #ffbe00;
             color: white;
-            position: relative;
-            bottom: 0;
-            width: 100%;
         }
     </style>
 </head>
@@ -170,3 +171,4 @@
 
 </body>
 </html>
+

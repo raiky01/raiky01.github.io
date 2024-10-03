@@ -48,14 +48,19 @@
             background-color: black;
             color: white;
             border: none;
-            padding: 10px 20px; /* Aumentar el tamaño del botón */
+            padding: 15px 30px; /* Aumentar el tamaño del botón */
             border-radius: 5px;
             cursor: pointer;
             transition: background-color 0.3s;
-            margin: 5px; /* Espacio entre botones */
+            margin: 0 1cm; /* Separación de 2 cm entre botones */
         }
         .boton:hover {
             background-color: #444;
+        }
+        .botones-container {
+            display: flex;
+            justify-content: center; /* Centrar los botones */
+            margin: 20px 0; /* Espacio alrededor del contenedor de botones */
         }
         .total {
             font-weight: bold;
@@ -84,8 +89,10 @@
     <h2>Productos en el carrito</h2>
     <div class="productos-container" id="carrito-items"></div>
     <div class="total" id="total-precio">Total: $0.00</div>
-    <button class="boton" id="realizar-pedido">Realizar Pedido</button>
-    <button class="boton" id="vaciar-carrito">Vaciar Carrito</button> <!-- Nuevo botón -->
+    <div class="botones-container"> <!-- Contenedor para centrar botones -->
+        <button class="boton" id="realizar-pedido">Realizar Pedido</button>
+        <button class="boton" id="vaciar-carrito">Vaciar Carrito</button> <!-- Nuevo botón -->
+    </div>
 </section>
 
 <footer>
@@ -163,4 +170,3 @@
 
 </body>
 </html>
-

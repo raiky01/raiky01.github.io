@@ -38,9 +38,10 @@
             width: 100%;
             display: flex;
             align-items: center;
+            flex-wrap: wrap;
         }
         .producto img {
-            width: 60px;
+            max-width: 100%;
             height: auto;
             border-radius: 10px;
             margin-right: 10px;
@@ -95,6 +96,15 @@
             position: relative;
             bottom: 0;
             width: 100%;
+        }
+        @media (max-width: 768px) {
+            .producto {
+                flex-direction: column; /* Cambia la dirección en pantallas más pequeñas */
+                align-items: flex-start;
+            }
+            .producto img {
+                margin-bottom: 10px; /* Espacio entre la imagen y los detalles */
+            }
         }
     </style>
 </head>
@@ -204,3 +214,4 @@
 
 </body>
 </html>
+

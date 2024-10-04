@@ -6,9 +6,6 @@
     <title>Carrito de Compras - Raiky Pizza</title>
     <style>
         body {
-            display: flex;
-            flex-direction: column;
-            min-height: 100vh; /* Asegura que el cuerpo ocupe toda la altura */
             font-family: 'Poppins', sans-serif;
             margin: 0;
             padding: 0;
@@ -29,7 +26,6 @@
             display: flex;
             flex-direction: column; /* Cambiar a columna para apilar productos */
             padding: 20px;
-            flex: 1; /* Permitir que el contenedor principal se expanda */
         }
         .producto {
             background: white;
@@ -77,6 +73,9 @@
             padding: 20px;
             background: #ffbe00;
             color: white;
+            position: relative;
+            bottom: 0;
+            width: 100%;
         }
     </style>
 </head>
@@ -113,29 +112,25 @@
             const productoDiv = document.createElement('div');
             productoDiv.classList.add('producto');
 
-            productoDiv.innerHTML = 
+            productoDiv.innerHTML = `
                 <img src="${item.imagen}" alt="${item.nombre}">
                 <div>
                     <h3>${item.nombre}</h3>
                     <p>Precio: $${item.precio.toFixed(2)}</p>
                     <p>Cantidad: ${item.cantidad}</p>
-                    <button class="boton eliminar" data-index="${index}">Eliminar 1</button>
+                    <button class="boton eliminar" data-index="${index}">Eliminar</button>
                 </div>
-            ;
+            `;
             carritoItems.appendChild(productoDiv);
 
             total += item.precio * item.cantidad; // Sumar el precio total
         });
 
-        totalPrecio.innerText = Total: $${total.toFixed(2)};
+        totalPrecio.innerText = `Total: $${total.toFixed(2)}`;
     }
 
     function eliminarProducto(index) {
-        if (carrito[index].cantidad > 1) {
-            carrito[index].cantidad--; // Reducir la cantidad en 1
-        } else {
-            carrito.splice(index, 1); // Eliminar el producto si la cantidad llega a 0
-        }
+        carrito.splice(index, 1);
         localStorage.setItem('carrito', JSON.stringify(carrito));
         mostrarCarrito();
     }
@@ -148,8 +143,8 @@
 
     document.getElementById('carrito-items').addEventListener('click', (e) => {
         if (e.target.classList.contains('eliminar')) {
-            const index = e.target.dataset.index; // Obtener el índice del producto a eliminar
-            eliminarProducto(index); // Llamar a la función para eliminar solo ese producto
+            const index = e.target.dataset.index;
+            eliminarProducto(index);
         }
     });
 
@@ -159,12 +154,12 @@
             return;
         }
 
-        const mensaje = Orden realizada:\n + 
-            carrito.map(item => ${item.nombre} (Cantidad: ${item.cantidad}) - Precio: $${(item.precio * item.cantidad).toFixed(2)}).join('\n') +
-            \nTotal: $${carrito.reduce((total, item) => total + item.precio * item.cantidad, 0).toFixed(2)};
+        const mensaje = `Orden realizada:\n` + 
+            carrito.map(item => `${item.nombre} (Cantidad: ${item.cantidad}) - Precio: $${(item.precio * item.cantidad).toFixed(2)}`).join('\n') +
+            `\nTotal: $${carrito.reduce((total, item) => total + item.precio * item.cantidad, 0).toFixed(2)}`;
 
         const telefono = '5352461307';
-        const url = https://api.whatsapp.com/send?phone=${telefono}&text=${encodeURIComponent(mensaje)};
+        const url = `https://api.whatsapp.com/send?phone=${telefono}&text=${encodeURIComponent(mensaje)}`;
         window.open(url);
     });
 

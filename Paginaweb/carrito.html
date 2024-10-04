@@ -33,7 +33,7 @@
             border-radius: 10px;
             box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
             margin: 15px 0;
-            padding: 10px;
+            padding: 5px; /* Reducir padding */
             text-align: left;
             width: 100%;
             display: flex;
@@ -41,7 +41,7 @@
             flex-wrap: wrap;
         }
         .producto img {
-            max-width: 100%;
+            max-width: 80px; /* Hacer las imágenes más pequeñas */
             height: auto;
             border-radius: 10px;
             margin-right: 10px;
@@ -61,6 +61,7 @@
             cursor: pointer;
             transition: background-color 0.3s;
             margin: 0 1cm;
+            width: calc(50% - 10px); /* Tamaño uniforme para ambos botones */
         }
         .boton:hover {
             background-color: #444;
@@ -78,6 +79,7 @@
             padding: 5px 10px;
             border-radius: 5px;
             cursor: pointer;
+            width: auto; /* Ancho automático para este botón */
         }
         .boton.eliminar:hover {
             background-color: darkred;
@@ -96,6 +98,11 @@
             position: relative;
             bottom: 0;
             width: 100%;
+        }
+        .botones-container {
+            display: flex;
+            justify-content: center; /* Centra los botones */
+            margin: 20px 0; /* Espacio arriba y abajo */
         }
         @media (max-width: 768px) {
             .producto {
@@ -149,6 +156,7 @@
                     <p>Cantidad: ${item.cantidad}</p>
                     <div>
                         <button class="boton agregar" data-index="${index}">Agregar</button>
+                        <br>
                         <button class="boton eliminar" data-index="${index}">Eliminar</button>
                     </div>
                 </div>
@@ -178,9 +186,11 @@
     }
 
     function vaciarCarrito() {
-        carrito = [];
-        localStorage.setItem('carrito', JSON.stringify(carrito));
-        mostrarCarrito();
+        if (confirm('¿Estás seguro de que quieres vaciar el carrito?')) {
+            carrito = [];
+            localStorage.setItem('carrito', JSON.stringify(carrito));
+            mostrarCarrito();
+        }
     }
 
     document.getElementById('carrito-items').addEventListener('click', (e) => {
@@ -214,4 +224,5 @@
 
 </body>
 </html>
+
 

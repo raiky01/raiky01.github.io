@@ -5,6 +5,19 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Carrito de Compras - Raiky Pizza</title>
     <style>
+        /* Medios para pantallas pequeñas */
+@media (max-width: 768px) {
+    .producto {
+        flex-direction: column; /* Cambiar a columna */
+        align-items: flex-start; /* Alinear texto a la izquierda */
+    }
+
+    .producto img {
+        width: 100%; /* Imagen ocupa todo el ancho */
+        height: auto; /* Mantiene la proporción */
+    }
+}
+
         body {
             font-family: 'Poppins', sans-serif;
             margin: 0;
@@ -22,11 +35,14 @@
             text-align: center;
             margin: 20px 0;
         }
-        .productos-container {
-            display: flex;
-            flex-direction: column; /* Cambiar a columna para apilar productos */
-            padding: 20px;
-        }
+        .p.productos-container {
+    display: flex;
+    flex-direction: column; /* Cambiar a columna para apilar productos */
+    padding: 20px;
+    flex-wrap: wrap; /* Permitir que los elementos se apilen si es necesario */
+}
+
+        
         .producto {
             background: white;
             border-radius: 10px;
@@ -39,11 +55,14 @@
             align-items: center; /* Alinear verticalmente */
         }
         .producto img {
-            width: 80px; /* Tamaño ajustado */
-            height: auto;
-            border-radius: 10px;
-            margin-right: 10px; /* Espacio entre imagen y texto */
-        }
+    width: 80px; /* Tamaño fijo para la imagen */
+    height: 60px; /* Tamaño fijo para la imagen */
+    object-fit: cover; /* Mantener proporciones sin distorsionar */
+    border-radius: 10px;
+    margin-right: 10px; /* Espacio entre imagen y texto */
+}
+
+        
         .boton {
             background-color: black;
             color: white;

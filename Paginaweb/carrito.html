@@ -5,19 +5,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Carrito de Compras - Raiky Pizza</title>
     <style>
-        /* Medios para pantallas pequeñas */
-@media (max-width: 768px) {
-    .producto {
-        flex-direction: column; /* Cambiar a columna */
-        align-items: flex-start; /* Alinear texto a la izquierda */
-    }
-
-    .producto img {
-        width: 100%; /* Imagen ocupa todo el ancho */
-        height: auto; /* Mantiene la proporción */
-    }
-}
-
         body {
             font-family: 'Poppins', sans-serif;
             margin: 0;
@@ -35,51 +22,64 @@
             text-align: center;
             margin: 20px 0;
         }
-        .p.productos-container {
-    display: flex;
-    flex-direction: column; /* Cambiar a columna para apilar productos */
-    padding: 20px;
-    flex-wrap: wrap; /* Permitir que los elementos se apilen si es necesario */
-}
-
-        
+        .productos-container {
+            display: flex;
+            flex-direction: column;
+            padding: 20px;
+            flex-wrap: wrap;
+        }
         .producto {
             background: white;
             border-radius: 10px;
             box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-            margin: 15px 0; /* Espacio entre productos */
+            margin: 15px 0;
             padding: 10px;
-            text-align: left; /* Alinear texto a la izquierda */
-            width: 100%; /* Ocupa todo el ancho */
+            text-align: left;
+            width: 100%;
             display: flex;
-            align-items: center; /* Alinear verticalmente */
+            align-items: center;
         }
         .producto img {
-    width: 80px; /* Tamaño fijo para la imagen */
-    height: 60px; /* Tamaño fijo para la imagen */
-    object-fit: cover; /* Mantener proporciones sin distorsionar */
-    border-radius: 10px;
-    margin-right: 10px; /* Espacio entre imagen y texto */
-}
-
-        
+            width: 60px;
+            height: auto;
+            border-radius: 10px;
+            margin-right: 10px;
+        }
+        .producto div {
+            flex-grow: 1;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
         .boton {
             background-color: black;
             color: white;
             border: none;
-            padding: 15px 30px; /* Aumentar el tamaño del botón */
+            padding: 15px 30px;
             border-radius: 5px;
             cursor: pointer;
             transition: background-color 0.3s;
-            margin: 0 1cm; /* Separación de 2 cm entre botones */
+            margin: 0 1cm;
         }
         .boton:hover {
             background-color: #444;
         }
-        .botones-container {
-            display: flex;
-            justify-content: center; /* Centrar los botones */
-            margin: 20px 0; /* Espacio alrededor del contenedor de botones */
+        .boton.agregar {
+            background-color: green;
+        }
+        .boton.agregar:hover {
+            background-color: darkgreen;
+        }
+        .boton.eliminar {
+            background-color: red;
+            color: white;
+            border: none;
+            padding: 5px 10px;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        .boton.eliminar:hover {
+            background-color: darkred;
         }
         .total {
             font-weight: bold;
@@ -108,9 +108,9 @@
     <h2>Productos en el carrito</h2>
     <div class="productos-container" id="carrito-items"></div>
     <div class="total" id="total-precio">Total: $0.00</div>
-    <div class="botones-container"> <!-- Contenedor para centrar botones -->
+    <div class="botones-container">
         <button class="boton" id="realizar-pedido">Realizar Pedido</button>
-        <button class="boton" id="vaciar-carrito">Vaciar Carrito</button> <!-- Nuevo botón -->
+        <button class="boton" id="vaciar-carrito">Vaciar Carrito</button>
     </div>
 </section>
 
@@ -137,19 +137,32 @@
                     <h3>${item.nombre}</h3>
                     <p>Precio: $${item.precio.toFixed(2)}</p>
                     <p>Cantidad: ${item.cantidad}</p>
-                    <button class="boton eliminar" data-index="${index}">Eliminar</button>
+                    <div>
+                        <button class="boton agregar" data-index="${index}">Agregar</button>
+                        <button class="boton eliminar" data-index="${index}">Eliminar</button>
+                    </div>
                 </div>
             `;
             carritoItems.appendChild(productoDiv);
 
-            total += item.precio * item.cantidad; // Sumar el precio total
+            total += item.precio * item.cantidad; 
         });
 
         totalPrecio.innerText = `Total: $${total.toFixed(2)}`;
     }
 
+    function agregarProducto(index) {
+        carrito[index].cantidad++;
+        localStorage.setItem('carrito', JSON.stringify(carrito));
+        mostrarCarrito();
+    }
+
     function eliminarProducto(index) {
-        carrito.splice(index, 1);
+        if (carrito[index].cantidad > 1) {
+            carrito[index].cantidad--;
+        } else {
+            carrito.splice(index, 1);
+        }
         localStorage.setItem('carrito', JSON.stringify(carrito));
         mostrarCarrito();
     }
@@ -161,8 +174,10 @@
     }
 
     document.getElementById('carrito-items').addEventListener('click', (e) => {
-        if (e.target.classList.contains('eliminar')) {
-            const index = e.target.dataset.index;
+        const index = e.target.dataset.index;
+        if (e.target.classList.contains('agregar')) {
+            agregarProducto(index);
+        } else if (e.target.classList.contains('eliminar')) {
             eliminarProducto(index);
         }
     });
@@ -182,7 +197,7 @@
         window.open(url);
     });
 
-    document.getElementById('vaciar-carrito').addEventListener('click', vaciarCarrito); // Event listener para vaciar carrito
+    document.getElementById('vaciar-carrito').addEventListener('click', vaciarCarrito);
 
     window.addEventListener('load', mostrarCarrito);
 </script>

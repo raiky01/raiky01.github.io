@@ -56,6 +56,52 @@
             max-width: 300px;
             transition: transform 0.3s;
         }
+
+        .boton-flotante {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    background-color: #ffbe00;
+    border-radius: 50%;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    width: 60px; /* Ajusta el tamaño según sea necesario */
+    height: 60px; /* Ajusta el tamaño según sea necesario */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    transition: background-color 0.3s;
+    z-index: 1000; /* Asegura que esté por encima de otros elementos */
+}
+
+.boton-flotante:hover {
+    background-color: #f0a500; /* Cambia de color al pasar el mouse */
+}
+
+.boton-flotante img {
+    width: 30px; /* Ajusta el tamaño del icono */
+    height: auto;
+}
+
+.contador {
+    position: absolute;
+    top: 5px; /* Ajusta la posición según sea necesario */
+    right: 5px; /* Ajusta la posición según sea necesario */
+    background-color: red;
+    color: white;
+    border-radius: 50%;
+    padding: 2px 5px;
+    font-size: 0.8rem; /* Tamaño del texto */
+    font-weight: bold;
+}
+
+
+
+        .sobre-container img {
+    max-width: 150px; /* Ajusta el tamaño según lo necesites */
+    height: auto; /* Mantiene la proporción */
+    transition: transform 0.6s; /* Efecto de animación */
+}
+
         .producto:hover {
             transform: scale(1.05);
         }
@@ -226,6 +272,13 @@
     let carrito = JSON.parse(localStorage.getItem('carrito')) || [];
 
     function actualizarContador() {
+    const contador = document.getElementById('contador');
+    const total = carrito.reduce((total, item) => total + item.cantidad, 0);
+    contador.innerText = total;
+}
+
+
+    function actualizarContador() {
         const contador = document.getElementById('contador');
         contador.innerText = carrito.reduce((total, item) => total + item.cantidad, 0);
     }
@@ -279,6 +332,13 @@
     window.addEventListener('load', actualizarContador);
 </script>
 
+<div id="boton-flotante" class="boton-flotante">
+    <a href="carrito.html">
+        <img src="icono-carrito.png" alt="Carrito" />
+        <span id="contador" class="contador">0</span>
+    </a>
+</div>
+ 
+
 </body>
 </html>
-

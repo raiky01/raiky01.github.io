@@ -19,7 +19,6 @@
             color: white;
             padding: 1rem;
             text-align: center;
-            position: relative;
         }
         nav ul {
             list-style-type: none;
@@ -57,52 +56,44 @@
             max-width: 300px;
             transition: transform 0.3s;
         }
-
         .boton-flotante {
-    position: fixed;
-    bottom: 20px;
-    right: 20px;
-    background-color: #ffbe00;
-    border-radius: 50%;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-    width: 60px; /* Ajusta el tamaño según sea necesario */
-    height: 60px; /* Ajusta el tamaño según sea necesario */
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    transition: background-color 0.3s;
-    z-index: 1000; /* Asegura que esté por encima de otros elementos */
-}
-
-.boton-flotante:hover {
-    background-color: #f0a500; /* Cambia de color al pasar el mouse */
-}
-
-.boton-flotante img {
-    width: 30px; /* Ajusta el tamaño del icono */
-    height: auto;
-}
-
-.contador {
-    position: absolute;
-    top: 5px; /* Ajusta la posición según sea necesario */
-    right: 5px; /* Ajusta la posición según sea necesario */
-    background-color: red;
-    color: white;
-    border-radius: 50%;
-    padding: 2px 5px;
-    font-size: 0.8rem; /* Tamaño del texto */
-    font-weight: bold;
-}
-
-
-
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background-color: #ffbe00;
+            border-radius: 50%;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            width: 60px; 
+            height: 60px; 
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            transition: background-color 0.3s;
+            z-index: 1000;
+        }
+        .boton-flotante:hover {
+            background-color: #f0a500; 
+        }
+        .boton-flotante img {
+            width: 30px; 
+            height: auto;
+        }
+        .contador {
+            position: absolute;
+            top: 5px; 
+            right: 5px; 
+            background-color: red;
+            color: white;
+            border-radius: 50%;
+            padding: 2px 5px;
+            font-size: 0.8rem; 
+            font-weight: bold;
+        }
         .sobre-container img {
-    max-width: 150px; /* Ajusta el tamaño según lo necesites */
-    height: auto; /* Mantiene la proporción */
-    transition: transform 0.6s; /* Efecto de animación */
-}
-
+            max-width: 150px; 
+            height: auto; 
+            transition: transform 0.6s; 
+        }
         .producto:hover {
             transform: scale(1.05);
         }
@@ -133,14 +124,13 @@
             width: 100%;
         }
         #pizzas-container, #tacos-container {
-            display: none; /* Oculta el contenedor inicialmente */
+            display: none; 
         }
-        /* Efecto de giro para el logo */
         .logo-giro {
             transition: transform 0.6s;
             cursor: pointer;
-            display: block; /* Asegúrate de que sea un bloque para centrarse */
-            margin: 0 auto; /* Centra el logo */
+            display: block; 
+            margin: 0 auto; 
         }
         .giro {
             animation: girar-moneda 0.6s forwards;
@@ -151,6 +141,38 @@
             }
             to {
                 transform: rotateY(360deg);
+            }
+        }
+        
+        /* Media Queries */
+        @media (max-width: 768px) {
+            .productos-container {
+                flex-direction: column; 
+                align-items: center; 
+            }
+            .producto {
+                max-width: 100%; 
+            }
+        }
+        @media (max-width: 480px) {
+            header, footer, section {
+                padding: 10px; 
+            }
+            nav ul li {
+                margin: 0 10px; 
+            }
+            .boton-flotante {
+                width: 50px; 
+                height: 50px; 
+            }
+            .boton-flotante img {
+                width: 25px; 
+            }
+            .boton {
+                padding: 8px 12px; 
+            }
+            h2, h3 {
+                font-size: 1.5rem; 
             }
         }
     </style>
@@ -273,20 +295,12 @@
     </div>
 </section>
 
-
 <footer>
     <p>&copy; 2023 Raiky Pizza. Todos los derechos reservados.</p>
 </footer>
 
 <script>
     let carrito = JSON.parse(localStorage.getItem('carrito')) || [];
-
-    function actualizarContador() {
-    const contador = document.getElementById('contador');
-    const total = carrito.reduce((total, item) => total + item.cantidad, 0);
-    contador.innerText = total;
-}
-
 
     function actualizarContador() {
         const contador = document.getElementById('contador');
@@ -315,28 +329,20 @@
 
     document.getElementById('toggle-pizzas').addEventListener('click', () => {
         const container = document.getElementById('pizzas-container');
-        if (container.style.display === 'none' || container.style.display === '') {
-            container.style.display = 'flex';
-        } else {
-            container.style.display = 'none';
-        }
+        container.style.display = container.style.display === 'none' || container.style.display === '' ? 'flex' : 'none';
     });
 
     document.getElementById('toggle-tacos').addEventListener('click', () => {
         const container = document.getElementById('tacos-container');
-        if (container.style.display === 'none' || container.style.display === '') {
-            container.style.display = 'flex';
-        } else {
-            container.style.display = 'none';
-        }
+        container.style.display = container.style.display === 'none' || container.style.display === '' ? 'flex' : 'none';
     });
 
     document.getElementById('logo').addEventListener('click', () => {
         const logo = document.getElementById('logo');
         logo.classList.add('giro');
         setTimeout(() => {
-            logo.classList.remove('giro'); // Elimina la clase después de la animación
-        }, 600); // Duración de la animación
+            logo.classList.remove('giro'); 
+        }, 600); 
     });
 
     window.addEventListener('load', actualizarContador);
@@ -348,7 +354,6 @@
         <span id="contador" class="contador">0</span>
     </a>
 </div>
- 
 
 </body>
 </html>

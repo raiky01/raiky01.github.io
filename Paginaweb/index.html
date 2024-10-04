@@ -53,7 +53,7 @@
             padding: 20px;
             text-align: center;
             flex: 1 1 calc(30% - 40px);
-            max-width: 300px; /* Ancho máximo */
+            max-width: 300px;
             transition: transform 0.3s;
         }
         .producto:hover {
@@ -61,7 +61,7 @@
         }
         .producto img {
             max-width: 100%;
-            height: auto; /* Mantiene la proporción de las imágenes */
+            height: auto;
             border-radius: 10px;
         }
         .boton {
@@ -85,34 +85,25 @@
             bottom: 0;
             width: 100%;
         }
-        .contador {
-            position: absolute;
-            top: -5px;
-            right: -5px;
-            background: red;
-            border-radius: 50%;
-            color: white;
-            padding: 2px 5px;
-            font-size: 12px;
+        #pizzas-container, #tacos-container {
+            display: none; /* Oculta el contenedor inicialmente */
         }
-        #icono-carrito {
-            position: fixed;
-            bottom: 80px; 
-            right: 20px; 
+        /* Efecto de giro para el logo */
+        .logo-giro {
+            transition: transform 0.6s;
             cursor: pointer;
-            background: none;
-            border: none;
-            color: black;
-            transition: transform 0.3s;
+            display: block; /* Asegúrate de que sea un bloque para centrarse */
+            margin: 0 auto; /* Centra el logo */
         }
-        @media (max-width: 768px) {
-            .producto {
-                flex: 1 1 calc(45% - 40px); /* Dos columnas en tabletas */
+        .giro {
+            animation: girar-moneda 0.6s forwards;
+        }
+        @keyframes girar-moneda {
+            from {
+                transform: rotateY(0deg);
             }
-        }
-        @media (max-width: 480px) {
-            .producto {
-                flex: 1 1 100%; /* Una columna en móviles */
+            to {
+                transform: rotateY(360deg);
             }
         }
     </style>
@@ -131,23 +122,23 @@
             <li><a href="#contacto">Contacto</a></li>
         </ul>
     </nav>
-    <button id="icono-carrito" onclick="location.href='carrito.html'">
-        <img src="https://img.icons8.com/material-outlined/24/000000/shopping-cart.png" alt="Carrito" />
-        <span id="contador" class="contador"></span>
-    </button>
 </header>
 
-<section id="inicio">
-    <div style="text-align: center; padding: 20px;">
-        <h2>Bienvenidos a la mejor pizzería de la ciudad</h2>
-        <p>Disfruta de nuestras deliciosas pizzas y tacos, preparados con los mejores ingredientes.</p>
+<section id="sobre">
+    <h2>Sobre Nosotros</h2>
+    <div class="sobre-container">
+        <p>En Raiky Pizza, nos apasiona ofrecer las mejores pizzas y tacos de la ciudad. Utilizamos ingredientes frescos y de alta calidad, y nuestras recetas están diseñadas para satisfacer todos los paladares. ¡Ven y disfruta de una experiencia gastronómica única!</p>
+        <img src="sobre_nosotros.jpg" alt="Logo de Raiky Pizza" class="logo-giro" id="logo">
     </div>
 </section>
 
 <section id="menu">
     <h2>Menú</h2>
-    <h3>Pizzas</h3>
-    <div class="productos-container">
+    
+    <h3>
+        <button id="toggle-pizzas" class="boton">Pizzas</button>
+    </h3>
+    <div id="pizzas-container" class="productos-container">
         <div class="producto">
             <img src="napolitana.jpg" alt="Pizza de Queso">
             <h3>Pizza de Queso</h3>
@@ -192,8 +183,10 @@
         </div>
     </div>
 
-    <h3>Tacos</h3>
-    <div class="productos-container">
+    <h3>
+        <button id="toggle-tacos" class="boton">Tacos</button>
+    </h3>
+    <div id="tacos-container" class="productos-container">
         <div class="producto">
             <img src="taco1.jpg" alt="Taco de Res">
             <h3>Taco de Res</h3>
@@ -237,7 +230,7 @@
         contador.innerText = carrito.reduce((total, item) => total + item.cantidad, 0);
     }
 
-    document.querySelectorAll('.agregar-al-carrito').forEach((boton, index) => {
+    document.querySelectorAll('.agregar-al-carrito').forEach((boton) => {
         boton.addEventListener('click', () => {
             const producto = {
                 nombre: boton.parentElement.querySelector('h3').innerText,
@@ -257,10 +250,35 @@
         });
     });
 
+    document.getElementById('toggle-pizzas').addEventListener('click', () => {
+        const container = document.getElementById('pizzas-container');
+        if (container.style.display === 'none' || container.style.display === '') {
+            container.style.display = 'flex';
+        } else {
+            container.style.display = 'none';
+        }
+    });
+
+    document.getElementById('toggle-tacos').addEventListener('click', () => {
+        const container = document.getElementById('tacos-container');
+        if (container.style.display === 'none' || container.style.display === '') {
+            container.style.display = 'flex';
+        } else {
+            container.style.display = 'none';
+        }
+    });
+
+    document.getElementById('logo').addEventListener('click', () => {
+        const logo = document.getElementById('logo');
+        logo.classList.add('giro');
+        setTimeout(() => {
+            logo.classList.remove('giro'); // Elimina la clase después de la animación
+        }, 600); // Duración de la animación
+    });
+
     window.addEventListener('load', actualizarContador);
 </script>
 
 </body>
 </html>
-
 

@@ -6,6 +6,24 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Raiky Pizza</title>
     <style>
+        /* Medios para pantallas pequeñas */
+@media (max-width: 768px) {
+    .producto {
+        width: calc(45% - 40px); /* Dos productos por fila */
+    }
+}
+
+@media (max-width: 480px) {
+    .producto {
+        width: 100%; /* Un producto por fila */
+    }
+
+    .producto img {
+        width: 100%; /* Imagen ocupa todo el ancho */
+        height: auto; /* Mantiene la proporción */
+    }
+}
+
         body {
             font-family: 'Poppins', sans-serif;
             margin: 0;
@@ -40,6 +58,13 @@
         h3 {
             margin-top: 40px;
         }
+        .producto img {
+    width: 200px; /* Tamaño fijo para la imagen */
+    height: 150px; /* Tamaño fijo para la imagen */
+    object-fit: cover; /* Mantener proporciones sin distorsionar */
+    border-radius: 10px;
+}
+
         .producto {
             background: white;
             border-radius: 10px;
@@ -259,6 +284,5 @@
 
 </body>
 </html>
-
 
 

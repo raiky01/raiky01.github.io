@@ -19,9 +19,10 @@
             text-align: center;
         }
         .container {
-            max-width: 800px; /* Ancho máximo del contenedor */
-            margin: 0 auto; /* Centrar el contenedor */
-            padding: 20px;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 0 10px; /* Padding lateral para móviles */
+            width: 100%;
         }
         h2 {
             text-align: center;
@@ -30,15 +31,14 @@
         .productos-container {
             display: flex;
             flex-direction: column;
-            padding: 20px;
-            flex-wrap: wrap;
+            padding: 20px 0; /* Padding superior e inferior */
         }
         .producto {
             background: white;
             border-radius: 10px;
             box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
             margin: 15px 0;
-            padding: 5px; /* Reducir padding */
+            padding: 10px; /* Padding interno */
             text-align: left;
             width: 100%;
             display: flex;
@@ -61,12 +61,12 @@
             background-color: black;
             color: white;
             border: none;
-            padding: 15px 0; /* Ajustar padding */
+            padding: 10px; /* Ajustar padding */
             border-radius: 5px;
             cursor: pointer;
             transition: background-color 0.3s;
-            margin: 5px 1cm; /* Espacio entre botones */
-            width: 100px; /* Ancho fijo para todos los botones */
+            margin: 5px 0; /* Espacio entre botones */
+            width: 100%; /* Botones ocupan el 100% del ancho en móviles */
         }
         .boton:hover {
             background-color: #444;
@@ -79,12 +79,6 @@
         }
         .boton.eliminar {
             background-color: red;
-            color: white;
-            border: none;
-            padding: 5px 10px;
-            border-radius: 5px;
-            cursor: pointer;
-            width: auto; /* Ancho automático para este botón */
         }
         .boton.eliminar:hover {
             background-color: darkred;
@@ -97,25 +91,31 @@
         }
         footer {
             text-align: center;
-            padding: 20px;
+            padding: 10px;
             background: #ffbe00;
             color: white;
-            position: relative;
-            bottom: 0;
             width: 100%;
+        }
+        .footer-content {
+            max-width: 800px; 
+            margin: 0 auto; 
+            font-size: 1rem; 
+            padding: 5px; 
+            width: calc(100% - 40px); 
         }
         .botones-container {
             display: flex;
-            justify-content: center; /* Centra los botones */
-            margin: 20px 0; /* Espacio arriba y abajo */
+            flex-direction: column; /* Cambia a columna para móviles */
+            align-items: center; /* Centrar botones */
+            margin: 20px 0;
         }
-        @media (max-width: 768px) {
-            .producto {
-                flex-direction: column; /* Cambia la dirección en pantallas más pequeñas */
-                align-items: flex-start;
+        @media (min-width: 768px) {
+            .botones-container {
+                flex-direction: row; /* Cambia a fila en pantallas más grandes */
+                justify-content: center; /* Centrar los botones */
             }
-            .producto img {
-                margin-bottom: 10px; /* Espacio entre la imagen y los detalles */
+            .boton {
+                width: auto; /* Ancho automático para botones en pantallas grandes */
             }
         }
     </style>
@@ -139,7 +139,9 @@
 </div>
 
 <footer>
-    <p>&copy; 2023 Raiky Pizza. Todos los derechos reservados.</p>
+    <div class="footer-content">
+        <p>&copy; 2023 Raiky Pizza. Todos los derechos reservados.</p>
+    </div>
 </footer>
 
 <script>
@@ -163,7 +165,6 @@
                     <p>Cantidad: ${item.cantidad}</p>
                     <div>
                         <button class="boton agregar" data-index="${index}">Agregar</button>
-                        <br>
                         <button class="boton eliminar" data-index="${index}">Eliminar</button>
                     </div>
                 </div>
@@ -231,3 +232,5 @@
 
 </body>
 </html>
+
+            

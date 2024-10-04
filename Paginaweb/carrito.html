@@ -18,6 +18,11 @@
             padding: 1rem;
             text-align: center;
         }
+        .container {
+            max-width: 800px; /* Ancho máximo del contenedor */
+            margin: 0 auto; /* Centrar el contenedor */
+            padding: 20px;
+        }
         h2 {
             text-align: center;
             margin: 20px 0;
@@ -56,12 +61,12 @@
             background-color: black;
             color: white;
             border: none;
-            padding: 15px 30px;
+            padding: 15px 0; /* Ajustar padding */
             border-radius: 5px;
             cursor: pointer;
             transition: background-color 0.3s;
-            margin: 0 1cm;
-            width: calc(50% - 10px); /* Tamaño uniforme para ambos botones */
+            margin: 5px 1cm; /* Espacio entre botones */
+            width: 100px; /* Ancho fijo para todos los botones */
         }
         .boton:hover {
             background-color: #444;
@@ -121,15 +126,17 @@
     <h1>Carrito de Compras</h1>
 </header>
 
-<section>
-    <h2>Productos en el carrito</h2>
-    <div class="productos-container" id="carrito-items"></div>
-    <div class="total" id="total-precio">Total: $0.00</div>
-    <div class="botones-container">
-        <button class="boton" id="realizar-pedido">Realizar Pedido</button>
-        <button class="boton" id="vaciar-carrito">Vaciar Carrito</button>
-    </div>
-</section>
+<div class="container">
+    <section>
+        <h2>Productos en el carrito</h2>
+        <div class="productos-container" id="carrito-items"></div>
+        <div class="total" id="total-precio">Total: $0.00</div>
+        <div class="botones-container">
+            <button class="boton" id="realizar-pedido">Realizar Pedido</button>
+            <button class="boton" id="vaciar-carrito">Vaciar Carrito</button>
+        </div>
+    </section>
+</div>
 
 <footer>
     <p>&copy; 2023 Raiky Pizza. Todos los derechos reservados.</p>
@@ -224,5 +231,3 @@
 
 </body>
 </html>
-
-

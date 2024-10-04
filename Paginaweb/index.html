@@ -40,6 +40,11 @@
         h3 {
             margin-top: 40px;
         }
+        .productos-container {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-between;
+        }
         .producto {
             background: white;
             border-radius: 10px;
@@ -47,15 +52,16 @@
             margin: 15px;
             padding: 20px;
             text-align: center;
-            width: calc(30% - 40px);
-            display: inline-block;
-            vertical-align: top;
+            flex: 1 1 calc(30% - 40px);
+            max-width: 300px; /* Ancho máximo */
+            transition: transform 0.3s;
         }
         .producto:hover {
             transform: scale(1.05);
         }
         .producto img {
-            width: 100%;
+            max-width: 100%;
+            height: auto; /* Mantiene la proporción de las imágenes */
             border-radius: 10px;
         }
         .boton {
@@ -89,24 +95,25 @@
             padding: 2px 5px;
             font-size: 12px;
         }
-        .carrito-container {
-            position: fixed; /* Cambiar a fixed para que flote */
-            bottom: 80px; /* Cambiar la posición desde la parte inferior */
-            right: 20px; /* Posición desde la derecha */
-            background: #ffbe00; /* Fondo amarillo */
-            border-radius: 50%; /* Forma circular */
-            width: 60px; /* Ajustar tamaño */
-            height: 60px; /* Ajustar tamaño */
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            cursor: move; /* Indicar que se puede mover */
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
-        }
         #icono-carrito {
-            background: transparent; /* Fondo transparente para el botón */
-            border: none; /* Sin borde */
-            cursor: pointer; /* Cambiar el cursor a pointer */
+            position: fixed;
+            bottom: 80px; 
+            right: 20px; 
+            cursor: pointer;
+            background: none;
+            border: none;
+            color: black;
+            transition: transform 0.3s;
+        }
+        @media (max-width: 768px) {
+            .producto {
+                flex: 1 1 calc(45% - 40px); /* Dos columnas en tabletas */
+            }
+        }
+        @media (max-width: 480px) {
+            .producto {
+                flex: 1 1 100%; /* Una columna en móviles */
+            }
         }
     </style>
 </head>
@@ -124,6 +131,10 @@
             <li><a href="#contacto">Contacto</a></li>
         </ul>
     </nav>
+    <button id="icono-carrito" onclick="location.href='carrito.html'">
+        <img src="https://img.icons8.com/material-outlined/24/000000/shopping-cart.png" alt="Carrito" />
+        <span id="contador" class="contador"></span>
+    </button>
 </header>
 
 <section id="inicio">
@@ -214,13 +225,6 @@
     </div>
 </section>
 
-<div class="carrito-container" id="carrito-container">
-    <button id="icono-carrito">
-        <img src="carrito-icono.png" alt="Carrito" style="width: 40px;">
-        <span class="contador" id="contador">0</span>
-    </button>
-</div>
-
 <footer>
     <p>&copy; 2023 Raiky Pizza. Todos los derechos reservados.</p>
 </footer>
@@ -228,62 +232,32 @@
 <script>
     let carrito = JSON.parse(localStorage.getItem('carrito')) || [];
 
-    document.querySelectorAll('.agregar-al-carrito').forEach(boton => {
+    function actualizarContador() {
+        const contador = document.getElementById('contador');
+        contador.innerText = carrito.reduce((total, item) => total + item.cantidad, 0);
+    }
+
+    document.querySelectorAll('.agregar-al-carrito').forEach((boton, index) => {
         boton.addEventListener('click', () => {
             const producto = {
                 nombre: boton.parentElement.querySelector('h3').innerText,
-                precio: parseFloat(boton.parentElement.querySelector('.precio').innerText.replace('Precio: $', '')),
                 imagen: boton.parentElement.querySelector('img').src,
+                precio: parseFloat(boton.parentElement.querySelector('.precio').innerText.replace('Precio: $', '')),
                 cantidad: 1
             };
-
             const productoExistente = carrito.find(item => item.nombre === producto.nombre);
+
             if (productoExistente) {
                 productoExistente.cantidad++;
             } else {
                 carrito.push(producto);
             }
-
             localStorage.setItem('carrito', JSON.stringify(carrito));
             actualizarContador();
         });
     });
 
-    function actualizarContador() {
-        const contador = document.getElementById('contador');
-        const totalCantidad = carrito.reduce((total, item) => total + item.cantidad, 0);
-        contador.innerText = totalCantidad;
-    }
-
     window.addEventListener('load', actualizarContador);
-
-    // Función para arrastrar el contenedor del carrito
-    const carritoContainer = document.getElementById('carrito-container');
-    let offsetX, offsetY;
-
-    carritoContainer.addEventListener('mousedown', (e) => {
-        offsetX = e.clientX - carritoContainer.getBoundingClientRect().left;
-        offsetY = e.clientY - carritoContainer.getBoundingClientRect().top;
-
-        window.addEventListener('mousemove', moverContenedor);
-        window.addEventListener('mouseup', soltarContenedor);
-    });
-
-    function moverContenedor(e) {
-        carritoContainer.style.position = 'fixed';
-        carritoContainer.style.left = `${e.clientX - offsetX}px`;
-        carritoContainer.style.top = `${e.clientY - offsetY}px`;
-    }
-
-    function soltarContenedor() {
-        window.removeEventListener('mousemove', moverContenedor);
-        window.removeEventListener('mouseup', soltarContenedor);
-    }
-
-    // Abrir el carrito al hacer clic en el icono
-    carritoContainer.addEventListener('click', () => {
-        mostrarCarrito(); // Cambia aquí para abrir el carrito
-    });
 </script>
 
 </body>

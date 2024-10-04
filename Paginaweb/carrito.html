@@ -113,7 +113,7 @@
             const productoDiv = document.createElement('div');
             productoDiv.classList.add('producto');
 
-            productoDiv.innerHTML = `
+            productoDiv.innerHTML = 
                 <img src="${item.imagen}" alt="${item.nombre}">
                 <div>
                     <h3>${item.nombre}</h3>
@@ -121,13 +121,13 @@
                     <p>Cantidad: ${item.cantidad}</p>
                     <button class="boton eliminar" data-index="${index}">Eliminar 1</button>
                 </div>
-            `;
+            ;
             carritoItems.appendChild(productoDiv);
 
             total += item.precio * item.cantidad; // Sumar el precio total
         });
 
-        totalPrecio.innerText = `Total: $${total.toFixed(2)}`;
+        totalPrecio.innerText = Total: $${total.toFixed(2)};
     }
 
     function eliminarProducto(index) {
@@ -154,23 +154,18 @@
     });
 
     document.getElementById('realizar-pedido').addEventListener('click', () => {
-    if (carrito.length === 0) {
-        alert('Tu carrito está vacío');
-        return;
-    }
+        if (carrito.length === 0) {
+            alert('Tu carrito está vacío');
+            return;
+        }
 
-    const mensaje = `Orden realizada:\n` + 
-        carrito.map(item => `${item.nombre} (Cantidad: ${item.cantidad}) - Precio: $${(item.precio * item.cantidad).toFixed(2)}`).join('\n') +
-        `\nTotal: $${carrito.reduce((total, item) => total + item.precio * item.cantidad, 0).toFixed(2)}`;
+        const mensaje = Orden realizada:\n + 
+            carrito.map(item => ${item.nombre} (Cantidad: ${item.cantidad}) - Precio: $${(item.precio * item.cantidad).toFixed(2)}).join('\n') +
+            \nTotal: $${carrito.reduce((total, item) => total + item.precio * item.cantidad, 0).toFixed(2)};
 
-    const telefono = '5352461307';
-    const url = `https://api.whatsapp.com/send?phone=${telefono}&text=${encodeURIComponent(mensaje)}`;
-    window.open(url);
-
-    // Vaciar el carrito después de realizar el pedido
-    vaciarCarrito();
-});
-
+        const telefono = '5352461307';
+        const url = https://api.whatsapp.com/send?phone=${telefono}&text=${encodeURIComponent(mensaje)};
+        window.open(url);
     });
 
     document.getElementById('vaciar-carrito').addEventListener('click', vaciarCarrito); // Event listener para vaciar carrito
@@ -180,5 +175,3 @@
 
 </body>
 </html>
-
-

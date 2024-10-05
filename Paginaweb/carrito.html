@@ -89,6 +89,12 @@
             margin: 20px 0;
             text-align: center;
         }
+        .contador {
+            font-weight: bold;
+            font-size: 1.2rem;
+            margin: 10px 0;
+            text-align: center;
+        }
         footer {
             text-align: center;
             padding: 10px;
@@ -129,18 +135,19 @@
             width: 100%; 
             height: 100%; 
             overflow: auto; 
-            background-color: rgba(0,0,0,0.4); 
+            background-color: rgba(0, 0, 0, 0.6); 
             padding-top: 60px; 
         }
 
         .modal-content {
-            background-color: #fefefe;
+            background-color: white;
+            border-radius: 10px;
             margin: 5% auto;
             padding: 20px;
             border: 1px solid #888;
             width: 80%; 
             max-width: 500px;
-            border-radius: 10px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
         }
 
         .close {
@@ -155,6 +162,30 @@
             color: black;
             text-decoration: none;
             cursor: pointer;
+        }
+
+        label {
+            font-weight: bold;
+            margin-top: 10px;
+            display: block;
+        }
+
+        input[type="text"], input[type="time"] {
+            width: 100%;
+            padding: 8px;
+            margin: 5px 0 15px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+
+        #confirmar-pedido {
+            background-color: #ffbe00;
+            color: white;
+            font-weight: bold;
+        }
+
+        #confirmar-pedido:hover {
+            background-color: #e0a800;
         }
 
         .error {
@@ -172,6 +203,7 @@
 <div class="container">
     <section>
         <h2>Productos en el carrito</h2>
+        <div class="contador" id="contador-productos">Total de Productos: 0</div>
         <div class="productos-container" id="carrito-items"></div>
         <div class="total" id="total-precio">Total: $0.00</div>
         <div class="botones-container">
@@ -188,11 +220,11 @@
         <h2>Detalles del Pedido</h2>
         <div class="error" id="error-msg">Por favor completa todos los campos.</div>
         <label for="nombre">Nombre:</label>
-        <input type="text" id="nombre" required><br>
+        <input type="text" id="nombre" required>
         <label for="direccion">Dirección:</label>
-        <input type="text" id="direccion" required><br>
+        <input type="text" id="direccion" required>
         <label for="hora">Hora del pedido:</label>
-        <input type="time" id="hora" required><br>
+        <input type="time" id="hora" required>
         <button id="confirmar-pedido" class="boton">Confirmar Pedido</button>
     </div>
 </div>
@@ -209,8 +241,10 @@
     function mostrarCarrito() {
         const carritoItems = document.getElementById('carrito-items');
         const totalPrecio = document.getElementById('total-precio');
+        const contadorProductos = document.getElementById('contador-productos');
         carritoItems.innerHTML = '';
         let total = 0;
+        let cantidadTotal = 0;
 
         carrito.forEach((item, index) => {
             const productoDiv = document.createElement('div');
@@ -231,9 +265,11 @@
             carritoItems.appendChild(productoDiv);
 
             total += item.precio * item.cantidad; 
+            cantidadTotal += item.cantidad; // Contar productos
         });
 
         totalPrecio.innerText = `Total: $${total.toFixed(2)}`;
+        contadorProductos.innerText = `Total de Productos: ${cantidadTotal}`;
     }
 
     function agregarProducto(index) {
@@ -252,21 +288,24 @@
         mostrarCarrito();
     }
 
-    function abrirModal() {
-        document.getElementById('pedidoModal').style.display = "block";
-    }
-
-    function cerrarModal() {
-        document.getElementById('pedidoModal').style.display = "none";
-        document.getElementById('error-msg').style.display = "none";
-    }
-
     function realizarPedido() {
         if (carrito.length === 0) {
             alert('Tu carrito está vacío');
             return;
         }
         abrirModal();
+    }
+
+    function abrirModal() {
+        document.getElementById('pedidoModal').style.display = "block";
+    }
+
+    function cerrarModal() {
+        document.getElementById('pedidoModal').style.display = "none"; 
+        document.getElementById('error-msg').style.display = "none"; 
+        document.getElementById('nombre').value = '';
+        document.getElementById('direccion').value = '';
+        document.getElementById('hora').value = '';
     }
 
     function confirmarPedido() {
@@ -288,7 +327,7 @@
         window.open(url);
 
         cerrarModal();
-        vaciarCarrito(); // Vaciar el carrito después de hacer el pedido
+        vaciarCarrito();
     }
 
     function vaciarCarrito() {
@@ -312,9 +351,9 @@
     document.getElementById('closeModal').addEventListener('click', cerrarModal);
 
     window.addEventListener('load', mostrarCarrito);
-
-    setInterval(mostrarCarrito,3);
+    setInterval(mostrarCarrito, 3000);
 </script>
 
 </body>
 </html>
+

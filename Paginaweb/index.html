@@ -306,6 +306,8 @@
         const contador = document.getElementById('contador');
         contador.innerText = carrito.reduce((total, item) => total + item.cantidad, 0);
     }
+// Actualizar el contador cada 3 segundos
+setInterval(actualizarContador, 3000);
 
     document.querySelectorAll('.agregar-al-carrito').forEach((boton) => {
         boton.addEventListener('click', () => {

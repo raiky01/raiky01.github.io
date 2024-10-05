@@ -292,11 +292,9 @@
     }
 
     function vaciarCarrito() {
-        if (confirm('¿Estás seguro de que quieres vaciar el carrito?')) {
-            carrito = [];
-            localStorage.setItem('carrito', JSON.stringify(carrito));
-            mostrarCarrito();
-        }
+        carrito = [];
+        localStorage.setItem('carrito', JSON.stringify(carrito));
+        mostrarCarrito();
     }
 
     document.getElementById('carrito-items').addEventListener('click', (e) => {

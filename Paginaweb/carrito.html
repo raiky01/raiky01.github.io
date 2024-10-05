@@ -219,6 +219,7 @@
         <span class="close" id="closeModal">&times;</span>
         <h2>Detalles del Pedido</h2>
         <div class="error" id="error-msg">Por favor completa todos los campos.</div>
+        <div class="error" id="error-hora-msg">La hora seleccionada debe ser al menos 1 hora después de la hora actual.</div>
         <label for="nombre">Nombre:</label>
         <input type="text" id="nombre" required>
         <label for="direccion">Dirección:</label>
@@ -303,6 +304,7 @@
     function cerrarModal() {
         document.getElementById('pedidoModal').style.display = "none"; 
         document.getElementById('error-msg').style.display = "none"; 
+        document.getElementById('error-hora-msg').style.display = "none"; 
         document.getElementById('nombre').value = '';
         document.getElementById('direccion').value = '';
         document.getElementById('hora').value = '';
@@ -313,8 +315,21 @@
         const direccion = document.getElementById('direccion').value;
         const hora = document.getElementById('hora').value;
 
+        const ahora = new Date();
+        const horaSeleccionada = new Date();
+        const [h, m] = hora.split(':');
+        horaSeleccionada.setHours(h);
+        horaSeleccionada.setMinutes(m);
+
         if (!nombre || !direccion || !hora) {
             document.getElementById('error-msg').style.display = "block";
+            return;
+        }
+
+        // Validar que la hora seleccionada sea al menos 1 hora después de la hora actual
+        const diferenciaHoras = (horaSeleccionada - ahora) / 1000 / 60 / 60; // Diferencia en horas
+        if (diferenciaHoras < 1) {
+            document.getElementById('error-hora-msg').style.display = "block";
             return;
         }
 
@@ -356,4 +371,3 @@
 
 </body>
 </html>
-

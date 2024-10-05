@@ -80,8 +80,8 @@
         }
         .contador {
             position: absolute;
-            top: -5px; 
-            right: -5px; 
+            top: 5px; 
+            right: 5px; 
             background-color: red;
             color: white;
             border-radius: 50%;
@@ -291,7 +291,7 @@
     <div class="contacto-container">
         <p>Si tienes alguna pregunta o deseas hacer un pedido, no dudes en contactarnos:</p>
         <p><strong>Teléfono:</strong> +5352461307</p>
-        <p><strong>Ubicación:</strong> <a href="https://www.google.com/maps/place/campechuela Cuba" target="_blank">Ver en Google Maps</a></p>
+        <p><strong>Ubicación:</strong> <a href="https://www.google.com/maps/place/campechuela+Cuba" target="_blank">Ver en Google Maps</a></p>
     </div>
 </section>
 
@@ -306,9 +306,12 @@
         const contador = document.getElementById('contador');
         contador.innerText = carrito.reduce((total, item) => total + item.cantidad, 0);
     }
-// Actualizar el contador cada 3 segundos
-setInterval(actualizarContador, 3000);
 
+    // Actualizar el contador cada 3 segundos
+    setInterval(() => {
+        carrito = JSON.parse(localStorage.getItem('carrito')) || []; // Leer el carrito del localStorage
+        actualizarContador();
+    }, 3000);
 
     document.querySelectorAll('.agregar-al-carrito').forEach((boton) => {
         boton.addEventListener('click', () => {
@@ -360,3 +363,4 @@ setInterval(actualizarContador, 3000);
 
 </body>
 </html>
+

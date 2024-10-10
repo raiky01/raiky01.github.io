@@ -339,7 +339,11 @@
         contador.innerText = carrito.reduce((total, item) => total + item.cantidad, 0);
     }
 
-    setInterval(actualizarContador, 3000);
+     setInterval(() => {
+        carrito = JSON.parse(localStorage.getItem('carrito')) || []; // Leer el carrito del localStorage
+        actualizarContador();
+    }, 3000);
+
 
     document.querySelectorAll('.agregar-al-carrito').forEach((boton) => {
         boton.addEventListener('click', () => {

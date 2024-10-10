@@ -80,8 +80,8 @@
         }
         .contador {
             position: absolute;
-            top: -5px; 
-            right: -5px; 
+            top: 5px; 
+            right: 5px; 
             background-color: red;
             color: white;
             border-radius: 50%;
@@ -123,7 +123,7 @@
             bottom: 0;
             width: 100%;
         }
-        #pizzas-container, #tacos-container, #bebidas-container {
+        #pizzas-container, #tacos-container {
             display: none; 
         }
         .logo-giro {
@@ -257,67 +257,35 @@
     </h3>
     <div id="tacos-container" class="productos-container">
         <div class="producto">
-            <img src="taco1.jpg" alt="Taco de Res con cebolla y cilantro">
+            <img src="taco1.jpg" alt="Taco de Res">
             <h3>Taco de Res</h3>
-            <h4>3 unidades</h4>
             <p>Carne de res, cebolla, cilantro, mayonesa, salsa.</p>
             <p class="precio">Precio: $750.00</p>
             <button class="boton agregar-al-carrito">Agregar al carrito</button>
         </div>
         <div class="producto">
-            <img src="taco2.jpg" alt="Taco de Cerdo">
+            <img src="taco2.jpg" alt="Taco de Pollo">
+            <h3>Taco de Pollo</h3>
+            <p>Pollo a la parrilla, aguacate, cebolla, salsa.</p>
+            <p class="precio">Precio: $600.00</p>
+            <button class="boton agregar-al-carrito">Agregar al carrito</button>
+        </div>
+        <div class="producto">
+            <img src="taco3.jpg" alt="Taco Vegetariano">
+            <h3>Taco Vegetariano</h3>
+            <p>Frijoles, aguacate, curtidos, aceitunas.</p>
+            <p class="precio">Precio: $500.00</p>
+            <button class="boton agregar-al-carrito">Agregar al carrito</button>
+        </div>
+        <div class="producto">
+            <img src="taco4.jpg" alt="Taco de Cerdo">
             <h3>Taco de Cerdo</h3>
-            <h4>3 unidades</h4>
-            <p>Carnitas de cerdo, mayonesa, cebolla, cilantro, ketchup.</p>
+            <p>Carne de cerdo, cebolla, mayonesa, ketchup, aceitunas.</p>
             <p class="precio">Precio: $800.00</p>
             <button class="boton agregar-al-carrito">Agregar al carrito</button>
         </div>
-        <div class="producto">
-            <img src="taco3.jpg" alt="Taco de Pollo">
-            <h3>Taco de Pollo</h3>
-            <h4>3 unidades</h4>
-            <p>Pollo asado, cebolla, cilantro, salsa.</p>
-            <p class="precio">Precio: $700.00</p>
-            <button class="boton agregar-al-carrito">Agregar al carrito</button>
-        </div>
-    </div>
-
-    <h3>
-        <button id="toggle-bebidas" class="boton">Bebidas</button>
-    </h3>
-    <div id="bebidas-container" class="productos-container">
-        <div class="producto">
-            <img src="cola.webp" alt="Refresco de Cola">
-            <h3>Refresco de Cola</h3>
-            <p>Refresco Cola de lata.</p>
-            <p class="precio">Precio: $250.00</p>
-            <button class="boton agregar-al-carrito">Agregar al carrito</button>
-        </div>
-        <div class="producto">
-            <img src="naranja.webp" alt="Refresco de Naranja">
-            <h3>Refresco de Naranja</h3>
-            <p>Refresco Naranja de lata.</p>
-            <p class="precio">Precio: $250.00</p>
-            <button class="boton agregar-al-carrito">Agregar al carrito</button>
-        </div>
-        <div class="producto">
-            <img src="limon.jpg" alt="Refresco de Limon">
-            <h3>Refresco de Limon</h3>
-            <p>Refresco de lata de limon.</p>
-            <p class="precio">Precio: $250.00</p>
-            <button class="boton agregar-al-carrito">Agregar al carrito</button>
-        </div>
-        <div class="producto">
-            <img src="malta.jpg" alt="Malta">
-            <h3>Malta</h3>
-            <p></p>
-            <p class="precio">Precio: $250.00</p>
-            <button class="boton agregar-al-carrito">Agregar al carrito</button>
-        </div>
-
     </div>
 </section>
-
 <section id="contacto">
     <h2>Contacto</h2>
     <div class="contacto-container">
@@ -339,7 +307,11 @@
         contador.innerText = carrito.reduce((total, item) => total + item.cantidad, 0);
     }
 
-    setInterval(actualizarContador, 3000);
+    // Actualizar el contador cada 3 segundos
+    setInterval(() => {
+        carrito = JSON.parse(localStorage.getItem('carrito')) || []; // Leer el carrito del localStorage
+        actualizarContador();
+    }, 3000);
 
     document.querySelectorAll('.agregar-al-carrito').forEach((boton) => {
         boton.addEventListener('click', () => {
@@ -371,11 +343,6 @@
         container.style.display = container.style.display === 'none' || container.style.display === '' ? 'flex' : 'none';
     });
 
-    document.getElementById('toggle-bebidas').addEventListener('click', () => {
-        const container = document.getElementById('bebidas-container');
-        container.style.display = container.style.display === 'none' || container.style.display === '' ? 'flex' : 'none';
-    });
-
     document.getElementById('logo').addEventListener('click', () => {
         const logo = document.getElementById('logo');
         logo.classList.add('giro');
@@ -389,7 +356,7 @@
 
 <div id="boton-flotante" class="boton-flotante">
     <a href="carrito.html">
-        <img src="icono-carrito.png" alt="Carrito de compras" />
+        <img src="icono-carrito.png" alt="Carrito" />
         <span id="contador" class="contador">0</span>
     </a>
 </div>

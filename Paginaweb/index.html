@@ -45,22 +45,6 @@
             flex-wrap: wrap;
             justify-content: space-between;
         }
-        .boton.verde {
-    background-color: #4CAF50; /* Verde */
-    color: white; /* Texto blanco */
-    border: none;
-    padding: 15px 100px;
-    border-radius: 55px;
-    cursor: pointer;
-    width: 100%; /* Hacer que el botón ocupe todo el ancho */
-    margin-bottom: 10px; /* Espacio entre botones */
-    transition: background-color 0.3s;
-}
-s
-.boton.verde:hover {
-    background-color: #45a049; /* Color verde más oscuro al pasar el ratón */
-}
-
         .producto {
             background: white;
             border-radius: 10px;
@@ -212,7 +196,7 @@ s
 <section id="sobre">
     <h2>Sobre Nosotros</h2>
     <div class="sobre-container">
-        <p>Bienvenido a Raiky Pizza la nueva sensación de la ciudad, donde cada bocado cuenta una historia de sabor y tradición. Nuestras pizzas artesanales, elaboradas con ingredientes de alta calidad, se fusionan con auténticos tacos mexicanos para crear una experiencia gastronómica extraordinaria. Desde nuestra masa fermentada  hasta nuestras salsas caseras, cada detalle está pensado para despertar tus sentidos y crear momentos inolvidables alrededor de la mesa. Descubre por qué nuestros clientes nos consideran el secreto mejor guardado de la ciudad."</p>
+        <p>En Raiky Pizza, nos apasiona ofrecer las mejores pizzas y tacos de la ciudad. Utilizamos ingredientes frescos y de alta calidad, y nuestras recetas están diseñadas para satisfacer todos los paladares. ¡Ven y disfruta de una experiencia gastronómica única!</p>
         <img src="sobre_nosotros.jpg" alt="Logo de Raiky Pizza" class="logo-giro" id="logo">
     </div>
 </section>
@@ -223,11 +207,7 @@ s
     <h3>
         <button id="toggle-pizzas" class="boton">Pizzas</button>
     </h3>
-    <div id="pizzas-buttons" style="display: none;">
-        <button id="toggle-normales" class="boton verde">Normales</button>
-        <button id="toggle-medianas" class="boton verde">Medianas</button>
-    </div>
-    <div id="pizzas-normales-container" class="productos-container" style="display: none;">
+    <div id="pizzas-container" class="productos-container">
         <div class="producto">
             <img src="napolitana.jpg" alt="Pizza de Queso">
             <h3>Pizza de Queso</h3>
@@ -263,62 +243,13 @@ s
             <p class="precio">Precio: $150.00</p>
             <button class="boton agregar-al-carrito">Agregar al carrito</button>
         </div>
-        
-        <!-- Agrega más pizzas normales aquí -->
-    </div>
-    
-    <div id="pizzas-medianas-container" class="productos-container" style="display: none;">
-        <div class="producto">
-            <img src="napolitana.jpg" alt="Pizza de Queso">
-            <h3>Pizza de Queso</h3>
-            <h4>Mediana</h4>
-            <p>Queso Blanco, Salsa de tomate.</p>
-            <p class="precio">Precio: $300.00</p>
-            <button class="boton agregar-al-carrito">Agregar al carrito</button>
-        </div>
-        <div class="producto">
-            <img src="jamon.jpg" alt="Pizza de Jamón">
-            <h3>Pizza de Jamón</h3>
-            <h4>Mediana</h4>
-            <p>Queso Blanco, Jamón, Salsa de tomate.</p>
-            <p class="precio">Precio: $500.00</p>
-            <button class="boton agregar-al-carrito">Agregar al carrito</button>
-        </div>
-        <div class="producto">
-            <img src="hawaiana.jpg" alt="Pizza Hawaiana">
-            <h3>Pizza Hawaiana</h3>
-            <h4>Mediana</h4>
-            <p>Queso blanco, jamón, piña.</p>
-            <p class="precio">Precio: $600.00</p>
-            <button class="boton agregar-al-carrito">Agregar al carrito</button>
-        </div>
-        <div class="producto">
-            <img src="pimiento.jpeg" alt="Pizza de Pimientos">
-            <h3>Pizza de Pimientos</h3>
-            <h4>Mediana</h4>
-            <p>Queso Blanco, pimientos, Salsa de tomate.</p>
-            <p class="precio">Precio: $400.00</p>
-            <button class="boton agregar-al-carrito">Agregar al carrito</button>
-        </div>
-        <div class="producto">
-            <img src="cebolla.jpg" alt="Pizza de Cebolla">
-            <h3>Pizza de Cebolla</h3>
-            <h4>Mediana</h4>
-            <p>Queso Blanco, cebolla.</p>
-            <p class="precio">Precio: $400.00</p>
-            <button class="boton agregar-al-carrito">Agregar al carrito</button>
-        </div>
         <div class="producto">
             <img src="mixta.jpg" alt="Pizza Mixta">
             <h3>Pizza Mixta</h3>
-            <h4>Mediana</h4>
             <p>Queso Blanco, Jamón, cebolla, Pimientos, Salsa de tomate.</p>
-            <p class="precio">Precio: $650.00</p>
+            <p class="precio">Precio: $300.00</p>
             <button class="boton agregar-al-carrito">Agregar al carrito</button>
         </div>
-        <!-- Agrega más pizzas medianas aquí -->
-    </div>
-    
     </div>
 
     <h3>
@@ -454,23 +385,6 @@ s
     });
 
     window.addEventListener('load', actualizarContador);
-    document.getElementById('toggle-pizzas').addEventListener('click', () => {
-    const buttonsContainer = document.getElementById('pizzas-buttons');
-    buttonsContainer.style.display = buttonsContainer.style.display === 'none' || buttonsContainer.style.display === '' ? 'block' : 'none';
-});
-
-document.getElementById('toggle-normales').addEventListener('click', () => {
-    const normalesContainer = document.getElementById('pizzas-normales-container');
-    normalesContainer.style.display = normalesContainer.style.display === 'none' || normalesContainer.style.display === '' ? 'flex' : 'none';
-    document.getElementById('pizzas-medianas-container').style.display = 'none'; // Ocultar las medianas
-});
-
-document.getElementById('toggle-medianas').addEventListener('click', () => {
-    const medianasContainer = document.getElementById('pizzas-medianas-container');
-    medianasContainer.style.display = medianasContainer.style.display === 'none' || medianasContainer.style.display === '' ? 'flex' : 'none';
-    document.getElementById('pizzas-normales-container').style.display = 'none'; // Ocultar las normales
-});
-
 </script>
 
 <div id="boton-flotante" class="boton-flotante">

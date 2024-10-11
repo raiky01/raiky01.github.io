@@ -4,29 +4,34 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Carrito de Compras - Raiky Pizza</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
     <style>
         body {
             font-family: 'Poppins', sans-serif;
             margin: 0;
             padding: 0;
-            background-color: #f9f9f9;
+            background-color: #f4f4f9;
             color: #333;
         }
         header {
-            background-color: #ffbe00; 
-            color: white;
-            padding: 1rem;
+            background-color: #ffcc00; 
+            color: #333;
+            padding: 1.5rem;
             text-align: center;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
         }
         .container {
-            max-width: 800px;
-            margin: 0 auto;
-            padding: 0 10px; 
-            width: 100%;
+            max-width: 900px;
+            margin: 20px auto;
+            padding: 0 20px; 
+            background-color: white;
+            border-radius: 10px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
         }
         h2 {
             text-align: center;
             margin: 20px 0;
+            color: #555;
         }
         .productos-container {
             display: flex;
@@ -34,22 +39,23 @@
             padding: 20px 0;
         }
         .producto {
-            background: white;
-            border-radius: 10px;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            background: #f9f9f9;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
             margin: 15px 0;
-            padding: 10px;
-            text-align: left;
-            width: 100%;
+            padding: 15px;
             display: flex;
             align-items: center;
-            flex-wrap: wrap;
+            transition: transform 0.2s;
+        }
+        .producto:hover {
+            transform: scale(1.02);
         }
         .producto img {
-            max-width: 80px; 
+            max-width: 70px; 
             height: auto;
-            border-radius: 10px;
-            margin-right: 10px;
+            border-radius: 8px;
+            margin-right: 15px;
         }
         .producto div {
             flex-grow: 1;
@@ -58,56 +64,53 @@
             align-items: center;
         }
         .boton {
-            background-color: black;
+            background-color: #007bff;
             color: white;
             border: none;
-            padding: 10px; 
+            padding: 12px; 
             border-radius: 5px;
             cursor: pointer;
             transition: background-color 0.3s;
             margin: 5px 0;
             width: 100%; 
+            font-weight: bold;
         }
         .boton:hover {
-            background-color: #444;
+            background-color: #0056b3;
         }
         .boton.agregar {
-            background-color: green;
+            background-color: #28a745;
         }
         .boton.agregar:hover {
-            background-color: darkgreen;
+            background-color: #218838;
         }
         .boton.eliminar {
-            background-color: red;
+            background-color: #dc3545;
         }
         .boton.eliminar:hover {
-            background-color: darkred;
+            background-color: #c82333;
         }
-        .total {
+        .total, .contador {
             font-weight: bold;
             font-size: 1.2rem;
             margin: 20px 0;
             text-align: center;
-        }
-        .contador {
-            font-weight: bold;
-            font-size: 1.2rem;
-            margin: 10px 0;
-            text-align: center;
+            color: #555;
         }
         footer {
             text-align: center;
-            padding: 10px;
-            background: #ffbe00;
-            color: white;
-            width: 100%;
+            padding: 15px;
+            background: #ffcc00;
+            color: #333;
+            margin-top: 20px;
+            border-radius: 0 0 10px 10px;
+            box-shadow: 0 -2px 8px rgba(0, 0, 0, 0.1);
         }
         .footer-content {
-            max-width: 800px; 
+            max-width: 900px; 
             margin: 0 auto; 
             font-size: 1rem; 
             padding: 5px; 
-            width: calc(100% - 40px); 
         }
         .botones-container {
             display: flex;
@@ -124,7 +127,6 @@
                 width: auto; 
             }
         }
-
         /* Estilo para el modal */
         .modal {
             display: none; 
@@ -135,59 +137,52 @@
             width: 100%; 
             height: 100%; 
             overflow: auto; 
-            background-color: rgba(0, 0, 0, 0.6); 
+            background-color: rgba(0, 0, 0, 0.7); 
             padding-top: 60px; 
         }
-
         .modal-content {
             background-color: white;
             border-radius: 10px;
             margin: 5% auto;
             padding: 20px;
             border: 1px solid #888;
-            width: 80%; 
-            max-width: 500px;
+            width: 90%; 
+            max-width: 400px;
             box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
         }
-
         .close {
             color: #aaa;
             float: right;
             font-size: 28px;
             font-weight: bold;
         }
-
         .close:hover,
         .close:focus {
             color: black;
             text-decoration: none;
             cursor: pointer;
         }
-
         label {
             font-weight: bold;
             margin-top: 10px;
             display: block;
+            color: #333;
         }
-
         input[type="text"], input[type="time"] {
             width: 100%;
-            padding: 8px;
+            padding: 10px;
             margin: 5px 0 15px;
             border: 1px solid #ccc;
             border-radius: 5px;
         }
-
         #confirmar-pedido {
-            background-color: #ffbe00;
+            background-color: #ffcc00;
             color: white;
             font-weight: bold;
         }
-
         #confirmar-pedido:hover {
             background-color: #e0a800;
         }
-
         .error {
             color: red;
             display: none;
@@ -326,7 +321,6 @@
             return;
         }
 
-        // Validar que la hora seleccionada sea al menos 1 hora después de la hora actual
         const diferenciaHoras = (horaSeleccionada - ahora) / 1000 / 60 / 60; // Diferencia en horas
         if (diferenciaHoras < 1) {
             document.getElementById('error-hora-msg').style.display = "block";

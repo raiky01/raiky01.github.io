@@ -43,7 +43,7 @@
             border-radius: 8px;
             box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
             margin: 15px 0;
-            padding: 10px; /* Reducido el padding */
+            padding: 10px; 
             display: flex;
             align-items: center;
             transition: transform 0.2s;
@@ -52,13 +52,13 @@
             transform: scale(1.02);
         }
         .producto img {
-            max-width: 50px; /* Cambiado de 70px a 50px */
+            max-width: 30px; /* Imagen más pequeña */
             height: auto;
             border-radius: 8px;
             margin-right: 15px;
         }
         .producto h3, .producto p {
-            font-size: 0.9rem; /* Cambiado para reducir el tamaño del texto */
+            font-size: 0.7rem; /* Texto más pequeño */
         }
         .producto div {
             flex-grow: 1;
@@ -70,20 +70,20 @@
             background-color: #007bff;
             color: white;
             border: none;
-            padding: 12px; 
+            padding: 10px; 
             border-radius: 5px;
             cursor: pointer;
             transition: background-color 0.3s;
             margin: 5px 0;
-            width: 100%; 
+            width: 100%; /* Botones ocupan todo el ancho */
             font-weight: bold;
+            font-size: 0.9rem; /* Ajustar tamaño de la fuente */
         }
         .boton:hover {
             background-color: #0056b3;
         }
         .boton.agregar {
             background-color: #28a745;
-            margin-left: 10px; /* Añadido para separar el botón */
         }
         .boton.agregar:hover {
             background-color: #218838;
@@ -196,13 +196,7 @@
             .producto {
                 flex-direction: row; /* Mantener el diseño en fila */
                 align-items: center;
-                padding: 10px; /* Reducir el padding */
-            }
-            .producto img {
-                max-width: 40px; /* Hacer la imagen más pequeña en móviles */
-            }
-            .producto h3, .producto p {
-                font-size: 0.8rem; /* Hacer el texto más pequeño en móviles */
+                padding: 8px; /* Reducir el padding */
             }
             .boton {
                 padding: 10px; /* Reducir el padding de los botones */

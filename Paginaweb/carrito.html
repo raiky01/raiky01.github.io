@@ -21,6 +21,7 @@
             box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
         }
         .container {
+            width: 90%; /* Ajustar el contenedor */
             max-width: 900px;
             margin: 20px auto;
             padding: 0 20px; 
@@ -52,13 +53,13 @@
             transform: scale(1.02);
         }
         .producto img {
-            max-width: 30px; /* Imagen más pequeña */
+            max-width: 100%; /* Imagen responsiva */
             height: auto;
             border-radius: 8px;
             margin-right: 15px;
         }
         .producto h3, .producto p {
-            font-size: 0.7rem; /* Texto más pequeño */
+            font-size: 1rem; /* Tamaño de texto ajustado */
         }
         .producto div {
             flex-grow: 1;
@@ -194,8 +195,8 @@
         /* Ajustes para pantallas pequeñas */
         @media (max-width: 768px) {
             .producto {
-                flex-direction: row; /* Mantener el diseño en fila */
-                align-items: center;
+                flex-direction: column; /* Cambiar a columna en pantallas pequeñas */
+                align-items: flex-start; /* Alinear a la izquierda */
                 padding: 8px; /* Reducir el padding */
             }
             .boton {

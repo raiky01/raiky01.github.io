@@ -119,12 +119,22 @@
             margin: 20px 0;
         }
         @media (min-width: 768px) {
+            .productos-container {
+                flex-direction: row; 
+                flex-wrap: wrap; 
+                justify-content: space-between;
+            }
+            .producto {
+                flex: 1 1 calc(30% - 20px); /* Tres productos por fila */
+                margin: 10px; /* Margen ajustado */
+            }
             .botones-container {
                 flex-direction: row; 
                 justify-content: center; 
             }
             .boton {
                 width: auto; 
+                margin: 0 10px; /* Margen entre botones */
             }
         }
         /* Estilo para el modal */
@@ -251,116 +261,69 @@
                 <div>
                     <h3>${item.nombre}</h3>
                     <p>Precio: $${item.precio.toFixed(2)}</p>
-                    <p>Cantidad: ${item.cantidad}</p>
-                    <div>
-                        <button class="boton agregar" data-index="${index}">Agregar</button>
-                        <button class="boton eliminar" data-index="${index}">Eliminar</button>
-                    </div>
+                    <button class="boton eliminar" onclick="eliminarDelCarrito(${index})">Eliminar</button>
                 </div>
             `;
-            carritoItems.appendChild(productoDiv);
 
-            total += item.precio * item.cantidad; 
-            cantidadTotal += item.cantidad; // Contar productos
+            carritoItems.appendChild(productoDiv);
+            total += item.precio;
+            cantidadTotal++;
         });
 
         totalPrecio.innerText = `Total: $${total.toFixed(2)}`;
         contadorProductos.innerText = `Total de Productos: ${cantidadTotal}`;
     }
 
-    function agregarProducto(index) {
-        carrito[index].cantidad++;
+    function eliminarDelCarrito(index) {
+        carrito.splice(index, 1);
         localStorage.setItem('carrito', JSON.stringify(carrito));
         mostrarCarrito();
     }
 
-    function eliminarProducto(index) {
-        if (carrito[index].cantidad > 1) {
-            carrito[index].cantidad--;
-        } else {
-            carrito.splice(index, 1);
-        }
-        localStorage.setItem('carrito', JSON.stringify(carrito));
-        mostrarCarrito();
+    document.getElementById('realizar-pedido').onclick = function() {
+        document.getElementById('pedidoModal').style.display = 'block';
     }
 
-    function realizarPedido() {
-        if (carrito.length === 0) {
-            alert('Tu carrito está vacío');
-            return;
-        }
-        abrirModal();
+    document.getElementById('closeModal').onclick = function() {
+        document.getElementById('pedidoModal').style.display = 'none';
     }
 
-    function abrirModal() {
-        document.getElementById('pedidoModal').style.display = "block";
-    }
-
-    function cerrarModal() {
-        document.getElementById('pedidoModal').style.display = "none"; 
-        document.getElementById('error-msg').style.display = "none"; 
-        document.getElementById('error-hora-msg').style.display = "none"; 
-        document.getElementById('nombre').value = '';
-        document.getElementById('direccion').value = '';
-        document.getElementById('hora').value = '';
-    }
-
-    function confirmarPedido() {
+    document.getElementById('confirmar-pedido').onclick = function() {
         const nombre = document.getElementById('nombre').value;
         const direccion = document.getElementById('direccion').value;
         const hora = document.getElementById('hora').value;
-
-        const ahora = new Date();
-        const horaSeleccionada = new Date();
-        const [h, m] = hora.split(':');
-        horaSeleccionada.setHours(h);
-        horaSeleccionada.setMinutes(m);
+        const errorMsg = document.getElementById('error-msg');
+        const errorHoraMsg = document.getElementById('error-hora-msg');
+        errorMsg.style.display = 'none';
+        errorHoraMsg.style.display = 'none';
 
         if (!nombre || !direccion || !hora) {
-            document.getElementById('error-msg').style.display = "block";
+            errorMsg.style.display = 'block';
             return;
         }
 
-        const diferenciaHoras = (horaSeleccionada - ahora) / 1000 / 60 / 60; // Diferencia en horas
-        if (diferenciaHoras < 1) {
-            document.getElementById('error-hora-msg').style.display = "block";
+        const horaPedido = new Date();
+        const horaSeleccionada = new Date();
+        const [hh, mm] = hora.split(':');
+        horaSeleccionada.setHours(hh);
+        horaSeleccionada.setMinutes(mm);
+
+        if (horaSeleccionada <= horaPedido.setHours(horaPedido.getHours() + 1)) {
+            errorHoraMsg.style.display = 'block';
             return;
         }
 
-        const mensaje = `Orden realizada por ${nombre}:\n` + 
-            carrito.map(item => `${item.nombre} (Cantidad: ${item.cantidad}) - Precio: $${(item.precio * item.cantidad).toFixed(2)}`).join('\n') +
-            `\nDirección: ${direccion}\nHora: ${hora}\nTotal: $${carrito.reduce((total, item) => total + item.precio * item.cantidad, 0).toFixed(2)}`;
-
-        const telefono = '5352461307';
-        const url = `https://api.whatsapp.com/send?phone=${telefono}&text=${encodeURIComponent(mensaje)}`;
-        window.open(url);
-
-        cerrarModal();
-        vaciarCarrito();
+        alert(`Pedido confirmado!\nNombre: ${nombre}\nDirección: ${direccion}\nHora: ${hora}`);
+        document.getElementById('pedidoModal').style.display = 'none';
     }
 
-    function vaciarCarrito() {
+    document.getElementById('vaciar-carrito').onclick = function() {
         carrito = [];
         localStorage.setItem('carrito', JSON.stringify(carrito));
         mostrarCarrito();
     }
 
-    document.getElementById('carrito-items').addEventListener('click', (e) => {
-        const index = e.target.dataset.index;
-        if (e.target.classList.contains('agregar')) {
-            agregarProducto(index);
-        } else if (e.target.classList.contains('eliminar')) {
-            eliminarProducto(index);
-        }
-    });
-
-    document.getElementById('realizar-pedido').addEventListener('click', realizarPedido);
-    document.getElementById('vaciar-carrito').addEventListener('click', vaciarCarrito);
-    document.getElementById('confirmar-pedido').addEventListener('click', confirmarPedido);
-    document.getElementById('closeModal').addEventListener('click', cerrarModal);
-
-    window.addEventListener('load', mostrarCarrito);
-    setInterval(mostrarCarrito, 3000);
+    mostrarCarrito();
 </script>
 
 </body>

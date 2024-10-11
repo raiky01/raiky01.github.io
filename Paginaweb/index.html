@@ -9,41 +9,49 @@
     <style>
         body {
             font-family: 'Poppins', sans-serif;
-            margin: 0;
-            padding: 0;
-            background-color: #f9f9f9;
-            color: #333;
-        }
+    margin: 0;
+    padding: 0;
+    background-color: #f4f4f4; /* Color de fondo más suave */
+    color: #333;
+}
         header {
             background-color: #ffbe00; 
-            color: white;
-            padding: 1rem;
-            text-align: center;
+    color: white;
+    padding: 1rem;
+    text-align: center;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1); /* Sombra sutil */
         }
         nav ul {
             list-style-type: none;
-            padding: 0;
-            display: flex;
-            justify-content: center;
+    padding: 0;
+    display: flex;
+    justify-content: center;
         }
         nav ul li {
             margin: 0 15px;
         }
         nav ul li a {
             color: white;
-            text-decoration: none;
-            font-weight: bold;
+    text-decoration: none;
+    font-weight: bold;
+    transition: color 0.3s; /* Transición suave para enlaces */;
+   
+    nav ul li a:hover {
+    color: #444; /* Color al pasar el ratón */
+}
         }
         section {
-            padding: 20px;
+            padding: 40px 20px;
+            max-width: 1200px; /* Ancho máximo para mayor legibilidad */
+            margin: auto; /* Centrar la sección */
         }
         h3 {
             margin-top: 40px;
         }
         .productos-container {
             display: flex;
-            flex-wrap: wrap;
-            justify-content: space-between;
+    flex-wrap: wrap;
+    justify-content: space-between;
         }
         .producto {
             background: white;
@@ -71,6 +79,7 @@
             transition: background-color 0.3s;
             z-index: 1000;
         }
+        
         .boton-flotante:hover {
             background-color: #f0a500; 
         }
@@ -143,7 +152,7 @@
                 transform: rotateY(360deg);
             }
         }
-        
+
         /* Media Queries */
         @media (max-width: 768px) {
             .productos-container {
@@ -175,6 +184,26 @@
                 font-size: 1.5rem; 
             }
         }
+
+        /* Estilos para los botones Normales y Medianas */
+        #pizzas-buttons {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center; /* Centra los botones horizontalmente */
+            margin: 20px 0; /* Espaciado vertical */
+            margin-left: 100px; /* Espaciado del borde izquierdo */
+        }
+        #normal-pizzas, #medium-pizzas {
+            border-radius: 20px; /* Bordes redondeados */
+            width: 1000px; /* Ancho fijo para los botones */
+            margin: 5px 0; /* Espacio entre los botones */
+            padding: 10px; /* Padding para los botones */
+            border: none; /* Sin borde */
+            background-color: green; /* Color de fondo */
+            color: white; /* Color del texto */
+            cursor: pointer; /* Cambiar cursor al pasar */
+        }
     </style>
 </head>
 <body>
@@ -204,10 +233,17 @@
 <section id="menu">
     <h2>Menú</h2>
     
+        
     <h3>
         <button id="toggle-pizzas" class="boton">Pizzas</button>
     </h3>
-    <div id="pizzas-container" class="productos-container">
+    <div id="pizzas-buttons" style="display: none;">
+        <button id="normal-pizzas" class="boton" style="background-color: green; color: white;">Normales</button>
+        <button id="medium-pizzas" class="boton" style="background-color: green; color: white;">Medianas</button>
+        
+    </div>
+    
+    <div id="pizzas-normales" class="productos-container">
         <div class="producto">
             <img src="napolitana.jpg" alt="Pizza de Queso">
             <h3>Pizza de Queso</h3>
@@ -251,6 +287,54 @@
             <button class="boton agregar-al-carrito">Agregar al carrito</button>
         </div>
     </div>
+    
+    <div id="pizzas-medianas" class="productos-container" style="display: none;">
+        <div class="producto">
+            <img src="napolitana.jpg" alt="Pizza de Queso">
+            <h3>Pizza de Queso</h3>
+            <p>Queso Blanco, Salsa de tomate.</p>
+            <p class="precio">Precio: $350.00</p>
+            <button class="boton agregar-al-carrito">Agregar al carrito</button>
+        </div>
+        <div class="producto">
+            <img src="jamon.jpg" alt="Pizza de Jamón">
+            <h3>Pizza de Jamón</h3>
+            <p>Queso Blanco, Jamón, Salsa de tomate.</p>
+            <p class="precio">Precio: $500/p>
+            <button class="boton agregar-al-carrito">Agregar al carrito</button>
+        </div>
+        <div class="producto">
+            <img src="hawaiana.jpg" alt="Pizza Hawaiana">
+            <h3>Pizza Hawaiana</h3>
+            <p>Queso blanco, jamón, piña.</p>
+            <p class="precio">Precio: $650.00</p>
+            <button class="boton agregar-al-carrito">Agregar al carrito</button>
+        </div>
+        <div class="producto">
+            <img src="pimiento.jpeg" alt="Pizza de Pimientos">
+            <h3>Pizza de Pimientos</h3>
+            <p>Queso Blanco, pimientos, Salsa de tomate.</p>
+            <p class="precio">Precio: $450.00</p>
+            <button class="boton agregar-al-carrito">Agregar al carrito</button>
+        </div>
+        <div class="producto">
+            <img src="cebolla.jpg" alt="Pizza de Cebolla">
+            <h3>Pizza de Cebolla</h3>
+            <p>Queso Blanco, cebolla.</p>
+            <p class="precio">Precio: $450.00</p>
+            <button class="boton agregar-al-carrito">Agregar al carrito</button>
+        </div>
+        <div class="producto">
+            <img src="mixta.jpg" alt="Pizza Mixta">
+            <h3>Pizza Mixta</h3>
+            <p>Queso Blanco, Jamón, cebolla, Pimientos, Salsa de tomate.</p>
+            <p class="precio">Precio: $750.00</p>
+            <button class="boton agregar-al-carrito">Agregar al carrito</button>
+        </div>
+    </div>
+    
+
+    </div>
 
     <h3>
         <button id="toggle-tacos" class="boton">Tacos</button>
@@ -269,11 +353,11 @@
             <h3>Taco de Cerdo</h3>
             <h4>3 unidades</h4>
             <p>Carnitas de cerdo, mayonesa, cebolla, cilantro, ketchup.</p>
-            <p class="precio">Precio: $800.00</p>
+            <p class="precio">Precio: $750.00</p>
             <button class="boton agregar-al-carrito">Agregar al carrito</button>
         </div>
         <div class="producto">
-            <img src="taco3.jpg" alt="Taco de Pollo">
+            <img src="taco2.jpg" alt="Taco de Pollo">
             <h3>Taco de Pollo</h3>
             <h4>3 unidades</h4>
             <p>Pollo asado, cebolla, cilantro, salsa.</p>
@@ -332,6 +416,7 @@
 </footer>
 
 <script>
+    
     let carrito = JSON.parse(localStorage.getItem('carrito')) || [];
 
     function actualizarContador() {
@@ -339,11 +424,10 @@
         contador.innerText = carrito.reduce((total, item) => total + item.cantidad, 0);
     }
 
-     setInterval(() => {
-        carrito = JSON.parse(localStorage.getItem('carrito')) || []; // Leer el carrito del localStorage
+    setInterval(() => {
+        carrito = JSON.parse(localStorage.getItem('carrito')) || [];
         actualizarContador();
     }, 3000);
-
 
     document.querySelectorAll('.agregar-al-carrito').forEach((boton) => {
         boton.addEventListener('click', () => {
@@ -366,8 +450,35 @@
     });
 
     document.getElementById('toggle-pizzas').addEventListener('click', () => {
-        const container = document.getElementById('pizzas-container');
-        container.style.display = container.style.display === 'none' || container.style.display === '' ? 'flex' : 'none';
+        const container = document.getElementById('pizzas-buttons');
+        container.style.display = container.style.display === 'none' || container.style.display === '' ? 'block' : 'none';
+
+        // Esconde ambos contenedores de pizzas al iniciar
+        document.getElementById('pizzas-normales').style.display = 'none';
+        document.getElementById('pizzas-medianas').style.display = 'none';
+    });
+
+    let normalesVisible = false;
+    let medianasVisible = false;
+
+    document.getElementById('normal-pizzas').addEventListener('click', () => {
+        normalesVisible = !normalesVisible; // Cambia el estado de visibilidad
+        document.getElementById('pizzas-normales').style.display = normalesVisible ? 'flex' : 'none';
+        // Ocultar medianas si normales se muestra
+        if (normalesVisible) {
+            medianasVisible = false;
+            document.getElementById('pizzas-medianas').style.display = 'none';
+        }
+    });
+
+    document.getElementById('medium-pizzas').addEventListener('click', () => {
+        medianasVisible = !medianasVisible; // Cambia el estado de visibilidad
+        document.getElementById('pizzas-medianas').style.display = medianasVisible ? 'flex' : 'none';
+        // Ocultar normales si medianas se muestra
+        if (medianasVisible) {
+            normalesVisible = false;
+            document.getElementById('pizzas-normales').style.display = 'none';
+        }
     });
 
     document.getElementById('toggle-tacos').addEventListener('click', () => {
@@ -388,8 +499,15 @@
         }, 600); 
     });
 
-    window.addEventListener('load', actualizarContador);
+    window.addEventListener('load', () => {
+        actualizarContador();
+        document.getElementById('pizzas-normales').style.display = 'none'; // Asegúrate de que esté oculto
+        document.getElementById('pizzas-medianas').style.display = 'none'; // Asegúrate de que esté oculto
+    });
 </script>
+
+
+
 
 <div id="boton-flotante" class="boton-flotante">
     <a href="carrito.html">

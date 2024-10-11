@@ -80,6 +80,7 @@
         }
         .boton.agregar {
             background-color: #28a745;
+            margin-left: 10px; /* Añadido para separar el botón */
         }
         .boton.agregar:hover {
             background-color: #218838;
@@ -119,22 +120,12 @@
             margin: 20px 0;
         }
         @media (min-width: 768px) {
-            .productos-container {
-                flex-direction: row; 
-                flex-wrap: wrap; 
-                justify-content: space-between;
-            }
-            .producto {
-                flex: 1 1 calc(30% - 20px); /* Tres productos por fila */
-                margin: 10px; /* Margen ajustado */
-            }
             .botones-container {
                 flex-direction: row; 
                 justify-content: center; 
             }
             .boton {
                 width: auto; 
-                margin: 0 10px; /* Margen entre botones */
             }
         }
         /* Estilo para el modal */
@@ -261,69 +252,107 @@
                 <div>
                     <h3>${item.nombre}</h3>
                     <p>Precio: $${item.precio.toFixed(2)}</p>
-                    <button class="boton eliminar" onclick="eliminarDelCarrito(${index})">Eliminar</button>
+                    <p>Cantidad: ${item.cantidad}</p>
+                    <div>
+                        <button class="boton agregar" onclick="agregarProducto(${index})">Agregar</button>
+                        <button class="boton eliminar" onclick="eliminarProducto(${index})">Eliminar</button>
+                    </div>
                 </div>
             `;
-
             carritoItems.appendChild(productoDiv);
-            total += item.precio;
-            cantidadTotal++;
+
+            total += item.precio * item.cantidad; 
+            cantidadTotal += item.cantidad;
         });
 
         totalPrecio.innerText = `Total: $${total.toFixed(2)}`;
         contadorProductos.innerText = `Total de Productos: ${cantidadTotal}`;
     }
 
-    function eliminarDelCarrito(index) {
-        carrito.splice(index, 1);
+    function agregarProducto(index) {
+        carrito[index].cantidad++;
         localStorage.setItem('carrito', JSON.stringify(carrito));
         mostrarCarrito();
     }
 
-    document.getElementById('realizar-pedido').onclick = function() {
-        document.getElementById('pedidoModal').style.display = 'block';
+    function eliminarProducto(index) {
+        if (carrito[index].cantidad > 1) {
+            carrito[index].cantidad--;
+        } else {
+            carrito.splice(index, 1);
+        }
+        localStorage.setItem('carrito', JSON.stringify(carrito));
+        mostrarCarrito();
     }
 
-    document.getElementById('closeModal').onclick = function() {
-        document.getElementById('pedidoModal').style.display = 'none';
+    function realizarPedido() {
+        if (carrito.length === 0) {
+            alert('Tu carrito está vacío');
+            return;
+        }
+        abrirModal();
     }
 
-    document.getElementById('confirmar-pedido').onclick = function() {
+    function abrirModal() {
+        document.getElementById('pedidoModal').style.display = "block";
+    }
+
+    function cerrarModal() {
+        document.getElementById('pedidoModal').style.display = "none"; 
+        document.getElementById('error-msg').style.display = "none"; 
+        document.getElementById('error-hora-msg').style.display = "none"; 
+        document.getElementById('nombre').value = '';
+        document.getElementById('direccion').value = '';
+        document.getElementById('hora').value = '';
+    }
+
+    function confirmarPedido() {
         const nombre = document.getElementById('nombre').value;
         const direccion = document.getElementById('direccion').value;
         const hora = document.getElementById('hora').value;
-        const errorMsg = document.getElementById('error-msg');
-        const errorHoraMsg = document.getElementById('error-hora-msg');
-        errorMsg.style.display = 'none';
-        errorHoraMsg.style.display = 'none';
+
+        const ahora = new Date();
+        const horaSeleccionada = new Date();
+        const [h, m] = hora.split(':');
+        horaSeleccionada.setHours(h);
+        horaSeleccionada.setMinutes(m);
 
         if (!nombre || !direccion || !hora) {
-            errorMsg.style.display = 'block';
+            document.getElementById('error-msg').style.display = "block";
             return;
         }
 
-        const horaPedido = new Date();
-        const horaSeleccionada = new Date();
-        const [hh, mm] = hora.split(':');
-        horaSeleccionada.setHours(hh);
-        horaSeleccionada.setMinutes(mm);
-
-        if (horaSeleccionada <= horaPedido.setHours(horaPedido.getHours() + 1)) {
-            errorHoraMsg.style.display = 'block';
+        const diferenciaHoras = (horaSeleccionada - ahora) / 1000 / 60 / 60; 
+        if (diferenciaHoras < 1) {
+            document.getElementById('error-hora-msg').style.display = "block";
             return;
         }
 
-        alert(`Pedido confirmado!\nNombre: ${nombre}\nDirección: ${direccion}\nHora: ${hora}`);
-        document.getElementById('pedidoModal').style.display = 'none';
+        const mensaje = `Orden realizada por ${nombre}:\n` + 
+            carrito.map(item => `${item.nombre} (Cantidad: ${item.cantidad}) - Precio: $${(item.precio * item.cantidad).toFixed(2)}`).join('\n') +
+            `\nDirección: ${direccion}\nHora: ${hora}\nTotal: $${carrito.reduce((total, item) => total + item.precio * item.cantidad, 0).toFixed(2)}`;
+
+        const telefono = '5352461307';
+        const url = `https://api.whatsapp.com/send?phone=${telefono}&text=${encodeURIComponent(mensaje)}`;
+        window.open(url);
+
+        cerrarModal();
+        vaciarCarrito();
     }
 
-    document.getElementById('vaciar-carrito').onclick = function() {
+    function vaciarCarrito() {
         carrito = [];
         localStorage.setItem('carrito', JSON.stringify(carrito));
         mostrarCarrito();
     }
 
-    mostrarCarrito();
+    document.getElementById('realizar-pedido').addEventListener('click', realizarPedido);
+    document.getElementById('vaciar-carrito').addEventListener('click', vaciarCarrito);
+    document.getElementById('confirmar-pedido').addEventListener('click', confirmarPedido);
+    document.getElementById('closeModal').addEventListener('click', cerrarModal);
+
+    window.addEventListener('load', mostrarCarrito);
+    setInterval(mostrarCarrito, 3000);
 </script>
 
 </body>

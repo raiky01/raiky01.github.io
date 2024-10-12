@@ -447,6 +447,11 @@
             }
             localStorage.setItem('carrito', JSON.stringify(carrito));
             actualizarContador();
+            const sonidoAgregar = document.getElementById('sonido-agregar');
+        sonidoAgregar.currentTime = 0; // Reiniciar el sonido
+        sonidoAgregar.play().catch(error => {
+            console.error("Error al reproducir el sonido: ", error);
+        });
         });
     });
 
@@ -516,6 +521,6 @@
         <span id="contador" class="contador">0</span>
     </a>
 </div>
-
+<audio id="sonido-agregar" src="sonido.mp3" preload="auto"></audio>
 </body>
 </html>

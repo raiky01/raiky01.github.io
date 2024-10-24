@@ -16,7 +16,7 @@
 }
         header {
             background-color: #ffbe00; 
-    color: white;
+    color: rgb(2, 2, 2);
     padding: 1rem;
     text-align: center;
     box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1); /* Sombra sutil */
@@ -28,10 +28,10 @@
     justify-content: center;
         }
         nav ul li {
-            margin: 0 5px;
+            margin: -10px;
         }
         nav ul li a {
-            color: white;
+            color: rgb(0, 0, 0);
     text-decoration: none;
     font-weight: bold;
     transition: color 0.3s; /* Transición suave para enlaces */;
@@ -230,6 +230,7 @@
         <ul>
             <li><a href="#inicio">Inicio</a></li>
             <li><a href="#menu">Menú</a></li>
+            <li><a href="#mercadito">Mercadito</a></li>
             <li><a href="#sobre">Sobre Nosotros</a></li>
             <li><a href="#contacto">Contacto</a></li>
         </ul>
@@ -413,8 +414,45 @@
             <button class="boton agregar-al-carrito">Agregar al carrito</button>
         </div>
 
+        
+
     </div>
 </section>
+
+<!-- Sección del Mercadito -->
+<section id="mercadito">
+    <h2>Mercadito</h2>
+    <div class="mercadito-container">
+        <p>En el Mercadito de Raiky Pizza, ofrecemos una variedad de productos frescos que puedes llevar a casa para preparar tus propias comidas. Desde ingredientes locales hasta productos gourmet.</p>
+        <div class="productos-container">
+            <div class="producto">
+                <img src="llave.jpg" alt="Cafe la Llave">
+                <h3>Cafe la Llave</h3>
+                <p></p>
+                <p class="precio">Precio: $1500.00</p>
+                <button class="boton agregar-al-carrito">Agregar al carrito</button>
+            </div>
+            <div class="producto">
+                <img src="aceite.jpeg" alt="Aceite de Girasol">
+                <h3>Aceite de Girasol</h3>
+                <p></p>
+                <p class="precio">Precio: 800.00</p>
+                <button class="boton agregar-al-carrito">Agregar al carrito</button>
+            </div>
+
+            <div class="producto">
+                <img src="pollo.avif" alt="pollo">
+                <h3>Paquete de Pollo</h3>
+                <p>10 libras</p>
+                <p class="precio">Precio: $3500.00</p>
+                <button class="boton agregar-al-carrito">Agregar al carrito</button>
+            </div>
+            <!-- Agrega más productos si es necesario -->
+        </div>
+    </div>
+</section>
+
+
 
 <section id="contacto">
     <h2>Contacto</h2>

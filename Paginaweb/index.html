@@ -158,6 +158,35 @@
     height: auto; /* Mantiene la proporción de la imagen */
 }
 
+
+
+
+.notificacion-agotado {
+    position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            padding: 15px 20px;
+            background-color: #ff4d4d;
+            color: white;
+            font-weight: bold;
+            border-radius: 8px;
+            box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
+            opacity: 0;
+            transition: opacity 0.5s ease;
+            z-index: 1000;
+            text-align: center; /* Centrar el texto */
+    }
+
+    /* Animación de mostrar/ocultar */
+    .notificacion-agotado.mostrar {
+        opacity: 1;
+    }
+
+    .oculto {
+        display: none;
+    }
+
         
         .boton {
             background-color: black;
@@ -257,6 +286,10 @@
 <body>
 
 <header>
+    <div id="notificacion-agotado" class="notificacion-agotado oculto">
+        <p>Este producto está agotado.</p>
+    </div>
+    
     <div class="logo">
         <h1>Raiky Pizza</h1>
     </div>
@@ -293,92 +326,104 @@
     </div>
     
     <div id="pizzas-normales" class="productos-container">
-        <div class="producto">
+        <div class="producto" data-disponible="false">
             <img src="napolitana.jpg" alt="Pizza de Queso">
             <h3>Pizza de Queso</h3>
             <p>Queso Blanco, Salsa de tomate.</p>
             <p class="precio">Precio: $100.00</p>
             <button class="boton agregar-al-carrito">Agregar al carrito</button>
+            <p class="agotado" style="display:none; color: red;">Agotado</p>
         </div>
-        <div class="producto">
+        <div class="producto"data-disponible="false">
             <img src="jamon.jpg" alt="Pizza de Jamón">
             <h3>Pizza de Jamón</h3>
             <p>Queso Blanco, Jamón, Salsa de tomate.</p>
             <p class="precio">Precio: $150.00</p>
             <button class="boton agregar-al-carrito">Agregar al carrito</button>
+            <p class="agotado" style="display:none; color: red;">Agotado</p>
         </div>
-        <div class="producto">
+        <div class="producto"data-disponible="false">
             <img src="hawaiana.jpg" alt="Pizza Hawaiana">
             <h3>Pizza Hawaiana</h3>
             <p>Queso blanco, jamón, piña.</p>
             <p class="precio">Precio: $200.00</p>
             <button class="boton agregar-al-carrito">Agregar al carrito</button>
+            <p class="agotado" style="display:none; color: red;">Agotado</p>
         </div>
-        <div class="producto">
+        <div class="producto"data-disponible="false">
             <img src="pimiento.jpeg" alt="Pizza de Pimientos">
             <h3>Pizza de Pimientos</h3>
             <p>Queso Blanco, pimientos, Salsa de tomate.</p>
             <p class="precio">Precio: $150.00</p>
             <button class="boton agregar-al-carrito">Agregar al carrito</button>
+            <p class="agotado" style="display:none; color: red;">Agotado</p>
         </div>
-        <div class="producto">
+        <div class="producto"data-disponible="false">
             <img src="cebolla.jpg" alt="Pizza de Cebolla">
             <h3>Pizza de Cebolla</h3>
             <p>Queso Blanco, cebolla.</p>
             <p class="precio">Precio: $150.00</p>
             <button class="boton agregar-al-carrito">Agregar al carrito</button>
+            <p class="agotado" style="display:none; color: red;">Agotado</p>
         </div>
-        <div class="producto">
+        <div class="producto"data-disponible="false">
             <img src="mixta.jpg" alt="Pizza Mixta">
             <h3>Pizza Mixta</h3>
             <p>Queso Blanco, Jamón, cebolla, Pimientos, Salsa de tomate.</p>
             <p class="precio">Precio: $300.00</p>
             <button class="boton agregar-al-carrito">Agregar al carrito</button>
+            <p class="agotado" style="display:none; color: red;">Agotado</p>
         </div>
     </div>
     
     <div id="pizzas-medianas" class="productos-container" style="display: none;">
-        <div class="producto">
+        <div class="producto"data-disponible="false">
             <img src="napolitana.jpg" alt="Pizza de Queso">
             <h3>Pizza de Queso Mediana</h3>
             <p>Queso Blanco, Salsa de tomate.</p>
             <p class="precio">Precio: $350.00</p>
             <button class="boton agregar-al-carrito">Agregar al carrito</button>
+            <p class="agotado" style="display:none; color: red;">Agotado</p>
         </div>
-        <div class="producto">
+        <div class="producto"data-disponible="false">
             <img src="jamon.jpg" alt="Pizza de Jamón">
             <h3>Pizza de Jamón Mediana</h3>
             <p>Queso Blanco, Jamón, Salsa de tomate.</p>
             <p class="precio">Precio: $500</p>
             <button class="boton agregar-al-carrito">Agregar al carrito</button>
+            <p class="agotado" style="display:none; color: red;">Agotado</p>
         </div>
-        <div class="producto">
+        <div class="producto"data-disponible="false">
             <img src="hawaiana.jpg" alt="Pizza Hawaiana">
             <h3>Pizza Hawaiana Mediana</h3>
             <p>Queso blanco, jamón, piña.</p>
             <p class="precio">Precio: $650.00</p>
             <button class="boton agregar-al-carrito">Agregar al carrito</button>
+            <p class="agotado" style="display:none; color: red;">Agotado</p>
         </div>
-        <div class="producto">
+        <div class="producto"data-disponible="false">
             <img src="pimiento.jpeg" alt="Pizza de Pimientos">
             <h3>Pizza de Pimientos Mediana</h3>
             <p>Queso Blanco, pimientos, Salsa de tomate.</p>
             <p class="precio">Precio: $450.00</p>
             <button class="boton agregar-al-carrito">Agregar al carrito</button>
+            <p class="agotado" style="display:none; color: red;">Agotado</p>
         </div>
-        <div class="producto">
+        <div class="producto"data-disponible="false">
             <img src="cebolla.jpg" alt="Pizza de Cebolla">
             <h3>Pizza de Cebolla</h3>
             <p>Queso Blanco, Cebolla Mediana.</p>
             <p class="precio">Precio: $450.00</p>
             <button class="boton agregar-al-carrito">Agregar al carrito</button>
+            <p class="agotado" style="display:none; color: red;">Agotado</p>
         </div>
-        <div class="producto">
+        <div class="producto"data-disponible="false">
             <img src="mixta.jpg" alt="Pizza Mixta">
             <h3>Pizza Mixta Mediana</h3>
             <p>Queso Blanco, Jamón, cebolla, Pimientos, Salsa de tomate.</p>
             <p class="precio">Precio: $750.00</p>
             <button class="boton agregar-al-carrito">Agregar al carrito</button>
+            <p class="agotado" style="display:none; color: red;">Agotado</p>
         </div>
     </div>
     
@@ -389,29 +434,32 @@
         <button id="toggle-tacos" class="boton">Tacos</button>
     </h3>
     <div id="tacos-container" class="productos-container">
-        <div class="producto">
+        <div class="producto"data-disponible="false">
             <img src="taco1.jpg" alt="Taco de Res con cebolla y cilantro">
             <h3>Taco de Res</h3>
             <h4>3 unidades</h4>
             <p>Carne de res, cebolla, cilantro, mayonesa, salsa.</p>
             <p class="precio">Precio: $750.00</p>
             <button class="boton agregar-al-carrito">Agregar al carrito</button>
+            <p class="agotado" style="display:none; color: red;">Agotado</p>
         </div>
-        <div class="producto">
+        <div class="producto"data-disponible="false">
             <img src="taco4.jpg" alt="Taco de Cerdo">
             <h3>Taco de Cerdo</h3>
             <h4>3 unidades</h4>
             <p>Carnitas de cerdo, mayonesa, cebolla, cilantro, ketchup.</p>
             <p class="precio">Precio: $750.00</p>
             <button class="boton agregar-al-carrito">Agregar al carrito</button>
+            <p class="agotado" style="display:none; color: red;">Agotado</p>
         </div>
-        <div class="producto">
+        <div class="producto"data-disponible="false">
             <img src="taco2.jpg" alt="Taco de Pollo">
             <h3>Taco de Pollo</h3>
             <h4>3 unidades</h4>
             <p>Pollo asado, cebolla, cilantro, salsa.</p>
             <p class="precio">Precio: $700.00</p>
             <button class="boton agregar-al-carrito">Agregar al carrito</button>
+            <p class="agotado" style="display:none; color: red;">Agotado</p>
         </div>
     </div>
 
@@ -419,33 +467,37 @@
         <button id="toggle-bebidas" class="boton">Bebidas</button>
     </h3>
     <div id="bebidas-container" class="productos-container">
-        <div class="producto">
+        <div class="producto"data-disponible="false">
             <img src="cola.webp" alt="Refresco de Cola">
             <h3>Refresco de Cola</h3>
             <p>Refresco Cola de lata.</p>
             <p class="precio">Precio: $250.00</p>
             <button class="boton agregar-al-carrito">Agregar al carrito</button>
+            <p class="agotado" style="display:none; color: red;">Agotado</p>
         </div>
-        <div class="producto">
+        <div class="producto"data-disponible="false">
             <img src="naranja.webp" alt="Refresco de Naranja">
             <h3>Refresco de Naranja</h3>
             <p>Refresco Naranja de lata.</p>
             <p class="precio">Precio: $250.00</p>
             <button class="boton agregar-al-carrito">Agregar al carrito</button>
+            <p class="agotado" style="display:none; color: red;">Agotado</p>
         </div>
-        <div class="producto">
+        <div class="producto"data-disponible="false">
             <img src="limon.jpg" alt="Refresco de Limon">
             <h3>Refresco de Limon</h3>
             <p>Refresco de lata de limon.</p>
             <p class="precio">Precio: $250.00</p>
             <button class="boton agregar-al-carrito">Agregar al carrito</button>
+            <p class="agotado" style="display:none; color: red;">Agotado</p>
         </div>
-        <div class="producto">
+        <div class="producto"data-disponible="false">
             <img src="malta.jpg" alt="Malta">
             <h3>Malta</h3>
             <p></p>
             <p class="precio">Precio: $250.00</p>
             <button class="boton agregar-al-carrito">Agregar al carrito</button>
+            <p class="agotado" style="display:none; color: red;">Agotado</p>
         </div>
 
         
@@ -462,27 +514,30 @@
 
 
         <div class="productos-container">
-            <div class="producto">
+            <div class="producto"data-disponible="false">
                 <img src="llave.jpg" alt="Cafe la Llave">
                 <h3>Cafe la Llave</h3>
                 <p></p>
                 <p class="precio">Precio: $1500.00</p>
                 <button class="boton agregar-al-carrito">Agregar al carrito</button>
+                <p class="agotado" style="display:none; color: red;">Agotado</p>
             </div>
-            <div class="producto">
+            <div class="producto"data-disponible="true">
                 <img src="aceite.jpeg" alt="Aceite de Girasol">
                 <h3>Aceite de Girasol</h3>
                 <p></p>
                 <p class="precio">Precio: 800.00</p>
                 <button class="boton agregar-al-carrito">Agregar al carrito</button>
+                <p class="agotado" style="display:none; color: red;">Agotado</p>
             </div>
 
-            <div class="producto">
+            <div class="producto"data-disponible="true">
                 <img src="pollo.avif" alt="pollo">
                 <h3>Paquete de Pollo</h3>
                 <p>10 libras</p>
                 <p class="precio">Precio: $3500.00</p>
                 <button class="boton agregar-al-carrito">Agregar al carrito</button>
+                <p class="agotado" style="display:none; color: red;">Agotado</p>
             </div>
             <!-- Agrega más productos si es necesario -->
         </div>
@@ -505,123 +560,148 @@
 </footer>
 
 <script>
-    
-    let carrito = JSON.parse(localStorage.getItem('carrito')) || [];
+     let carrito = JSON.parse(localStorage.getItem('carrito')) || [];
 
-    function actualizarContador() {
-        const contador = document.getElementById('contador');
-        contador.innerText = carrito.reduce((total, item) => total + item.cantidad, 0);
-    }
+function actualizarContador() {
+    const contador = document.getElementById('contador');
+    contador.innerText = carrito.reduce((total, item) => total + item.cantidad, 0);
+}
 
-    setInterval(() => {
-        carrito = JSON.parse(localStorage.getItem('carrito')) || [];
+function mostrarNotificacionAgotado() {
+    const notificacion = document.getElementById('notificacion-agotado');
+    notificacion.classList.remove('oculto');
+    notificacion.classList.add('mostrar');
+
+    setTimeout(() => {
+        notificacion.classList.remove('mostrar');
+        setTimeout(() => notificacion.classList.add('oculto'), 500);
+    }, 2000); // La notificación se muestra por 2 segundos
+}
+
+setInterval(() => {
+    carrito = JSON.parse(localStorage.getItem('carrito')) || [];
+    actualizarContador();
+}, 3000);
+
+document.querySelectorAll('.agregar-al-carrito').forEach((boton) => {
+    boton.addEventListener('click', () => {
+        const productoDiv = boton.closest('.producto');
+        const disponible = productoDiv.getAttribute('data-disponible') === 'true';
+
+        if (!disponible) {
+            mostrarNotificacionAgotado(); // Muestra la notificación de agotado
+            return;
+        }
+
+        // Agregar producto al carrito si está disponible
+        const producto = {
+            nombre: productoDiv.querySelector('h3').innerText,
+            imagen: productoDiv.querySelector('img') ? productoDiv.querySelector('img').src : '',
+            precio: parseFloat(productoDiv.querySelector('.precio').innerText.replace('Precio: $', '')),
+            cantidad: 1
+        };
+
+        const productoExistente = carrito.find(item => item.nombre === producto.nombre);
+
+        if (productoExistente) {
+            productoExistente.cantidad++;
+        } else {
+            carrito.push(producto);
+        }
+
+        localStorage.setItem('carrito', JSON.stringify(carrito));
         actualizarContador();
-    }, 3000);
 
-    document.querySelectorAll('.agregar-al-carrito').forEach((boton) => {
-        boton.addEventListener('click', () => {
-            const producto = {
-                nombre: boton.parentElement.querySelector('h3').innerText,
-                imagen: boton.parentElement.querySelector('img').src,
-                precio: parseFloat(boton.parentElement.querySelector('.precio').innerText.replace('Precio: $', '')),
-                cantidad: 1
-            };
-            const productoExistente = carrito.find(item => item.nombre === producto.nombre);
-
-            if (productoExistente) {
-                productoExistente.cantidad++;
-            } else {
-                carrito.push(producto);
-            }
-            localStorage.setItem('carrito', JSON.stringify(carrito));
-            actualizarContador();
-             // Reproducir sonido al agregar al carrito
         const sonidoAgregar = document.getElementById('sonido-agregar');
-        sonidoAgregar.currentTime = 0; // Reiniciar el sonido
+        sonidoAgregar.currentTime = 0;
         sonidoAgregar.play().catch(error => {
             console.error("Error al reproducir el sonido: ", error);
         });
-        });
-    });
-
-    document.getElementById('toggle-pizzas').addEventListener('click', () => {
-        const container = document.getElementById('pizzas-buttons');
-        container.style.display = container.style.display === 'none' || container.style.display === '' ? 'block' : 'none';
-
-        // Esconde ambos contenedores de pizzas al iniciar
-        document.getElementById('pizzas-normales').style.display = 'none';
-        document.getElementById('pizzas-medianas').style.display = 'none';
-    });
-
-    let normalesVisible = false;
-    let medianasVisible = false;
-
-    document.getElementById('normal-pizzas').addEventListener('click', () => {
-        normalesVisible = !normalesVisible; // Cambia el estado de visibilidad
-        document.getElementById('pizzas-normales').style.display = normalesVisible ? 'flex' : 'none';
-        // Ocultar medianas si normales se muestra
-        if (normalesVisible) {
-            medianasVisible = false;
-            document.getElementById('pizzas-medianas').style.display = 'none';
-        }
-    });
-
-    document.getElementById('medium-pizzas').addEventListener('click', () => {
-        medianasVisible = !medianasVisible; // Cambia el estado de visibilidad
-        document.getElementById('pizzas-medianas').style.display = medianasVisible ? 'flex' : 'none';
-        // Ocultar normales si medianas se muestra
-        if (medianasVisible) {
-            normalesVisible = false;
-            document.getElementById('pizzas-normales').style.display = 'none';
-        }
-    });
-
-    document.getElementById('toggle-tacos').addEventListener('click', () => {
-        const container = document.getElementById('tacos-container');
-        container.style.display = container.style.display === 'none' || container.style.display === '' ? 'flex' : 'none';
-    });
-
-    document.getElementById('toggle-bebidas').addEventListener('click', () => {
-        const container = document.getElementById('bebidas-container');
-        container.style.display = container.style.display === 'none' || container.style.display === '' ? 'flex' : 'none';
-    });
-
-    document.getElementById('logo').addEventListener('click', () => {
-        const logo = document.getElementById('logo');
-        logo.classList.add('giro');
-        setTimeout(() => {
-            logo.classList.remove('giro'); 
-        }, 600); 
-    });
-
-    window.addEventListener('load', () => {
-        actualizarContador();
-        document.getElementById('pizzas-normales').style.display = 'none'; // Asegúrate de que esté oculto
-        document.getElementById('pizzas-medianas').style.display = 'none'; // Asegúrate de que esté oculto
-    });
-
-
-    document.addEventListener('DOMContentLoaded', () => {
-    const mercaditoProductos = document.querySelector('#mercadito .productos-container');
-    const mostrarMercaditoBtn = document.getElementById('mostrar-mercadito');
-    mercaditoProductos.style.display = 'none'; // Productos ocultos inicialmente
-
-    mostrarMercaditoBtn.addEventListener('click', () => {
-        if (mercaditoProductos.style.display === 'none') {
-            mercaditoProductos.style.display = 'flex'; // Mostrar productos
-            mostrarMercaditoBtn.innerText = 'Ocultar Productos'; // Cambia el texto del botón
-        } else {
-            mercaditoProductos.style.display = 'none'; // Ocultar productos
-            mostrarMercaditoBtn.innerText = 'Mostrar Productos'; // Cambia el texto del botón
-        }
     });
 });
 
+document.getElementById('toggle-pizzas').addEventListener('click', () => {
+    const container = document.getElementById('pizzas-buttons');
+    container.style.display = container.style.display === 'none' || container.style.display === '' ? 'block' : 'none';
 
-    
+    document.getElementById('pizzas-normales').style.display = 'none';
+    document.getElementById('pizzas-medianas').style.display = 'none';
+});
+
+let normalesVisible = false;
+let medianasVisible = false;
+
+document.getElementById('normal-pizzas').addEventListener('click', () => {
+    normalesVisible = !normalesVisible;
+    document.getElementById('pizzas-normales').style.display = normalesVisible ? 'flex' : 'none';
+
+    if (normalesVisible) {
+        medianasVisible = false;
+        document.getElementById('pizzas-medianas').style.display = 'none';
+    }
+});
+
+document.getElementById('medium-pizzas').addEventListener('click', () => {
+    medianasVisible = !medianasVisible;
+    document.getElementById('pizzas-medianas').style.display = medianasVisible ? 'flex' : 'none';
+
+    if (medianasVisible) {
+        normalesVisible = false;
+        document.getElementById('pizzas-normales').style.display = 'none';
+    }
+});
+
+document.getElementById('toggle-tacos').addEventListener('click', () => {
+    const container = document.getElementById('tacos-container');
+    container.style.display = container.style.display === 'none' || container.style.display === '' ? 'flex' : 'none';
+});
+
+document.getElementById('toggle-bebidas').addEventListener('click', () => {
+    const container = document.getElementById('bebidas-container');
+    container.style.display = container.style.display === 'none' || container.style.display === '' ? 'flex' : 'none';
+});
+
+document.getElementById('logo').addEventListener('click', () => {
+    const logo = document.getElementById('logo');
+    logo.classList.add('giro');
+    setTimeout(() => {
+        logo.classList.remove('giro'); 
+    }, 600); 
+});
+
+window.addEventListener('load', () => {
+    actualizarContador();
+    document.getElementById('pizzas-normales').style.display = 'none';
+    document.getElementById('pizzas-medianas').style.display = 'none';
+});
+
+document.addEventListener('DOMContentLoaded', () => {
+    const mercaditoProductos = document.querySelector('#mercadito .productos-container');
+    const mostrarMercaditoBtn = document.getElementById('mostrar-mercadito');
+    mercaditoProductos.style.display = 'none';
+
+    mostrarMercaditoBtn.addEventListener('click', () => {
+        if (mercaditoProductos.style.display === 'none') {
+            mercaditoProductos.style.display = 'flex';
+            mostrarMercaditoBtn.innerText = 'Ocultar Productos';
+        } else {
+            mercaditoProductos.style.display = 'none';
+            mostrarMercaditoBtn.innerText = 'Mostrar Productos';
+        }
+
+        document.querySelectorAll('.producto').forEach(producto => {
+            const disponible = producto.getAttribute('data-disponible') === 'true';
+            const mensajeAgotado = producto.querySelector('.agotado');
+
+            if (!disponible) {
+                mensajeAgotado.style.display = 'block';
+            } else {
+                mensajeAgotado.style.display = 'none';
+            }
+        });
+    });
+});
 </script>
-
-
 
 
 <div id="boton-flotante" class="boton-flotante">

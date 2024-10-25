@@ -64,6 +64,32 @@
             max-width: 300px;
             transition: transform 0.3s;
         }
+
+        .mostrar-productos {
+    background-color: #2b813f; /* Color base verde */
+    color: white;
+    font-weight: bold;
+    font-size: 1.1rem;
+    padding: 12px 20px;
+    border-radius: 25px;
+    transition: background-color 0.3s, transform 0.3s;
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0); /* Sombra para dar un efecto de elevación */
+    margin: 0 auto; /* Centrar el botón */
+    display: block; /* Asegúrate de que el botón sea un bloque para usar margin auto */
+}
+
+.mostrar-productos:hover {
+    background-color: #176b29; /* Color un poco más oscuro para el hover */
+    transform: scale(1.05); /* Ligero aumento de tamaño al pasar el ratón */
+}
+
+.mostrar-productos:active {
+    background-color: #0d581f; /* Color más oscuro para cuando se presiona */
+    box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.2); /* Sombra reducida */
+    transform: scale(1); /* Regresa al tamaño original */
+}
+
+
         .boton-flotante {
             position: fixed;
             bottom: 20px;
@@ -103,7 +129,9 @@
 @keyframes bounce {
     0% { transform: translateY(0); }
     100% { transform: translateY(-5px); }
-        }
+}
+
+        
         .sobre-container img {
             max-width: 150px; 
             height: auto; 
@@ -430,6 +458,9 @@
     <h2>Mercadito</h2>
     <div class="mercadito-container">
         <p>En el Mercadito de Raiky Pizza, ofrecemos una variedad de productos frescos que puedes llevar a casa para preparar tus propias comidas. Desde ingredientes locales hasta productos gourmet.</p>
+        <button id="mostrar-mercadito" class="mostrar-productos">Mostrar Productos</button>
+
+
         <div class="productos-container">
             <div class="producto">
                 <img src="llave.jpg" alt="Cafe la Llave">
@@ -568,6 +599,26 @@
         document.getElementById('pizzas-normales').style.display = 'none'; // Asegúrate de que esté oculto
         document.getElementById('pizzas-medianas').style.display = 'none'; // Asegúrate de que esté oculto
     });
+
+
+    document.addEventListener('DOMContentLoaded', () => {
+    const mercaditoProductos = document.querySelector('#mercadito .productos-container');
+    const mostrarMercaditoBtn = document.getElementById('mostrar-mercadito');
+    mercaditoProductos.style.display = 'none'; // Productos ocultos inicialmente
+
+    mostrarMercaditoBtn.addEventListener('click', () => {
+        if (mercaditoProductos.style.display === 'none') {
+            mercaditoProductos.style.display = 'flex'; // Mostrar productos
+            mostrarMercaditoBtn.innerText = 'Ocultar Productos'; // Cambia el texto del botón
+        } else {
+            mercaditoProductos.style.display = 'none'; // Ocultar productos
+            mostrarMercaditoBtn.innerText = 'Mostrar Productos'; // Cambia el texto del botón
+        }
+    });
+});
+
+
+    
 </script>
 
 

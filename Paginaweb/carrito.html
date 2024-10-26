@@ -39,6 +39,57 @@
             flex-direction: column;
             padding: 20px 0;
         }
+
+
+        .switch {
+            position: relative;
+            display: inline-block;
+            width: 60px;
+            height: 34px;
+            margin-top: 10px;
+        }
+        .switch input {
+            opacity: 0;
+            width: 0;
+            height: 0;
+        }
+        .slider {
+            position: absolute;
+            cursor: pointer;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: #ccc;
+            transition: 0.4s;
+            border-radius: 34px;
+        }
+        .slider:before {
+            position: absolute;
+            content: "";
+            height: 26px;
+            width: 26px;
+            left: 4px;
+            bottom: 4px;
+            background-color: white;
+            transition: 0.4s;
+            border-radius: 50%;
+        }
+        input:checked + .slider {
+            background-color: #4caf50;
+        }
+        input:checked + .slider:before {
+            transform: translateX(26px);
+        }
+
+        /* Estilo para el texto de estado del interruptor */
+        .status-text {
+            font-weight: bold;
+            margin-top: 10px;
+            color: #555;
+        }
+
+
         .producto {
             background: #f9f9f9;
             border-radius: 8px;
@@ -237,6 +288,13 @@
         <input type="text" id="direccion" required>
         <label for="hora">Hora para la entrega:</label>
         <input type="time" id="hora" required>
+        <label for="servicioDomicilio">Servicio a Domicilio:</label>
+        <label class="switch">
+            <input type="checkbox" id="servicioDomicilio">
+            <span class="slider"></span>
+        </label>
+        <div id="estadoServicio" class="status-text">No</div> <!-- Estado del servicio -->
+
         <button id="confirmar-pedido" class="boton">Confirmar Pedido</button>
     </div>
 </div>
@@ -321,10 +379,20 @@
         document.getElementById('hora').value = '';
     }
 
+
+ // Cambiar el texto de estado del servicio a domicilio
+ const servicioDomicilioCheckbox = document.getElementById('servicioDomicilio');
+    const estadoServicioText = document.getElementById('estadoServicio');
+
+    servicioDomicilioCheckbox.addEventListener('change', () => {
+        estadoServicioText.textContent = servicioDomicilioCheckbox.checked ? "Sí" : "No";
+    });
+
     function confirmarPedido() {
         const nombre = document.getElementById('nombre').value;
         const direccion = document.getElementById('direccion').value;
         const hora = document.getElementById('hora').value;
+        const servicioDomicilio = document.getElementById('servicioDomicilio').checked;
 
         const ahora = new Date();
         const horaSeleccionada = new Date();
@@ -343,10 +411,12 @@
             return;
         }
 
-        const mensaje = `Orden realizada por ${nombre}:\n` + 
+        const servicioTexto = servicioDomicilio ? "Sí" : "No";
+        const mensaje = `Orden realizada por ${nombre}:\n` +
             carrito.map(item => `${item.nombre} (Cantidad: ${item.cantidad}) - Precio: $${(item.precio * item.cantidad).toFixed(2)}`).join('\n') +
-            `\nDirección: ${direccion}\nHora: ${hora}\nTotal: $${carrito.reduce((total, item) => total + item.precio * item.cantidad, 0).toFixed(2)}`;
-
+            `\nDirección: ${direccion}\nHora: ${hora}\nTotal: $${carrito.reduce((total, item) => total + item.precio * item.cantidad, 0).toFixed(2)}` +
+            `\nServicio a Domicilio: ${servicioTexto}`;
+            
         const telefono = '5352461307';
         const url = `https://api.whatsapp.com/send?phone=${telefono}&text=${encodeURIComponent(mensaje)}`;
         window.open(url);

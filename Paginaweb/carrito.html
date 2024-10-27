@@ -379,9 +379,7 @@
         document.getElementById('hora').value = '';
     }
 
-
- // Cambiar el texto de estado del servicio a domicilio
- const servicioDomicilioCheckbox = document.getElementById('servicioDomicilio');
+    const servicioDomicilioCheckbox = document.getElementById('servicioDomicilio');
     const estadoServicioText = document.getElementById('estadoServicio');
 
     servicioDomicilioCheckbox.addEventListener('change', () => {
@@ -411,10 +409,15 @@
             return;
         }
 
-        const servicioTexto = servicioDomicilio ? "Sí" : "No";
+        let total = carrito.reduce((total, item) => total + item.precio * item.cantidad, 0);
+        if (servicioDomicilio) {
+            total += 150;
+        }
+
+        const servicioTexto = servicioDomicilio ? "150" : "No";
         const mensaje = `Orden realizada por ${nombre}:\n` +
             carrito.map(item => `${item.nombre} (Cantidad: ${item.cantidad}) - Precio: $${(item.precio * item.cantidad).toFixed(2)}`).join('\n') +
-            `\nDirección: ${direccion}\nHora: ${hora}\nTotal: $${carrito.reduce((total, item) => total + item.precio * item.cantidad, 0).toFixed(2)}` +
+            `\nDirección: ${direccion}\nHora: ${hora}\nTotal: $${total.toFixed(2)}` +
             `\nServicio a Domicilio: ${servicioTexto}`;
             
         const telefono = '5352461307';
@@ -438,6 +441,7 @@
 
     window.addEventListener('load', mostrarCarrito);
     setInterval(mostrarCarrito, 3000);
+</script>
 </script>
 
 </body>

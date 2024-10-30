@@ -288,6 +288,11 @@
         <input type="text" id="direccion" required>
         <label for="hora">Hora para la entrega:</label>
         <input type="time" id="hora" required>
+
+        <label for="codigo-promocional">Código Promocional:</label>
+        <input type="text" id="codigo-promocional" placeholder="Ingresa tu código aquí">
+        <div class="error" id="error-codigo-msg">Código promocional no válido.</div>
+
         <label for="servicioDomicilio">Servicio a Domicilio:</label>
         <label class="switch">
             <input type="checkbox" id="servicioDomicilio">
@@ -386,47 +391,69 @@
         estadoServicioText.textContent = servicioDomicilioCheckbox.checked ? "Sí" : "No";
     });
 
-    function confirmarPedido() {
-        const nombre = document.getElementById('nombre').value;
-        const direccion = document.getElementById('direccion').value;
-        const hora = document.getElementById('hora').value;
-        const servicioDomicilio = document.getElementById('servicioDomicilio').checked;
+    const codigosValidos = ["MANUEL23", "RAIKY20", "PIZZA30"]; // Define tus códigos válidos aquí
 
-        const ahora = new Date();
-        const horaSeleccionada = new Date();
-        const [h, m] = hora.split(':');
-        horaSeleccionada.setHours(h);
-        horaSeleccionada.setMinutes(m);
+function confirmarPedido() {
+    const nombre = document.getElementById('nombre').value;
+    const direccion = document.getElementById('direccion').value;
+    const hora = document.getElementById('hora').value;
+    const servicioDomicilio = document.getElementById('servicioDomicilio').checked;
+    const codigoPromocional = document.getElementById('codigo-promocional').value;
+    const errorCodigoMsg = document.getElementById('error-codigo-msg');
 
-        if (!nombre || !direccion || !hora) {
-            document.getElementById('error-msg').style.display = "block";
-            return;
-        }
+    // Ocultar mensajes de error previos
+    document.getElementById('error-msg').style.display = "none";
+    document.getElementById('error-hora-msg').style.display = "none";
+    errorCodigoMsg.style.display = "none";
 
-        const diferenciaHoras = (horaSeleccionada - ahora) / 1000 / 60 / 60; 
-        if (diferenciaHoras < 1) {
-            document.getElementById('error-hora-msg').style.display = "block";
-            return;
-        }
+    const ahora = new Date();
+    const horaSeleccionada = new Date();
+    const [h, m] = hora.split(':');
+    horaSeleccionada.setHours(h);
+    horaSeleccionada.setMinutes(m);
 
-        let total = carrito.reduce((total, item) => total + item.precio * item.cantidad, 0);
-        if (servicioDomicilio) {
-            total += 150;
-        }
-
-        const servicioTexto = servicioDomicilio ? "150" : "No";
-        const mensaje = `Orden realizada por ${nombre}:\n` +
-            carrito.map(item => `${item.nombre} (Cantidad: ${item.cantidad}) - Precio: $${(item.precio * item.cantidad).toFixed(2)}`).join('\n') +
-            `\nDirección: ${direccion}\nHora: ${hora}\nTotal: $${total.toFixed(2)}` +
-            `\nServicio a Domicilio: ${servicioTexto}`;
-            
-        const telefono = '5352461307';
-        const url = `https://api.whatsapp.com/send?phone=${telefono}&text=${encodeURIComponent(mensaje)}`;
-        window.open(url);
-
-        cerrarModal();
-        vaciarCarrito();
+    if (!nombre || !direccion || !hora) {
+        document.getElementById('error-msg').style.display = "block";
+        return;
     }
+
+    const diferenciaHoras = (horaSeleccionada - ahora) / 1000 / 60 / 60; 
+    if (diferenciaHoras < 1) {
+        document.getElementById('error-hora-msg').style.display = "block";
+        return;
+    }
+
+    // Validación del código promocional
+    if (codigoPromocional && !codigosValidos.includes(codigoPromocional)) {
+        errorCodigoMsg.style.display = "block"; // Mostrar el mensaje de error
+        return;
+    }
+
+    let total = carrito.reduce((total, item) => total + item.precio * item.cantidad, 0);
+    if (servicioDomicilio) {
+        total += 150;
+    }
+
+    const servicioTexto = servicioDomicilio ? "150" : "No";
+    const mensaje = `Orden realizada por ${nombre}:\n` +
+        carrito.map(item => `${item.nombre} (Cantidad: ${item.cantidad}) - Precio: $${(item.precio * item.cantidad).toFixed(2)}`).join('\n') +
+        `\nDirección: ${direccion}\nHora: ${hora}\nTotal: $${total.toFixed(2)}` +
+        `\nServicio a Domicilio: ${servicioTexto}` +
+        `\nCódigo Promocional: ${codigoPromocional || "No aplicado"}`;
+
+    const telefono = '5352461307';
+    const url = `https://api.whatsapp.com/send?phone=${telefono}&text=${encodeURIComponent(mensaje)}`;
+    window.open(url);
+
+    cerrarModal();
+    vaciarCarrito();
+}
+
+
+
+
+
+  
 
     function vaciarCarrito() {
         carrito = [];

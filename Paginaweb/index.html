@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bienvenida a la Pizzería</title>
+    <style>
+        /* Estilos básicos */
+        body, html {
+            margin: 0;
+            padding: 0;
+            overflow: hidden;
+            width: 100%;
+            height: 100vh;
+            display: flex;
+            align-items: flex-start;
+            justify-content: center;
+            font-family: Arial, sans-serif;
+            color: white;
+        }
+
+        /* Fondo de collage */
+        .background-collage {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            grid-template-rows: repeat(3, 1fr);
+            gap: 5px;
+            z-index: -1;
+            overflow: hidden;
+        }
+
+        .background-collage img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 10s ease-in-out;
+            animation: zoomInOut 20s infinite alternate;
+        }
+
+        /* Animación de zoom */
+        @keyframes zoomInOut {
+            0% { transform: scale(1); }
+            100% { transform: scale(1.1); }
+        }
+
+        /* Mensaje de bienvenida */
+        .welcome-message {
+            position: absolute;
+            color: yellow;
+            font-size: 4rem;
+            opacity: 0;
+            animation: bounceDown 1s forwards;
+            z-index: 20;
+            top: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            text-shadow: 2px 2px 4px black;
+        }
+
+        /* Texto de "Raiky" */
+        .welcome-raiky {
+            position: absolute;
+            color: yellow;
+            font-size: 3.5rem;
+            opacity: 0;
+            animation: moveInLeft 1s forwards 0.5s;
+            z-index: 20;
+            top: 80px;
+            left: 47.5%; /* Ajuste para mayor precisión */
+            text-shadow: 2px 2px 4px black;
+        }
+
+        /* Texto de "Pizza" */
+        .welcome-pizza {
+            position: absolute;
+            color: yellow;
+            font-size: 3.5rem;
+            opacity: 0;
+            animation: moveInRight 1s forwards 0.5s;
+            z-index: 20;
+            top: 80px;
+            right: 47.5%; /* Ajuste para mayor precisión */
+            text-shadow: 2px 2px 4px black;
+        }
+
+        /* Botón "Inicio" */
+        .start-button {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            padding: 15px 30px;
+            font-size: 1.5rem;
+            color: white;
+            background-color: #ff4500;
+            border: none;
+            border-radius: 25px;
+            cursor: pointer;
+            text-decoration: none;
+            opacity: 0;
+            animation: fadeIn 1s forwards 1.5s;
+        }
+
+        /* Animaciones de texto */
+        @keyframes bounceDown {
+            0% { opacity: 0; transform: translate(-50%, -20px); }
+            50% { transform: translate(-50%, 10px); }
+            100% { opacity: 1; transform: translate(-50%, 0); }
+        }
+
+        @keyframes moveInLeft {
+            0% { opacity: 0; transform: translateX(-100%); }
+            100% { opacity: 1; transform: translateX(calc(50% - 0.25cm)); } /* Separación de 0.5 cm */
+        }
+
+        @keyframes moveInRight {
+            0% { opacity: 0; transform: translateX(100%); }
+            100% { opacity: 1; transform: translateX(calc(-50% + 0.25cm)); } /* Separación de 0.5 cm */
+        }
+
+        @keyframes fadeIn {
+            0% { opacity: 0; }
+            100% { opacity: 1; }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Fondo de collage de imágenes -->
+    <div class="background-collage">
+        <img src="taco3.jpg" alt="Tomate" class="ingredient tomate">
+        <img src="napolitana1.jpg" alt="Pepperoni" class="ingredient pepperoni">
+        <img src="taco1.jpg" alt="Queso" class="ingredient queso">
+        <img src="hawaiana.jpg" alt="Albahaca" class="ingredient albahaca">
+        
+        <img src="jamon.jpg" alt="Aceituna" class="ingredient aceituna">
+        <img src="napolitana.jpg" alt="Champiñón" class="ingredient champiñon">
+        
+        <img src="taco3.jpg" alt="Tomate" class="ingredient tomate">
+        <img src="taco1.jpg" alt="Queso" class="ingredient queso">
+        <img src="hawaiana.jpg" alt="Albahaca" class="ingredient albahaca">
+        <img src="napolitana.jpg" alt="Pepperoni" class="ingredient pepperoni">
+        <img src="jamon.jpg" alt="Aceituna" class="ingredient aceituna">
+        <img src="napolitana.jpg" alt="Champiñón" class="ingredient champiñon">
+        
+    </div>
+
+    <!-- Mensaje de bienvenida -->
+    <div class="welcome-message">¡Bienvenidos!</div>
+    <div class="welcome-raiky">Raiky</div>
+    <div class="welcome-pizza">Pizza</div>
+
+    <!-- Botón "Inicio" -->
+    <a href="index.html" class="start-button">Inicio</a>
+
+</body>
+</html>

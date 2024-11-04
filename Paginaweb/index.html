@@ -115,17 +115,70 @@
 
         @keyframes moveInLeft {
             0% { opacity: 0; transform: translateX(-100%); }
-            100% { opacity: 1; transform: translateX(calc(50% - 0.25cm)); } /* Separación de 0.5 cm */
+            100% { opacity: 1; transform: translateX(calc(50% - 0.25cm)); }
         }
 
         @keyframes moveInRight {
             0% { opacity: 0; transform: translateX(100%); }
-            100% { opacity: 1; transform: translateX(calc(-50% + 0.25cm)); } /* Separación de 0.5 cm */
+            100% { opacity: 1; transform: translateX(calc(-50% + 0.25cm)); }
         }
 
         @keyframes fadeIn {
             0% { opacity: 0; }
             100% { opacity: 1; }
+        }
+
+        /* Media Queries para Responsividad */
+        @media (max-width: 1200px) {
+            .background-collage {
+                grid-template-columns: repeat(3, 1fr);
+                grid-template-rows: repeat(4, 1fr);
+            }
+            .welcome-message {
+                font-size: 3rem;
+            }
+            .welcome-raiky, .welcome-pizza {
+                font-size: 2.5rem;
+            }
+            .start-button {
+                font-size: 1.2rem;
+            }
+        }
+
+        @media (max-width: 800px) {
+            .background-collage {
+                grid-template-columns: repeat(2, 1fr);
+                grid-template-rows: repeat(4, 1fr);
+            }
+            .welcome-message {
+                font-size: 2.5rem;
+            }
+            .welcome-raiky, .welcome-pizza {
+                font-size: 2rem;
+            }
+            .start-button {
+                font-size: 1rem;
+                padding: 10px 20px;
+            }
+        }
+
+        @media (max-width: 500px) {
+            .background-collage {
+                grid-template-columns: 1fr;
+                grid-template-rows: repeat(6, 1fr);
+            }
+            .welcome-message {
+                font-size: 2rem;
+                top: 10px;
+            }
+            .welcome-raiky, .welcome-pizza {
+                font-size: 1.5rem;
+                top: 50px;
+            }
+            .start-button {
+                font-size: 0.9rem;
+                padding: 8px 16px;
+            }
         }
     </style>
 </head>
@@ -133,21 +186,18 @@
 
     <!-- Fondo de collage de imágenes -->
     <div class="background-collage">
-        <img src="taco3.jpg" alt="Tomate" class="ingredient tomate">
-        <img src="napolitana1.jpg" alt="Pepperoni" class="ingredient pepperoni">
-        <img src="taco1.jpg" alt="Queso" class="ingredient queso">
-        <img src="hawaiana.jpg" alt="Albahaca" class="ingredient albahaca">
-        
-        <img src="jamon.jpg" alt="Aceituna" class="ingredient aceituna">
-        <img src="napolitana.jpg" alt="Champiñón" class="ingredient champiñon">
-        
-        <img src="taco3.jpg" alt="Tomate" class="ingredient tomate">
-        <img src="taco1.jpg" alt="Queso" class="ingredient queso">
-        <img src="hawaiana.jpg" alt="Albahaca" class="ingredient albahaca">
-        <img src="napolitana.jpg" alt="Pepperoni" class="ingredient pepperoni">
-        <img src="jamon.jpg" alt="Aceituna" class="ingredient aceituna">
-        <img src="napolitana.jpg" alt="Champiñón" class="ingredient champiñon">
-        
+        <img src="taco3.jpg" alt="Tomate">
+        <img src="napolitana1.jpg" alt="Pepperoni">
+        <img src="taco1.jpg" alt="Queso">
+        <img src="hawaiana.jpg" alt="Albahaca">
+        <img src="jamon.jpg" alt="Aceituna">
+        <img src="napolitana.jpg" alt="Champiñón">
+        <img src="taco3.jpg" alt="Tomate">
+        <img src="taco1.jpg" alt="Queso">
+        <img src="hawaiana.jpg" alt="Albahaca">
+        <img src="napolitana.jpg" alt="Pepperoni">
+        <img src="jamon.jpg" alt="Aceituna">
+        <img src="napolitana.jpg" alt="Champiñón">
     </div>
 
     <!-- Mensaje de bienvenida -->

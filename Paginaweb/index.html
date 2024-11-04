@@ -7,13 +7,13 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Raiky Pizza</title>
     <style>
-        body {
+       body {
             font-family: 'Poppins', sans-serif;
-    margin: 0;
-    padding: 0;
-    background-color: #f4f4f4; /* Color de fondo más suave */
-    color: #333;
-}
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f4;
+            color: #333;
+        }
         header {
             background-color: #ffbe00; 
     color: rgb(2, 2, 2);
@@ -137,6 +137,132 @@
             height: auto; 
             transition: transform 0.6s; 
         }
+
+        .contacto-container {
+            max-width: 700px;
+            margin: auto;
+            padding: 20px;
+            text-align: center;
+            animation: fadeIn 1.5s ease;
+        }
+
+        .contacto-container h2 {
+            font-size: 2rem;
+            color: #2b813f;
+            margin-bottom: 15px;
+            animation: slideIn 1.5s ease;
+        }
+
+        .contacto-container p, .contacto-container a {
+            font-size: 1.1rem;
+            color: #555;
+            margin: 10px 0;
+            transition: color 0.3s ease;
+        }
+
+        .contacto-container a:hover {
+            color: #2b813f;
+        }
+
+        .formulario-contacto {
+    background-color: #fff;
+    border-radius: 10px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    padding: 20px;
+    margin: 20px 0;
+}
+
+.formulario-contacto h3 {
+    margin-bottom: 15px;
+    color: #333; /* Color del texto */
+    font-weight: 700; /* Negrita */
+}
+
+.formulario-contacto input, 
+.formulario-contacto textarea {
+    width: 100%; /* Ancho completo */
+    padding: 10px; /* Espaciado interno */
+    margin-bottom: 10px; /* Espacio entre los campos */
+    border: 1px solid #ccc; /* Borde suave */
+    border-radius: 5px; /* Bordes redondeados */
+    transition: border-color 0.3s; /* Transición suave para el borde */
+}
+
+.formulario-contacto input:focus, 
+.formulario-contacto textarea:focus {
+    border-color: #ffbe00; /* Color del borde al enfocar */
+    outline: none; /* Eliminar el contorno por defecto */
+}
+
+.formulario-contacto button {
+    background-color: #2b813f; /* Color de fondo del botón */
+    color: white; /* Color del texto */
+    border: none; /* Sin borde */
+    padding: 10px 15px; /* Espaciado interno */
+    border-radius: 5px; /* Bordes redondeados */
+    cursor: pointer; /* Cambiar cursor al pasar */
+    transition: background-color 0.3s; /* Transición suave para el color de fondo */
+}
+
+.formulario-contacto button:hover {
+    background-color: #176b29; /* Color de fondo del botón al pasar el ratón */
+}
+
+
+        /* Notificación de confirmación */
+        .mensaje-confirmacion {
+            display: none;
+            margin-top: 20px;
+            padding: 15px 20px;
+            background-color: #4caf50;
+            color: white;
+            border-radius: 5px;
+            font-weight: bold;
+            text-align: center;
+            animation: fadeIn 1s ease;
+        }
+
+        /* Animaciones */
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        @keyframes slideIn {
+            from { transform: translateX(-30px); opacity: 0; }
+            to { transform: translateX(0); opacity: 1; }
+        }
+
+        /* Horarios y Redes Sociales */
+        .info-adicional {
+            margin-top: 30px;
+            text-align: center;
+            animation: fadeIn 2s ease;
+        }
+
+        .info-adicional h3 {
+            color: #2b813f;
+            font-size: 1.5rem;
+            margin-bottom: 15px;
+        }
+
+        .info-adicional p {
+            font-size: 1rem;
+            margin: 8px 0;
+        }
+
+        .redes-sociales a {
+            display: inline-block;
+            margin: 5px;
+            font-size: 1.5rem;
+            color: #2b813f;
+            transition: transform 0.3s ease;
+        }
+
+        .redes-sociales a:hover {
+            transform: scale(1.1);
+        }
+
         .producto {
     opacity: 0;
     transform: translateX(-30px);
@@ -571,11 +697,43 @@
 
 
 <section id="contacto">
-    <h2>Contacto</h2>
     <div class="contacto-container">
+        <h2>Contacto</h2>
         <p>Si tienes alguna pregunta o deseas hacer un pedido, no dudes en contactarnos:</p>
         <p><strong>Teléfono:</strong> +5352461307</p>
+        <p><strong>Dirección:</strong>calle 11 #20c /10y12 reparto Pedro Rivero Peña</p>
         <p><strong>Ubicación:</strong> <a href="https://www.google.com/maps/place/campechuela+Cuba" target="_blank">Ver en Google Maps</a></p>
+        
+        <!-- Formulario de contacto -->
+        <form class="formulario-contacto" action="https://formspree.io/f/meoqawrv" method="POST">
+            <h3>Envíanos tus inquietudes o sugerencias</h3>
+            <input type="text" name="nombre" placeholder="Tu Nombre" required>
+            <input type="tel" name="telefono" placeholder="Tu Número de Teléfono" required>
+            <input type="email" name="correo" placeholder="Tu Correo Electrónico (opcional)">
+            <textarea name="mensaje" rows="4" placeholder="Escribe tu mensaje" required></textarea>
+            <button type="submit">Enviar Mensaje</button>
+        </form>
+        
+        
+        
+        <!-- Mensaje de confirmación -->
+        <div id="mensaje-confirmacion" class="mensaje-confirmacion">
+            ¡Gracias! Tu mensaje ha sido enviado con éxito.
+        </div>
+
+        <!-- Información adicional -->
+        <div class="info-adicional">
+            <h3>Horarios de Atención</h3>
+            <p><strong>Lunes a Viernes:</strong> 9:00 AM - 9:00 PM</p>
+            <p><strong>Sábado y Domingo:</strong> 10:00 AM - 8:00 PM</p>
+
+            <h3>Síguenos en Redes Sociales</h3>
+            <div class="redes-sociales">
+                <a href="https://www.facebook.com/profile.php?id=61568143174893" target="_blank">📘 Facebook</a>
+                <a href="#" target="_blank">📸 Instagram</a>
+               
+            </div>
+        </div>
     </div>
 </section>
 
@@ -745,9 +903,29 @@
     });
 </script>
 
-
-
-
+<script>
+    document.querySelector('.formulario-contacto').addEventListener('submit', function(event) {
+        event.preventDefault(); // Evita que la página se recargue
+        fetch(event.target.action, {
+            method: 'POST',
+            body: new FormData(event.target),
+            headers: { 'Accept': 'application/json' }
+        }).then(response => {
+            if (response.ok) {
+                const mensajeConfirmacion = document.getElementById("mensaje-confirmacion");
+                mensajeConfirmacion.style.display = "block"; // Muestra el mensaje de confirmación
+                event.target.reset(); // Limpia el formulario
+                
+                // Oculta el mensaje de confirmación después de 3 segundos
+                setTimeout(() => {
+                    mensajeConfirmacion.style.display = "none";
+                }, 3000);
+            } else {
+                alert("Hubo un problema al enviar el mensaje.");
+            }
+        });
+    });
+</script>
 
 <div id="boton-flotante" class="boton-flotante">
     <a href="carrito.html">

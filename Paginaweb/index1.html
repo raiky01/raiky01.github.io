@@ -284,6 +284,71 @@
     height: auto; /* Mantiene la proporción de la imagen */
 }
 
+/* Estilo general de los botones de las categorías */
+.categoria-btn {
+    background-color: #4CAF50; /* Color de fondo verde */
+    color: white; /* Color del texto */
+    border: none; /* Sin borde */
+    padding: 12px 24px; /* Espaciado interno */
+    text-align: center; /* Centrar texto */
+    font-size: 16px; /* Tamaño de texto */
+    border-radius: 25px; /* Bordes redondeados */
+    cursor: pointer; /* Cambia el cursor a mano cuando está sobre el botón */
+    transition: background-color 0.3s ease, transform 0.2s ease; /* Efectos de transición */
+    margin: 10px; /* Espacio entre los botones */
+}
+
+/* Efecto al pasar el ratón por encima */
+.categoria-btn:hover {
+    background-color: #45a049; /* Un verde más oscuro */
+    transform: translateY(-3px); /* Efecto de elevación */
+}
+
+/* Estilo al hacer clic en el botón */
+.categoria-btn:active {
+    background-color: #3e8e41; /* Verde aún más oscuro */
+    transform: translateY(1px); /* Hacer que el botón se "hunda" un poco */
+}
+
+/* Estilo cuando los botones están deshabilitados */
+.categoria-btn:disabled {
+    background-color: #cccccc; /* Gris cuando está deshabilitado */
+    cursor: not-allowed; /* Cursor no permitido */
+}
+
+
+
+
+
+/* Estilo para los botones Comestible y Aseo con borde negro */
+#mercadito #comestible, #mercadito #aseo {
+    background-color: #17a2b8; /* Color de fondo azul */
+    font-weight: bold; /* Fuente en negrita */
+    border: 2px solid #000; /* Borde negro */
+    color: #fff; /* Color del texto blanco */
+    padding: 10px 20px; /* Espaciado dentro del botón */
+    border-radius: 5px; /* Bordes redondeados */
+    transition: background-color 0.3s ease, border-color 0.3s ease; /* Suaviza los cambios de color */
+}
+
+/* Efecto de hover cuando el usuario pasa el ratón sobre los botones */
+#mercadito #comestible:hover, #mercadito #aseo:hover {
+    background-color: #138496; /* Azul más oscuro */
+    border-color: #0f6c7b; /* Cambia el color del borde en hover */
+}
+
+/* Efecto cuando el botón es presionado (clic en el botón) */
+#mercadito #comestible:active, #mercadito #aseo:active {
+    background-color: #0f6c7b; /* Azul aún más oscuro cuando se presiona */
+    border-color: #084d56; /* Color de borde más oscuro cuando se presiona */
+}
+
+/* Estilo cuando el botón está activado (Comestible o Aseo) */
+#mercadito .activado {
+    background-color: #0f6c7b; /* Azul más oscuro cuando se activa */
+    border-color: #084d56; /* Borde oscuro cuando está activado */
+}
+
 
 
 
@@ -670,16 +735,22 @@
     </div>
 </section>
 
-<!-- Sección del Mercadito -->
 <section id="mercadito">
     <h2>Mercadito</h2>
     <div class="mercadito-container">
         <p>En el Mercadito de Raiky Pizza, ofrecemos una variedad de productos frescos que puedes llevar a casa para preparar tus propias comidas. Desde ingredientes locales hasta productos gourmet.</p>
-        <button id="mostrar-mercadito" class="mostrar-productos">Mostrar Productos</button>
+        <button id="mostrar-mercadito" class="mostrar-productos">Mostrar Categorías</button>
 
+        <!-- Contenedor de categorías -->
+        <div id="categorias-container" class="categorias-container" style="display: none;">
+            <button id="comestibles-btn" class="categoria-btn">Comestibles</button>
+            <button id="aseo-btn" class="categoria-btn">Aseo</button>
+        </div>
 
-        <div class="productos-container">
-            <div class="producto"data-disponible="true">
+        <!-- Contenedor de productos Comestibles -->
+        <div id="productos-comestibles-container" class="productos-container" style="display: none;">
+            <h3>Comestibles</h3>
+            <div class="producto" data-disponible="true">
                 <img src="llave.jpg" alt="Cafe la Llave">
                 <h3>Cafe la Llave</h3>
                 <p></p>
@@ -689,7 +760,7 @@
                 <p class="agotado" style="display:none; color: red;">Agotado</p>
             </div>
 
-            <div class="producto"data-disponible="true">
+            <div class="producto" data-disponible="true">
                 <img src="pollo.avif" alt="pollo">
                 <h3>Paquete de Pollo</h3>
                 <p>10 libras</p>
@@ -699,7 +770,7 @@
                 <p class="agotado" style="display:none; color: red;">Agotado</p>
             </div>
 
-            <div class="producto"data-disponible="true">
+            <div class="producto" data-disponible="true">
                 <img src="aceite.jpeg" alt="aceite">
                 <h3>Pomo de Aceite</h3>
                 <p>1 litro</p>
@@ -708,8 +779,12 @@
                 <p class="disponible" style="color: green; display: none;">Disponible</p>
                 <p class="agotado" style="display:none; color: red;">Agotado</p>
             </div>
+        </div>
 
-            <!-- Agrega más productos si es necesario -->
+        <!-- Contenedor de productos Aseo (vacío por ahora) -->
+        <div id="productos-aseo-container" class="productos-container" style="display: none;">
+            <h3>Aseo</h3>
+            <p>No hay productos en esta categoría aún.</p>
         </div>
     </div>
 </section>
@@ -777,7 +852,7 @@
         setTimeout(() => {
             notificacion.classList.remove('mostrar');
             setTimeout(() => notificacion.classList.add('oculto'), 500);
-        }, 2000); // La notificación se muestra por 2 segundos
+        }, 2000);
     }
 
     setInterval(() => {
@@ -791,7 +866,7 @@
             const disponible = productoDiv.getAttribute('data-disponible') === 'true';
 
             if (!disponible) {
-                mostrarNotificacionAgotado(); // Muestra la notificación de agotado
+                mostrarNotificacionAgotado(); 
                 return;
             }
 
@@ -905,44 +980,98 @@
         });
     });
 
-    // Mostrar y ocultar productos del mercadito
-    document.addEventListener('DOMContentLoaded', () => {
-        const mercaditoProductos = document.querySelector('#mercadito .productos-container');
-        const mostrarMercaditoBtn = document.getElementById('mostrar-mercadito');
-        mercaditoProductos.style.display = 'none';
+    // Función para alternar la visibilidad de las categorías
+    const mostrarMercaditoBtn = document.getElementById('mostrar-mercadito');
+    const categoriasContainer = document.getElementById('categorias-container');
 
-        mostrarMercaditoBtn.addEventListener('click', () => {
-            if (mercaditoProductos.style.display === 'none') {
-                mercaditoProductos.style.display = 'flex';
-                mostrarMercaditoBtn.innerText = 'Ocultar Productos';
-            } else {
-                mercaditoProductos.style.display = 'none';
-                mostrarMercaditoBtn.innerText = 'Mostrar Productos';
-            }
-        });
+    mostrarMercaditoBtn.addEventListener('click', function() {
+        if (categoriasContainer.style.display === 'none' || categoriasContainer.style.display === '') {
+            categoriasContainer.style.display = 'block';
+            mostrarMercaditoBtn.textContent = 'Ocultar Categorías'; 
+        } else {
+            categoriasContainer.style.display = 'none';
+            mostrarMercaditoBtn.textContent = 'Mostrar Categorías'; 
+        }
+    });
+
+    // Función para alternar la visibilidad de los productos de cada categoría
+    function toggleProductos(productosContainerId) {
+        const productosContainer = document.getElementById(productosContainerId);
+        productosContainer.style.display = productosContainer.style.display === 'none' || productosContainer.style.display === '' ? 'block' : 'none';
+    }
+
+    // Asignar eventos a los botones de categorías
+    document.getElementById('comestibles-btn').addEventListener('click', function() {
+        toggleProductos('productos-comestibles-container');
+        document.getElementById('productos-aseo-container').style.display = 'none';
+    });
+
+    document.getElementById('aseo-btn').addEventListener('click', function() {
+        toggleProductos('productos-aseo-container');
+        document.getElementById('productos-comestibles-container').style.display = 'none';
+    });
+
+    window.addEventListener('load', () => {
+        document.getElementById('productos-comestibles-container').style.display = 'none';
+        document.getElementById('productos-aseo-container').style.display = 'none';
     });
 </script>
 
+    
+
 <script>
+// Seleccionamos los botones de categoría "Comestible" y "Aseo" en la sección mercadito
+const botonComestible = document.getElementById('comestible');
+const botonAseo = document.getElementById('aseo');
+
+// Función para alternar la clase activada en los botones
+function alternarBoton(boton) {
+    if (boton.classList.contains('activado')) {
+        boton.classList.remove('activado');
+    } else {
+        boton.classList.add('activado');
+    }
+}
+
+// Asignamos los eventos de clic para los botones "Comestible" y "Aseo"
+botonComestible.addEventListener('click', () => alternarBoton(botonComestible));
+botonAseo.addEventListener('click', () => alternarBoton(botonAseo));
+
+</script>
+
+<script>
+    // Manejo del envío del formulario de contacto
     document.querySelector('.formulario-contacto').addEventListener('submit', function(event) {
-        event.preventDefault(); // Evita que la página se recargue
+        event.preventDefault(); // Evita que la página se recargue al enviar el formulario
+        
+        // Realizamos la solicitud POST al servidor
         fetch(event.target.action, {
             method: 'POST',
             body: new FormData(event.target),
             headers: { 'Accept': 'application/json' }
-        }).then(response => {
+        })
+        .then(response => {
             if (response.ok) {
+                // Si la respuesta es correcta, mostramos el mensaje de confirmación
                 const mensajeConfirmacion = document.getElementById("mensaje-confirmacion");
                 mensajeConfirmacion.style.display = "block"; // Muestra el mensaje de confirmación
-                event.target.reset(); // Limpia el formulario
                 
-                // Oculta el mensaje de confirmación después de 3 segundos
+                // Limpiamos el formulario después de enviar el mensaje
+                event.target.reset();
+                
+                // Ocultamos el mensaje de confirmación después de 3 segundos
                 setTimeout(() => {
                     mensajeConfirmacion.style.display = "none";
                 }, 3000);
             } else {
+                // Si hay un error al enviar el formulario, mostramos un mensaje de alerta
                 alert("Hubo un problema al enviar el mensaje.");
             }
+        })
+        .catch(error => {
+            // Si ocurre un error en la solicitud, mostramos un mensaje de error
+            console.error("Error al enviar el formulario:", error);
+            alert("Hubo un error al enviar el mensaje. Inténtalo de nuevo.");
         });
     });
 </script>

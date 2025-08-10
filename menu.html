@@ -1,0 +1,256 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Menú - Mi Restaurante</title>
+  <style>
+    /* ====== Variables de color (usa rosa y negro según tu preferencia) ====== */
+    :root{
+      --pink-1: #ff66b2; /* rosa principal */
+      --pink-2: #ff89c9; /* rosa claro */
+      --black: #0b0b0b;
+      --card-bg: linear-gradient(135deg,var(--pink-1),var(--pink-2));
+      --glass: rgba(255,255,255,0.06);
+      --text-soft: rgba(255,255,255,0.9);
+    }
+    /* ====== Reset y tipografía ====== */
+    *{box-sizing:border-box}
+    html,body{height:100%}
+    body{
+      margin:0;
+      font-family:Inter, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;
+      background: radial-gradient(circle at 10% 10%, rgba(255,102,178,0.08), transparent 10%),
+                  radial-gradient(circle at 90% 90%, rgba(0,0,0,0.6), transparent 10%),
+                  linear-gradient(180deg,#111 0%, #0b0b0b 100%);
+      color:var(--text-soft);
+      -webkit-font-smoothing:antialiased;
+      -moz-osx-font-smoothing:grayscale;
+      padding:24px;
+    }
+
+    /* ====== Contenedor principal ====== */
+    .container{
+      max-width:1100px;
+      margin:0 auto;
+      background: linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));
+      border-radius:16px;
+      padding:22px;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.6);
+      backdrop-filter: blur(6px) saturate(120%);
+    }
+
+    header{
+      display:flex;
+      gap:16px;
+      align-items:center;
+      justify-content:space-between;
+      margin-bottom:18px;
+    }
+    .brand{
+      display:flex;align-items:center;gap:12px
+    }
+    .logo{
+      width:64px;height:64px;border-radius:12px;background:var(--card-bg);display:flex;align-items:center;justify-content:center;color:#111;font-weight:700;font-size:20px;box-shadow:0 6px 18px rgba(255,102,178,0.12);
+    }
+    h1{font-size:20px;margin:0}
+    p.lead{margin:0;color:rgba(255,255,255,0.7);font-size:14px}
+
+    /* ====== Buscador y filtros ====== */
+    .controls{display:flex;gap:12px;align-items:center}
+    .search{padding:10px 14px;border-radius:12px;border:0;background:var(--glass);color:var(--text-soft);min-width:220px}
+    .btn{padding:10px 14px;border-radius:12px;border:0;background:var(--card-bg);color:#111;font-weight:700;cursor:pointer}
+
+    /* ====== Grid de menú ====== */
+    .menu-grid{
+      display:grid;
+      grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
+      gap:18px;
+      margin-top:18px;
+    }
+    .card{
+      background:linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));
+      border-radius:12px;
+      overflow:hidden;
+      box-shadow:0 8px 20px rgba(0,0,0,0.6);
+      transition:transform .18s ease, box-shadow .18s ease;
+      border:1px solid rgba(255,255,255,0.03);
+    }
+    .card:hover{transform:translateY(-6px);box-shadow:0 16px 30px rgba(0,0,0,0.7)}
+    .card img{width:100%;height:160px;object-fit:cover;display:block;cursor:pointer}
+    .card-body{padding:12px}
+    .card-title{display:flex;justify-content:space-between;align-items:center;gap:8px}
+    .name{font-weight:700}
+    .price{background:rgba(0,0,0,0.35);padding:6px 8px;border-radius:8px;font-weight:700}
+    .desc{font-size:13px;color:rgba(255,255,255,0.75);margin-top:8px}
+    .tags{display:flex;gap:8px;margin-top:12px}
+    .tag{font-size:12px;padding:6px 8px;border-radius:999px;background:rgba(255,255,255,0.03)}
+
+    /* ====== Modal imagen ====== */
+    .modal{position:fixed;inset:0;display:none;align-items:center;justify-content:center;background:rgba(0,0,0,0.7);z-index:50}
+    .modal.show{display:flex}
+    .modal-content{max-width:900px;width:95%;border-radius:12px;overflow:hidden}
+    .modal-content img{width:100%;height:auto;display:block}
+    .modal-close{position:absolute;top:18px;right:18px;background:var(--card-bg);border-radius:10px;padding:8px 10px;font-weight:700;cursor:pointer}
+
+    /* ====== Pie (responsive) ====== */
+    footer{margin-top:18px;text-align:center;color:rgba(255,255,255,0.6);font-size:13px}
+
+    /* Media queries */
+    @media (max-width:480px){
+      .logo{width:52px;height:52px;font-size:18px}
+      .card img{height:140px}
+      header{gap:10px}
+      .controls{flex-direction:column;align-items:stretch}
+      .search{width:100%}
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <header>
+      <div class="brand">
+        <div class="logo">Mi</div>
+        <div>
+          <h1>Mi Restaurante</h1>
+          <p class="lead">Menú seleccionado — ¡clic en la imagen para ampliar!</p>
+        </div>
+      </div>
+
+      <div class="controls">
+        <input id="search" class="search" placeholder="Buscar plato, ingrediente..." />
+        <button class="btn" id="filterBtn">Ver todo</button>
+      </div>
+    </header>
+
+    <!-- Grid de cartas de menú: reemplaza las imágenes y los textos por los tuyos -->
+    <main>
+      <section class="menu-grid" id="menuGrid">
+
+        <!-- Item 1 -->
+        <article class="card" data-name="Pizza Margarita" data-tags="vegetariano,pizza">
+          <img src="https://images.unsplash.com/photo-1601924582971-8b3b7d9f7e1b?q=80&w=1600&auto=format&fit=crop&ixlib=rb-4.0.3&s=placeholder" alt="Pizza Margarita" loading="lazy" />
+          <div class="card-body">
+            <div class="card-title">
+              <div class="name">Pizza Margarita</div>
+              <div class="price">$8.50</div>
+            </div>
+            <div class="desc">Salsa de tomate, mozzarella fresca y albahaca.</div>
+            <div class="tags">
+              <div class="tag">Vegetariano</div>
+              <div class="tag">Clásico</div>
+            </div>
+          </div>
+        </article>
+
+        <!-- Item 2 -->
+        <article class="card" data-name="Hamburguesa Especial" data-tags="carne,hamburguesa">
+          <img src="https://images.unsplash.com/photo-1550547660-d9450f859349?q=80&w=1600&auto=format&fit=crop&ixlib=rb-4.0.3&s=placeholder" alt="Hamburguesa" loading="lazy" />
+          <div class="card-body">
+            <div class="card-title">
+              <div class="name">Hamburguesa Especial</div>
+              <div class="price">$10.00</div>
+            </div>
+            <div class="desc">Carne 100% res, queso cheddar, lechuga y nuestra salsa secreta.</div>
+            <div class="tags">
+              <div class="tag">Más vendido</div>
+              <div class="tag">Recomendado</div>
+            </div>
+          </div>
+        </article>
+
+        <!-- Item 3 -->
+        <article class="card" data-name="Ensalada César" data-tags="ensalada,vegetariano">
+          <img src="https://images.unsplash.com/photo-1551183053-bf91a1d81141?q=80&w=1600&auto=format&fit=crop&ixlib=rb-4.0.3&s=placeholder" alt="Ensalada Cesar" loading="lazy" />
+          <div class="card-body">
+            <div class="card-title">
+              <div class="name">Ensalada César</div>
+              <div class="price">$6.00</div>
+            </div>
+            <div class="desc">Lechuga romana, crutones, parmesano y aderezo César casero.</div>
+            <div class="tags">
+              <div class="tag">Ligero</div>
+            </div>
+          </div>
+        </article>
+
+        <!-- Item 4 -->
+        <article class="card" data-name="Taco al Pastor" data-tags="mexicano,taco">
+          <img src="https://images.unsplash.com/photo-1542452255191-c4e4bd0b4a8a?q=80&w=1600&auto=format&fit=crop&ixlib=rb-4.0.3&s=placeholder" alt="Taco al Pastor" loading="lazy" />
+          <div class="card-body">
+            <div class="card-title">
+              <div class="name">Taco al Pastor</div>
+              <div class="price">$3.50</div>
+            </div>
+            <div class="desc">Carne adobada, piña, cebolla y cilantro — servido en tortilla de maíz.</div>
+            <div class="tags">
+              <div class="tag">Picante</div>
+            </div>
+          </div>
+        </article>
+
+        <!-- Añade más artículos siguiendo el mismo patrón -->
+      </section>
+    </main>
+
+    <!-- Modal para ver imagen ampliada -->
+    <div class="modal" id="modal">
+      <div class="modal-content" role="dialog" aria-modal="true">
+        <button class="modal-close" id="closeModal">Cerrar</button>
+        <img id="modalImg" src="" alt="Imagen ampliada" />
+      </div>
+    </div>
+
+    <footer>
+      <div>© <span id="year"></span> Mi Restaurante — Menú digital</div>
+    </footer>
+  </div>
+
+  <script>
+    // ====== Pequeñas funciones JS para búsqueda y modal ======
+    const searchInput = document.getElementById('search');
+    const menuGrid = document.getElementById('menuGrid');
+    const filterBtn = document.getElementById('filterBtn');
+    const yearSpan = document.getElementById('year');
+    const modal = document.getElementById('modal');
+    const modalImg = document.getElementById('modalImg');
+    const closeModal = document.getElementById('closeModal');
+
+    yearSpan.textContent = new Date().getFullYear();
+
+    // Abrir modal con imagen grande
+    menuGrid.addEventListener('click', (e) => {
+      const img = e.target.closest('img');
+      if(!img) return;
+      modalImg.src = img.src.replace('q=80&w=1600&auto=format&fit=crop&ixlib=rb-4.0.3&s=placeholder','q=80&w=2400&auto=format&fit=crop&ixlib=rb-4.0.3&s=placeholder');
+      modal.classList.add('show');
+    });
+
+    closeModal.addEventListener('click', () => modal.classList.remove('show'));
+    modal.addEventListener('click', (e) => { if(e.target === modal) modal.classList.remove('show'); });
+
+    // Buscar por nombre o etiquetas
+    searchInput.addEventListener('input', () => {
+      const q = searchInput.value.trim().toLowerCase();
+      const cards = menuGrid.querySelectorAll('.card');
+      cards.forEach(card => {
+        const name = card.dataset.name.toLowerCase();
+        const tags = card.dataset.tags.toLowerCase();
+        const match = name.includes(q) || tags.includes(q);
+        card.style.display = match ? '' : 'none';
+      });
+    });
+
+    // Boton para resetear filtros
+    filterBtn.addEventListener('click', () => {
+      searchInput.value = '';
+      const cards = menuGrid.querySelectorAll('.card');
+      cards.forEach(card => card.style.display = '');
+    });
+
+    // Accesibilidad: teclado cierra modal con Escape
+    document.addEventListener('keydown', (e) => { if(e.key === 'Escape') modal.classList.remove('show'); });
+
+  </script>
+</body>
+</html>

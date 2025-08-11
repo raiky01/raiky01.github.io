@@ -4,253 +4,429 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Menú - Mi Restaurante</title>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
   <style>
-    /* ====== Variables de color (usa rosa y negro según tu preferencia) ====== */
     :root{
-      --pink-1: #ff66b2; /* rosa principal */
-      --pink-2: #ff89c9; /* rosa claro */
-      --black: #0b0b0b;
-      --card-bg: linear-gradient(135deg,var(--pink-1),var(--pink-2));
-      --glass: rgba(255,255,255,0.06);
-      --text-soft: rgba(255,255,255,0.9);
+      --primary:#ff4f81;
+      --secondary:#0b0b0b;
+      --light:#ffffff;
+      --muted:rgba(255,255,255,.65);
+      --glass:rgba(255,255,255,.06);
+      --glass-2:rgba(255,255,255,.08);
+      --stroke:rgba(255,255,255,.12);
+      --bg-gradient:linear-gradient(135deg,#ff4f81,#ff8fbf);
+      --shine:linear-gradient(120deg, transparent 0%, rgba(255,255,255,.25) 20%, transparent 40%);
     }
-    /* ====== Reset y tipografía ====== */
-    *{box-sizing:border-box}
-    html,body{height:100%}
-    body{
-      margin:0;
-      font-family:Inter, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;
-      background: radial-gradient(circle at 10% 10%, rgba(255,102,178,0.08), transparent 10%),
-                  radial-gradient(circle at 90% 90%, rgba(0,0,0,0.6), transparent 10%),
-                  linear-gradient(180deg,#111 0%, #0b0b0b 100%);
-      color:var(--text-soft);
-      -webkit-font-smoothing:antialiased;
-      -moz-osx-font-smoothing:grayscale;
-      padding:24px;
-    }
+    *{box-sizing:border-box;margin:0;padding:0}
+    body{font-family:'Poppins',sans-serif;background:#0b0b0b;color:var(--light);padding:0}
+    .container{max-width:1200px;margin:0 auto;padding:20px;animation:fadeIn .7s ease}
+    @keyframes fadeIn{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:translateY(0)}}
 
-    /* ====== Contenedor principal ====== */
-    .container{
-      max-width:1100px;
-      margin:0 auto;
-      background: linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));
-      border-radius:16px;
-      padding:22px;
-      box-shadow: 0 10px 30px rgba(0,0,0,0.6);
-      backdrop-filter: blur(6px) saturate(120%);
-    }
+    /* Header sticky premium */
+    .header-wrap{position:sticky;top:0;z-index:70;backdrop-filter:saturate(120%) blur(8px);background:linear-gradient(180deg, rgba(17,17,17,.8), rgba(17,17,17,.4));border-bottom:1px solid var(--stroke)}
+    header{display:flex;gap:16px;align-items:center;justify-content:space-between;padding:14px 20px;margin:0 auto;max-width:1200px}
+    .brand{display:flex;gap:12px;align-items:center}
+    .logo{width:56px;height:56px;border-radius:14px;background:var(--bg-gradient);display:grid;place-items:center;color:#111;font-weight:800;box-shadow:0 10px 24px rgba(255,79,129,.2);cursor:pointer}
+    h1{font-size:22px}
+    .lead{font-size:12px;color:var(--muted)}
 
-    header{
-      display:flex;
-      gap:16px;
-      align-items:center;
-      justify-content:space-between;
-      margin-bottom:18px;
-    }
-    .brand{
-      display:flex;align-items:center;gap:12px
-    }
-    .logo{
-      width:64px;height:64px;border-radius:12px;background:var(--card-bg);display:flex;align-items:center;justify-content:center;color:#111;font-weight:700;font-size:20px;box-shadow:0 6px 18px rgba(255,102,178,0.12);
-    }
-    h1{font-size:20px;margin:0}
-    p.lead{margin:0;color:rgba(255,255,255,0.7);font-size:14px}
+    .actions{display:flex;gap:10px;align-items:center}
+    .search{padding:10px 14px;border-radius:12px;border:1px solid var(--stroke);background:var(--glass);color:var(--light);min-width:220px;transition:border .2s, box-shadow .2s}
+    .search:focus{outline:none;border-color:#ffa0c1;box-shadow:0 0 0 3px rgba(255,79,129,.2)}
+    .pill{padding:10px 14px;border-radius:999px;border:1px solid var(--stroke);background:var(--glass);color:var(--light);cursor:pointer;transition:transform .15s ease, background .25s ease}
+    .pill:hover{transform:translateY(-1px);background:var(--glass-2)}
 
-    /* ====== Buscador y filtros ====== */
-    .controls{display:flex;gap:12px;align-items:center}
-    .search{padding:10px 14px;border-radius:12px;border:0;background:var(--glass);color:var(--text-soft);min-width:220px}
-    .btn{padding:10px 14px;border-radius:12px;border:0;background:var(--card-bg);color:#111;font-weight:700;cursor:pointer}
+    .tabs{display:flex;gap:8px;flex-wrap:wrap;margin:12px auto 0;max-width:1200px;padding:0 20px 14px}
+    .tab{position:relative;isolation:isolate;padding:8px 12px;border-radius:999px;border:1px solid var(--stroke);background:var(--glass);cursor:pointer;font-size:13px;transition:background .25s, transform .15s}
+    .tab:hover{transform:translateY(-1px);background:var(--glass-2)}
+    .tab.active{background:var(--bg-gradient);color:#111;border-color:transparent;font-weight:700;box-shadow:0 8px 20px rgba(255,79,129,.25)}
+    .tab.active::after{content:"";position:absolute;inset:-2px;border-radius:999px;border:1.5px solid rgba(255,79,129,.45);pointer-events:none}
 
-    /* ====== Grid de menú ====== */
-    .menu-grid{
-      display:grid;
-      grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
-      gap:18px;
-      margin-top:18px;
-    }
-    .card{
-      background:linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));
-      border-radius:12px;
-      overflow:hidden;
-      box-shadow:0 8px 20px rgba(0,0,0,0.6);
-      transition:transform .18s ease, box-shadow .18s ease;
-      border:1px solid rgba(255,255,255,0.03);
-    }
-    .card:hover{transform:translateY(-6px);box-shadow:0 16px 30px rgba(0,0,0,0.7)}
-    .card img{width:100%;height:160px;object-fit:cover;display:block;cursor:pointer}
-    .card-body{padding:12px}
-    .card-title{display:flex;justify-content:space-between;align-items:center;gap:8px}
+    /* Grid */
+    .menu-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:18px;margin-top:18px}
+    .card{background:linear-gradient(180deg,rgba(255,255,255,.04),rgba(255,255,255,.02));border:1px solid var(--stroke);border-radius:14px;overflow:hidden;box-shadow:0 10px 24px rgba(0,0,0,.5);transition:.25s transform,.25s box-shadow;opacity:0;animation:rise .5s ease forwards}
+    @keyframes rise{to{opacity:1;transform:translateY(0)}}
+    .card:hover{transform:translateY(-6px);box-shadow:0 18px 36px rgba(0,0,0,.6)}
+
+    /* Imagen con zoom + brillo */
+    .img-wrap{position:relative;overflow:hidden}
+    .img-wrap::after{content:"";position:absolute;inset:0;background:var(--shine);transform:translateX(-120%);}
+    .card:hover .img-wrap::after{animation:shine 1.2s ease}
+    @keyframes shine{to{transform:translateX(120%)}}
+    .card img{width:100%;height:180px;object-fit:cover;display:block;transition:transform .45s ease}
+    .card:hover img{transform:scale(1.06)}
+
+    .card-body{padding:14px}
+    .title-row{display:flex;align-items:center;justify-content:space-between;gap:8px}
     .name{font-weight:700}
-    .price{background:rgba(0,0,0,0.35);padding:6px 8px;border-radius:8px;font-weight:700}
-    .desc{font-size:13px;color:rgba(255,255,255,0.75);margin-top:8px}
-    .tags{display:flex;gap:8px;margin-top:12px}
-    .tag{font-size:12px;padding:6px 8px;border-radius:999px;background:rgba(255,255,255,0.03)}
+    .price{background:var(--bg-gradient);color:#111;padding:6px 10px;border-radius:10px;font-weight:800}
+    .desc{margin-top:6px;color:var(--muted);font-size:13px;min-height:36px}
+    .meta{display:flex;gap:8px;margin-top:10px;align-items:center;flex-wrap:wrap}
+    .badge{font-size:11px;padding:6px 8px;border-radius:999px;background:var(--glass);border:1px solid var(--stroke)}
 
-    /* ====== Modal imagen ====== */
-    .modal{position:fixed;inset:0;display:none;align-items:center;justify-content:center;background:rgba(0,0,0,0.7);z-index:50}
+    /* Botones primary con microinteracción */
+    .actions-row{display:flex;gap:10px;margin-top:12px}
+    .btn{flex:1;padding:10px 12px;border-radius:10px;border:1px solid var(--stroke);background:var(--glass);color:var(--light);cursor:pointer;font-weight:600;transition:transform .12s ease, background .25s ease, box-shadow .25s ease}
+    .btn:hover{transform:translateY(-1px);background:var(--glass-2)}
+    .btn:active{transform:translateY(0)}
+    .btn.primary{background:var(--bg-gradient);color:#111;border-color:transparent}
+    .btn.primary:hover{box-shadow:0 10px 24px rgba(255,79,129,.25)}
+
+    footer{margin:24px 0;text-align:center;color:var(--muted);font-size:12px}
+
+    /* Modal imagen */
+    .modal{position:fixed;inset:0;background:rgba(0,0,0,.75);display:none;align-items:center;justify-content:center;z-index:1001;cursor:zoom-out}
     .modal.show{display:flex}
-    .modal-content{max-width:900px;width:95%;border-radius:12px;overflow:hidden}
-    .modal-content img{width:100%;height:auto;display:block}
-    .modal-close{position:absolute;top:18px;right:18px;background:var(--card-bg);border-radius:10px;padding:8px 10px;font-weight:700;cursor:pointer}
+    .modal-content{max-width:900px;width:95%;position:relative}
+    .modal img{width:100%;border-radius:14px;animation:zoom .25s ease}
+    @keyframes zoom{from{transform:scale(.95);opacity:0}to{transform:scale(1);opacity:1}}
+    .modal-close{position:absolute;top:10px;right:10px;padding:8px 10px;border-radius:10px;border:0;background:var(--bg-gradient);font-weight:800;color:#111;cursor:pointer}
 
-    /* ====== Pie (responsive) ====== */
-    footer{margin-top:18px;text-align:center;color:rgba(255,255,255,0.6);font-size:13px}
+    /* Carrito (drawer) */
+    .cart-fab{position:fixed;right:22px;bottom:22px;background:var(--bg-gradient);color:#111;border:0;border-radius:999px;padding:12px 16px;font-weight:800;cursor:pointer;box-shadow:0 12px 28px rgba(255,79,129,.25);z-index:65;transition:transform .15s ease}
+    .cart-fab:hover{transform:translateY(-1px)}
+    .drawer{position:fixed;top:0;right:0;height:100%;width:360px;max-width:92vw;background:#111;border-left:1px solid var(--stroke);box-shadow:-20px 0 40px rgba(0,0,0,.6);transform:translateX(100%);transition:transform .3s ease;z-index:70;display:flex;flex-direction:column}
+    .drawer.open{transform:translateX(0)}
+    .drawer header{padding:16px;border-bottom:1px solid var(--stroke);display:flex;align-items:center;justify-content:space-between}
+    .drawer h2{font-size:18px}
+    .drawer .close{background:transparent;border:0;color:var(--light);font-size:20px;cursor:pointer}
+    .cart-list{padding:10px;overflow:auto;flex:1;display:flex;flex-direction:column;gap:10px}
+    .item{display:grid;grid-template-columns:56px 1fr auto;gap:10px;align-items:center;padding:10px;border:1px solid var(--stroke);border-radius:12px;background:var(--glass)}
+    .thumb{width:56px;height:56px;object-fit:cover;border-radius:10px}
+    .i-name{font-weight:600}
+    .i-price{color:var(--muted);font-size:12px}
+    .qty{display:flex;align-items:center;gap:6px}
+    .step{width:26px;height:26px;border-radius:8px;border:1px solid var(--stroke);background:var(--glass);color:var(--light);cursor:pointer;font-weight:800}
+    .remove{background:transparent;border:0;color:var(--muted);cursor:pointer}
+    .drawer footer{padding:14px;border-top:1px solid var(--stroke)}
+    .row{display:flex;justify-content:space-between;margin:4px 0}
+    .total{font-weight:800;font-size:18px}
+    .checkout{width:100%;margin-top:10px;padding:12px;border-radius:12px;border:0;background:var(--bg-gradient);color:#111;font-weight:800;cursor:pointer}
+    .clear{width:100%;margin-top:8px;padding:10px;border-radius:12px;background:var(--glass);border:1px solid var(--stroke);color:var(--light);cursor:pointer}
 
-    /* Media queries */
-    @media (max-width:480px){
-      .logo{width:52px;height:52px;font-size:18px}
-      .card img{height:140px}
-      header{gap:10px}
-      .controls{flex-direction:column;align-items:stretch}
-      .search{width:100%}
+    /* Toast */
+    .toast{position:fixed;left:50%;bottom:100px;transform:translateX(-50%) translateY(20px);background:#111;border:1px solid var(--stroke);padding:10px 14px;border-radius:10px;opacity:0;pointer-events:none;transition:.25s;z-index:75}
+    .toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
+
+    /* Funciones integradas de tu código */
+    .notificacion-agotado{position:fixed;top:50%;left:50%;transform:translate(-50%,-50%);padding:15px 20px;background:#ff4d4d;color:#fff;font-weight:700;border-radius:10px;box-shadow:0 8px 20px rgba(0,0,0,.35);opacity:0;transition:opacity .35s ease;z-index:80;text-align:center}
+    .notificacion-agotado.mostrar{opacity:1}
+    .oculto{display:none}
+    .logo.spin{animation:spinY .6s forwards}
+    @keyframes spinY{from{transform:rotateY(0)}to{transform:rotateY(360deg)}}
+
+    @media (max-width:520px){
+      .search{min-width:0;width:100%}
+      .actions{flex-direction:column;align-items:stretch}
+      .price{white-space:nowrap}
     }
   </style>
 </head>
 <body>
-  <div class="container">
+  <div class="header-wrap">
     <header>
       <div class="brand">
-        <div class="logo">Mi</div>
+        <div class="logo" id="brandLogo">Mi</div>
         <div>
           <h1>Mi Restaurante</h1>
-          <p class="lead">Menú seleccionado — ¡clic en la imagen para ampliar!</p>
+          <div class="lead">Menú digital — clic en la imagen para ampliar</div>
         </div>
       </div>
-
-      <div class="controls">
-        <input id="search" class="search" placeholder="Buscar plato, ingrediente..." />
-        <button class="btn" id="filterBtn">Ver todo</button>
+      <div class="actions">
+        <input id="search" class="search" placeholder="Buscar plato o ingrediente..." />
+        <button class="pill" id="reset">Limpiar</button>
       </div>
     </header>
-
-    <!-- Grid de cartas de menú: reemplaza las imágenes y los textos por los tuyos -->
-    <main>
-      <section class="menu-grid" id="menuGrid">
-
-        <!-- Item 1 -->
-        <article class="card" data-name="Pizza Margarita" data-tags="vegetariano,pizza">
-          <img src="https://images.unsplash.com/photo-1601924582971-8b3b7d9f7e1b?q=80&w=1600&auto=format&fit=crop&ixlib=rb-4.0.3&s=placeholder" alt="Pizza Margarita" loading="lazy" />
-          <div class="card-body">
-            <div class="card-title">
-              <div class="name">Pizza Margarita</div>
-              <div class="price">$8.50</div>
-            </div>
-            <div class="desc">Salsa de tomate, mozzarella fresca y albahaca.</div>
-            <div class="tags">
-              <div class="tag">Vegetariano</div>
-              <div class="tag">Clásico</div>
-            </div>
-          </div>
-        </article>
-
-        <!-- Item 2 -->
-        <article class="card" data-name="Hamburguesa Especial" data-tags="carne,hamburguesa">
-          <img src="https://images.unsplash.com/photo-1550547660-d9450f859349?q=80&w=1600&auto=format&fit=crop&ixlib=rb-4.0.3&s=placeholder" alt="Hamburguesa" loading="lazy" />
-          <div class="card-body">
-            <div class="card-title">
-              <div class="name">Hamburguesa Especial</div>
-              <div class="price">$10.00</div>
-            </div>
-            <div class="desc">Carne 100% res, queso cheddar, lechuga y nuestra salsa secreta.</div>
-            <div class="tags">
-              <div class="tag">Más vendido</div>
-              <div class="tag">Recomendado</div>
-            </div>
-          </div>
-        </article>
-
-        <!-- Item 3 -->
-        <article class="card" data-name="Ensalada César" data-tags="ensalada,vegetariano">
-          <img src="https://images.unsplash.com/photo-1551183053-bf91a1d81141?q=80&w=1600&auto=format&fit=crop&ixlib=rb-4.0.3&s=placeholder" alt="Ensalada Cesar" loading="lazy" />
-          <div class="card-body">
-            <div class="card-title">
-              <div class="name">Ensalada César</div>
-              <div class="price">$6.00</div>
-            </div>
-            <div class="desc">Lechuga romana, crutones, parmesano y aderezo César casero.</div>
-            <div class="tags">
-              <div class="tag">Ligero</div>
-            </div>
-          </div>
-        </article>
-
-        <!-- Item 4 -->
-        <article class="card" data-name="Taco al Pastor" data-tags="mexicano,taco">
-          <img src="https://images.unsplash.com/photo-1542452255191-c4e4bd0b4a8a?q=80&w=1600&auto=format&fit=crop&ixlib=rb-4.0.3&s=placeholder" alt="Taco al Pastor" loading="lazy" />
-          <div class="card-body">
-            <div class="card-title">
-              <div class="name">Taco al Pastor</div>
-              <div class="price">$3.50</div>
-            </div>
-            <div class="desc">Carne adobada, piña, cebolla y cilantro — servido en tortilla de maíz.</div>
-            <div class="tags">
-              <div class="tag">Picante</div>
-            </div>
-          </div>
-        </article>
-
-        <!-- Añade más artículos siguiendo el mismo patrón -->
-      </section>
-    </main>
-
-    <!-- Modal para ver imagen ampliada -->
-    <div class="modal" id="modal">
-      <div class="modal-content" role="dialog" aria-modal="true">
-        <button class="modal-close" id="closeModal">Cerrar</button>
-        <img id="modalImg" src="" alt="Imagen ampliada" />
-      </div>
-    </div>
-
-    <footer>
-      <div>© <span id="year"></span> Mi Restaurante — Menú digital</div>
-    </footer>
+    <nav class="tabs" id="tabs">
+      <button class="tab active" data-cat="all">Todo</button>
+      <button class="tab" data-cat="pizza">Pizzas</button>
+      <button class="tab" data-cat="burger">Hamburguesas</button>
+      <button class="tab" data-cat="taco">Tacos</button>
+      <button class="tab" data-cat="salad">Ensaladas</button>
+    </nav>
   </div>
 
+  <div class="container">
+    <main class="menu-grid" id="menuGrid">
+      <!-- Item 1 -->
+      <article class="card" data-id="1" data-name="Pizza Margarita" data-price="8.50" data-cat="pizza" data-available="true">
+        <div class="img-wrap">
+          <img src="https://images.unsplash.com/photo-1601924582971-8b3b7d9f7e1b" alt="Pizza Margarita" />
+        </div>
+        <div class="card-body">
+          <div class="title-row"><span class="name">Pizza Margarita</span><span class="price">$8.50</span></div>
+          <p class="desc">Salsa de tomate, mozzarella fresca y albahaca.</p>
+          <div class="meta"><span class="badge">Vegetariano</span><span class="badge">Clásico</span></div>
+          <div class="actions-row">
+            <button class="btn view-btn">Ver</button>
+            <button class="btn primary add-btn">Añadir</button>
+          </div>
+        </div>
+      </article>
+      <!-- Item 2 (agotado para demo) -->
+      <article class="card" data-id="2" data-name="Hamburguesa Especial" data-price="10.00" data-cat="burger" data-available="false">
+        <div class="img-wrap">
+          <img src="https://images.unsplash.com/photo-1550547660-d9450f859349" alt="Hamburguesa Especial" />
+        </div>
+        <div class="card-body">
+          <div class="title-row"><span class="name">Hamburguesa Especial</span><span class="price">$10.00</span></div>
+          <p class="desc">Carne 100% res, queso cheddar, lechuga y salsa secreta.</p>
+          <div class="meta"><span class="badge">Recomendado</span><span class="badge">Agotado</span></div>
+          <div class="actions-row">
+            <button class="btn view-btn">Ver</button>
+            <button class="btn primary add-btn">Añadir</button>
+          </div>
+        </div>
+      </article>
+      <!-- Item 3 -->
+      <article class="card" data-id="3" data-name="Taco al Pastor" data-price="3.50" data-cat="taco" data-available="true">
+        <div class="img-wrap">
+          <img src="https://images.unsplash.com/photo-1542452255191-c4e4bd0b4a8a" alt="Taco al Pastor" />
+        </div>
+        <div class="card-body">
+          <div class="title-row"><span class="name">Taco al Pastor</span><span class="price">$3.50</span></div>
+          <p class="desc">Carne adobada, piña, cebolla y cilantro.</p>
+          <div class="meta"><span class="badge">Picante</span></div>
+          <div class="actions-row">
+            <button class="btn view-btn">Ver</button>
+            <button class="btn primary add-btn">Añadir</button>
+          </div>
+        </div>
+      </article>
+      <!-- Item 4 -->
+      <article class="card" data-id="4" data-name="Ensalada César" data-price="6.00" data-cat="salad" data-available="true">
+        <div class="img-wrap">
+          <img src="https://images.unsplash.com/photo-1551183053-bf91a1d81141" alt="Ensalada César" />
+        </div>
+        <div class="card-body">
+          <div class="title-row"><span class="name">Ensalada César</span><span class="price">$6.00</span></div>
+          <p class="desc">Lechuga romana, crutones, parmesano y aderezo casero.</p>
+          <div class="meta"><span class="badge">Ligero</span></div>
+          <div class="actions-row">
+            <button class="btn view-btn">Ver</button>
+            <button class="btn primary add-btn">Añadir</button>
+          </div>
+        </div>
+      </article>
+    </main>
+
+    <footer>© <span id="year"></span> Mi Restaurante — Menú digital</footer>
+  </div>
+
+  <!-- Modal de imagen -->
+  <div class="modal" id="modal">
+    <div class="modal-content">
+      <button class="modal-close" id="closeModal">Cerrar</button>
+      <img id="modalImg" src="" alt="Imagen ampliada" />
+    </div>
+  </div>
+
+  <!-- Drawer del carrito -->
+  <button class="cart-fab" id="cartFab">Carrito (0)</button>
+  <aside class="drawer" id="drawer" aria-hidden="true">
+    <header>
+      <h2>Tu pedido</h2>
+      <button class="close" id="drawerClose" aria-label="Cerrar">✕</button>
+    </header>
+    <section class="cart-list" id="cartList"></section>
+    <footer>
+      <div class="row"><span>Subtotal</span><span id="sub"></span></div>
+      <div class="row"><span>Impuestos (0%)</span><span id="tax"></span></div>
+      <div class="row total"><span>Total</span><span id="total"></span></div>
+      <button class="checkout" id="checkout">Confirmar pedido</button>
+      <button class="clear" id="clear">Vaciar carrito</button>
+    </footer>
+  </aside>
+
+  <!-- Notificación de producto agotado -->
+  <div id="notificacion-agotado" class="notificacion-agotado oculto">Este producto está agotado.</div>
+
+  <!-- Sonido al agregar -->
+  <audio id="sonido-agregar" src="sonido.mp3" preload="auto"></audio>
+
+  <!-- Toast -->
+  <div class="toast" id="toast">Añadido al carrito</div>
+
   <script>
-    // ====== Pequeñas funciones JS para búsqueda y modal ======
-    const searchInput = document.getElementById('search');
-    const menuGrid = document.getElementById('menuGrid');
-    const filterBtn = document.getElementById('filterBtn');
-    const yearSpan = document.getElementById('year');
-    const modal = document.getElementById('modal');
-    const modalImg = document.getElementById('modalImg');
-    const closeModal = document.getElementById('closeModal');
+    // Utilidades
+    const $ = (s,scope=document)=>scope.querySelector(s);
+    const $$ = (s,scope=document)=>Array.from(scope.querySelectorAll(s));
+    const fmt = (n)=>`$${Number(n).toFixed(2)}`;
+
+    // Elementos
+    const yearSpan = $('#year');
+    const searchInput = $('#search');
+    const resetBtn = $('#reset');
+    const tabs = $('#tabs');
+    const menuGrid = $('#menuGrid');
+    const modal = $('#modal');
+    const modalImg = $('#modalImg');
+    const closeModal = $('#closeModal');
+
+    const cartFab = $('#cartFab');
+    const drawer = $('#drawer');
+    const drawerClose = $('#drawerClose');
+    const cartList = $('#cartList');
+    const subEl = $('#sub');
+    const taxEl = $('#tax');
+    const totalEl = $('#total');
+    const clearBtn = $('#clear');
+    const checkoutBtn = $('#checkout');
+    const toast = $('#toast');
 
     yearSpan.textContent = new Date().getFullYear();
 
-    // Abrir modal con imagen grande
-    menuGrid.addEventListener('click', (e) => {
-      const img = e.target.closest('img');
-      if(!img) return;
-      modalImg.src = img.src.replace('q=80&w=1600&auto=format&fit=crop&ixlib=rb-4.0.3&s=placeholder','q=80&w=2400&auto=format&fit=crop&ixlib=rb-4.0.3&s=placeholder');
-      modal.classList.add('show');
-    });
+    // Estado
+    let cart = [];
+    const TAX = 0; // ajusta si lo necesitas
 
-    closeModal.addEventListener('click', () => modal.classList.remove('show'));
-    modal.addEventListener('click', (e) => { if(e.target === modal) modal.classList.remove('show'); });
+    // Persistencia
+    const loadCart = ()=>{ try{ cart = JSON.parse(localStorage.getItem('cart')||'[]'); }catch{ cart=[] } };
+    const saveCart = ()=> localStorage.setItem('cart', JSON.stringify(cart));
 
-    // Buscar por nombre o etiquetas
-    searchInput.addEventListener('input', () => {
-      const q = searchInput.value.trim().toLowerCase();
-      const cards = menuGrid.querySelectorAll('.card');
-      cards.forEach(card => {
-        const name = card.dataset.name.toLowerCase();
-        const tags = card.dataset.tags.toLowerCase();
-        const match = name.includes(q) || tags.includes(q);
-        card.style.display = match ? '' : 'none';
+    // Carrito helpers
+    const cartCount = ()=> cart.reduce((a,i)=>a+i.qty,0);
+    const cartSubtotal = ()=> cart.reduce((a,i)=>a+i.price*i.qty,0);
+
+    function openDrawer(){ drawer.classList.add('open'); drawer.setAttribute('aria-hidden','false'); }
+    function closeDrawer(){ drawer.classList.remove('open'); drawer.setAttribute('aria-hidden','true'); }
+
+    function showToast(msg){ toast.textContent = msg; toast.classList.add('show'); setTimeout(()=>toast.classList.remove('show'),1200); }
+
+    function addToCart({id,name,price,img}){
+      const found = cart.find(i=>i.id===id);
+      if(found){ found.qty += 1; }
+      else { cart.push({id,name,price,qty:1,img}); }
+      updateCartUI();
+      saveCart();
+      showToast('Añadido al carrito');
+      // sonido al agregar
+      try{ const s = document.getElementById('sonido-agregar'); s.currentTime = 0; s.play(); }catch(err){}
+    }
+
+    function removeFromCart(id){ cart = cart.filter(i=>i.id!==id); updateCartUI(); saveCart(); }
+    function changeQty(id,delta){ const it = cart.find(i=>i.id===id); if(!it) return; it.qty = Math.max(1, it.qty+delta); updateCartUI(); saveCart(); }
+    function clearCart(){ cart = []; updateCartUI(); saveCart(); }
+
+    function updateCartUI(){
+      cartList.innerHTML = '';
+      if(cart.length===0){ cartList.innerHTML = '<div style="color:var(--muted);text-align:center;padding:20px">Tu carrito está vacío</div>'; }
+      cart.forEach(i=>{
+        const row = document.createElement('div');
+        row.className = 'item';
+        row.innerHTML = `
+          <img class="thumb" src="${i.img}" alt="${i.name}">
+          <div>
+            <div class="i-name">${i.name}</div>
+            <div class="i-price">${fmt(i.price)}</div>
+            <div class="qty" aria-label="Cantidad">
+              <button class="step" data-step="-1" aria-label="Disminuir">−</button>
+              <span>${i.qty}</span>
+              <button class="step" data-step="1" aria-label="Aumentar">+</button>
+              <button class="remove" aria-label="Eliminar">Eliminar</button>
+            </div>
+          </div>
+          <div>${fmt(i.price*i.qty)}</div>
+        `;
+        row.querySelector('[data-step="-1"]').onclick = ()=>changeQty(i.id,-1);
+        row.querySelector('[data-step="1"]').onclick = ()=>changeQty(i.id,1);
+        row.querySelector('.remove').onclick = ()=>removeFromCart(i.id);
+        cartList.appendChild(row);
       });
+      const sub = cartSubtotal();
+      const tax = sub*TAX;
+      const tot = sub+tax;
+      subEl.textContent = fmt(sub); taxEl.textContent = fmt(tax); totalEl.textContent = fmt(tot);
+      cartFab.textContent = `Carrito (${cartCount()})`;
+    }
+
+    // Filtros
+    function applyFilters(){
+      const q = searchInput.value.trim().toLowerCase();
+      const active = $('.tab.active')?.dataset.cat || 'all';
+      $$('.card', menuGrid).forEach(card=>{
+        const matchText = card.dataset.name.toLowerCase().includes(q);
+        const matchCat = active==='all' || card.dataset.cat===active;
+        card.style.display = (matchText && matchCat) ? '' : 'none';
+      });
+    }
+
+    // Listeners UI
+    searchInput.addEventListener('input', applyFilters);
+    resetBtn.addEventListener('click', ()=>{ searchInput.value=''; $$('.tab').forEach(t=>t.classList.remove('active')); $$('.tab')[0].classList.add('active'); applyFilters(); });
+    tabs.addEventListener('click', (e)=>{ const t=e.target.closest('.tab'); if(!t) return; $$('.tab').forEach(x=>x.classList.remove('active')); t.classList.add('active'); applyFilters(); });
+
+    // Grid: ver y añadir (con disponibilidad y notificación de agotado)
+    menuGrid.addEventListener('click', (e)=>{
+      const card = e.target.closest('.card');
+      if(!card) return;
+      if(e.target.classList.contains('view-btn') || e.target.tagName==='IMG'){
+        modalImg.src = card.querySelector('img').src;
+        modal.classList.add('show');
+        document.body.style.overflow = 'hidden';
+      }
+      if(e.target.classList.contains('add-btn')){
+        const available = String(card.dataset.available).toLowerCase() !== 'false';
+        if(!available){
+          const note = document.getElementById('notificacion-agotado');
+          note.classList.remove('oculto');
+          note.classList.add('mostrar');
+          setTimeout(()=>{ note.classList.remove('mostrar'); setTimeout(()=>note.classList.add('oculto'),350); },1800);
+          return;
+        }
+        addToCart({
+          id: Number(card.dataset.id),
+          name: card.dataset.name,
+          price: Number(card.dataset.price),
+          img: card.querySelector('img').src
+        });
+      }
     });
 
-    // Boton para resetear filtros
-    filterBtn.addEventListener('click', () => {
-      searchInput.value = '';
-      const cards = menuGrid.querySelectorAll('.card');
-      cards.forEach(card => card.style.display = '');
+    // Modal: cerrar por botón, clic fuera y tecla ESC + restaurar scroll
+    $('#closeModal').addEventListener('click', ()=>{ modal.classList.remove('show'); document.body.style.overflow=''; });
+    modal.addEventListener('click',(e)=>{ if(e.target===modal){ modal.classList.remove('show'); document.body.style.overflow=''; } });
+    document.addEventListener('keydown', (e)=>{ if(e.key === 'Escape' && modal.classList.contains('show')){ modal.classList.remove('show'); document.body.style.overflow=''; } });
+
+    // Drawer
+    cartFab.addEventListener('click', openDrawer);
+    drawerClose.addEventListener('click', closeDrawer);
+    drawer.addEventListener('click', (e)=>{ if(e.target===drawer) closeDrawer(); });
+
+    clearBtn.addEventListener('click', clearCart);
+
+    // Confirmar pedido por WhatsApp
+    checkoutBtn.addEventListener('click', () => {
+      if (!cart.length) return showToast('Tu carrito está vacío');
+      const telefonoRestaurante = '521234567890'; // Cambia por tu número con prefijo país
+      let mensaje = '📋 *Nuevo pedido*\n\n';
+      cart.forEach(item => { mensaje += `🍽️ ${item.name} x${item.qty} — ${fmt(item.price * item.qty)}\n`; });
+      mensaje += `\n💵 *Total:* ${fmt(cartSubtotal())}\n`;
+      mensaje += `\n📍 Por favor, confirme su dirección de entrega.`;
+      const url = `https://wa.me/${telefonoRestaurante}?text=${encodeURIComponent(mensaje)}`;
+      window.open(url, '_blank');
+      closeDrawer();
     });
 
-    // Accesibilidad: teclado cierra modal con Escape
-    document.addEventListener('keydown', (e) => { if(e.key === 'Escape') modal.classList.remove('show'); });
+    // Init
+    loadCart();
+    updateCartUI();
+    applyFilters();
 
+    // Sincroniza con cambios externos en localStorage (cada 3s)
+    let lastCartSnapshot = localStorage.getItem('cart');
+    setInterval(()=>{
+      const snap = localStorage.getItem('cart');
+      if(snap !== lastCartSnapshot){
+        lastCartSnapshot = snap;
+        try{ cart = JSON.parse(snap||'[]'); }catch{ cart=[] }
+        updateCartUI();
+      }
+    },3000);
+
+    // Giro del logo al clic
+    const brandLogo = document.getElementById('brandLogo');
+    brandLogo?.addEventListener('click',()=>{ brandLogo.classList.add('spin'); setTimeout(()=>brandLogo.classList.remove('spin'),600); });
   </script>
 </body>
 </html>

@@ -63,6 +63,8 @@
     .desc{margin-top:6px;color:var(--muted);font-size:13px;min-height:36px}
     .meta{display:flex;gap:8px;margin-top:10px;align-items:center;flex-wrap:wrap}
     .badge{font-size:11px;padding:6px 8px;border-radius:999px;background:var(--glass);border:1px solid var(--stroke)}
+    .badge.agotado{color:#ff6b6b;border-color:#ff6b6b;background:rgba(255,107,107,.1)}
+    .btn[disabled]{opacity:.6;cursor:not-allowed}
 
     /* Botones primary con microinteracción */
     .actions-row{display:flex;gap:10px;margin-top:12px}
@@ -71,6 +73,28 @@
     .btn:active{transform:translateY(0)}
     .btn.primary{background:var(--bg-gradient);color:#111;border-color:transparent}
     .btn.primary:hover{box-shadow:0 10px 24px rgba(255,79,129,.25)}
+
+    /* Selectores de variante y tamaño */
+    .variant,.size{width:100%;appearance:none;-webkit-appearance:none;-moz-appearance:none;margin-top:8px;padding:12px 44px 12px 14px;border-radius:12px;border:1px solid var(--stroke);background:linear-gradient(135deg, rgba(255,255,255,.06), rgba(255,255,255,.03));color:var(--light);font-weight:600;transition:border .2s, box-shadow .25s ease, transform .15s}
+    .variant:hover,.size:hover{transform:translateY(-1px)}
+    .variant:focus,.size:focus{outline:none;border-color:#ffa0c1;box-shadow:0 0 0 3px rgba(255,79,129,.2)}
+    .select-wrap{position:relative;display:block;margin-top:8px}
+    .select-wrap::after{content:"";position:absolute;right:12px;top:50%;width:16px;height:16px;transform:translateY(-50%) rotate(0deg);transition:transform .25s ease, filter .25s ease;pointer-events:none;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='%23ffffff' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'%3E%3C/polyline%3E%3C/svg%3E");background-size:16px 16px;background-repeat:no-repeat;filter:drop-shadow(0 1px 1px rgba(0,0,0,.3))}
+    .select-wrap.open::after{transform:translateY(-50%) rotate(180deg)}
+
+    /* Tema oscuro del desplegable nativo y hover de opciones */
+    .variant{background-color:#1a1a1a;color:#fff}
+    .variant option{background-color:#1a1a1a;color:#fff}
+    .variant option:hover{background-color:#ff4f81;color:#111}
+    .variant option:checked{background-color:#ff8fbf;color:#111}
+
+    /* Segmented controls (chips) */
+    .segmented{display:flex;gap:8px;flex-wrap:wrap;margin-top:8px}
+    .seg-btn{padding:8px 12px;border-radius:999px;border:1px solid var(--stroke);background:var(--glass);color:var(--light);font-size:13px;cursor:pointer;transition:transform .12s ease, background .25s ease, box-shadow .25s ease}
+    .seg-btn:hover{transform:translateY(-1px);background:var(--glass-2)}
+    .seg-btn.active{background:var(--bg-gradient);color:#111;border-color:transparent;box-shadow:0 8px 18px rgba(255,79,129,.25)}
+    .seg-btn:focus{outline:none;box-shadow:0 0 0 3px rgba(255,79,129,.25)}
+    .seg-label{margin-top:10px;font-size:12px;color:var(--muted)}
 
     footer{margin:24px 0;text-align:center;color:var(--muted);font-size:12px}
 
@@ -139,76 +163,16 @@
     </header>
     <nav class="tabs" id="tabs">
       <button class="tab active" data-cat="all">Todo</button>
-      <button class="tab" data-cat="pizza">Pizzas</button>
-      <button class="tab" data-cat="burger">Hamburguesas</button>
-      <button class="tab" data-cat="taco">Tacos</button>
-      <button class="tab" data-cat="salad">Ensaladas</button>
+      <button class="tab" data-cat="trancas">Trancas</button>
+      <button class="tab" data-cat="tortas">Tortas</button>
+      <button class="tab" data-cat="panuchos">Panuchos</button>
+      <button class="tab" data-cat="tacos">Tacos</button>
+      <button class="tab" data-cat="tostadas">Tostadas</button>
     </nav>
   </div>
 
   <div class="container">
-    <main class="menu-grid" id="menuGrid">
-      <!-- Item 1 -->
-      <article class="card" data-id="1" data-name="Pizza Margarita" data-price="8.50" data-cat="pizza" data-available="true">
-        <div class="img-wrap">
-          <img src="https://images.unsplash.com/photo-1601924582971-8b3b7d9f7e1b" alt="Pizza Margarita" />
-        </div>
-        <div class="card-body">
-          <div class="title-row"><span class="name">Pizza Margarita</span><span class="price">$8.50</span></div>
-          <p class="desc">Salsa de tomate, mozzarella fresca y albahaca.</p>
-          <div class="meta"><span class="badge">Vegetariano</span><span class="badge">Clásico</span></div>
-          <div class="actions-row">
-            <button class="btn view-btn">Ver</button>
-            <button class="btn primary add-btn">Añadir</button>
-          </div>
-        </div>
-      </article>
-      <!-- Item 2 (agotado para demo) -->
-      <article class="card" data-id="2" data-name="Hamburguesa Especial" data-price="10.00" data-cat="burger" data-available="false">
-        <div class="img-wrap">
-          <img src="https://images.unsplash.com/photo-1550547660-d9450f859349" alt="Hamburguesa Especial" />
-        </div>
-        <div class="card-body">
-          <div class="title-row"><span class="name">Hamburguesa Especial</span><span class="price">$10.00</span></div>
-          <p class="desc">Carne 100% res, queso cheddar, lechuga y salsa secreta.</p>
-          <div class="meta"><span class="badge">Recomendado</span><span class="badge">Agotado</span></div>
-          <div class="actions-row">
-            <button class="btn view-btn">Ver</button>
-            <button class="btn primary add-btn">Añadir</button>
-          </div>
-        </div>
-      </article>
-      <!-- Item 3 -->
-      <article class="card" data-id="3" data-name="Taco al Pastor" data-price="3.50" data-cat="taco" data-available="true">
-        <div class="img-wrap">
-          <img src="https://images.unsplash.com/photo-1542452255191-c4e4bd0b4a8a" alt="Taco al Pastor" />
-        </div>
-        <div class="card-body">
-          <div class="title-row"><span class="name">Taco al Pastor</span><span class="price">$3.50</span></div>
-          <p class="desc">Carne adobada, piña, cebolla y cilantro.</p>
-          <div class="meta"><span class="badge">Picante</span></div>
-          <div class="actions-row">
-            <button class="btn view-btn">Ver</button>
-            <button class="btn primary add-btn">Añadir</button>
-          </div>
-        </div>
-      </article>
-      <!-- Item 4 -->
-      <article class="card" data-id="4" data-name="Ensalada César" data-price="6.00" data-cat="salad" data-available="true">
-        <div class="img-wrap">
-          <img src="https://images.unsplash.com/photo-1551183053-bf91a1d81141" alt="Ensalada César" />
-        </div>
-        <div class="card-body">
-          <div class="title-row"><span class="name">Ensalada César</span><span class="price">$6.00</span></div>
-          <p class="desc">Lechuga romana, crutones, parmesano y aderezo casero.</p>
-          <div class="meta"><span class="badge">Ligero</span></div>
-          <div class="actions-row">
-            <button class="btn view-btn">Ver</button>
-            <button class="btn primary add-btn">Añadir</button>
-          </div>
-        </div>
-      </article>
-    </main>
+    <main class="menu-grid" id="menuGrid"></main>
 
     <footer>© <span id="year"></span> Mi Restaurante — Menú digital</footer>
   </div>
@@ -274,6 +238,155 @@
     const checkoutBtn = $('#checkout');
     const toast = $('#toast');
 
+    // === Tamaños ===
+    const SIZES = {
+      normal: { label: 'Normal' },
+      especial: { label: 'Especial' }
+    };
+
+    // === Variantes (estilos de relleno) ===
+    const VARIANTES = {
+      lechon: { label: 'Lechón' },
+      rellenoNegro: { label: 'Relleno Negro' },
+      pavoAsado: { label: 'Pavo Asado' },
+      pocChuc: { label: 'Poc Chuc' }
+    };
+
+    // === PRECIOS reales por categoría, tamaño y variante ===
+    // ⚠️ Valores provisionales tomados de tu referencia. Dime si hay que ajustarlos y los cambio al instante.
+    const PRECIOS = {
+      trancas: {
+        normal:   { lechon: 85,  rellenoNegro: 90,  pavoAsado: 60,  pocChuc: 65 },
+        especial: { lechon: 95,  rellenoNegro: 100, pavoAsado: 70,  pocChuc: 75 }
+      },
+      tortas: {
+        normal:   { lechon: 35,  rellenoNegro: 35,  pavoAsado: 35,  pocChuc: 35 },
+        especial: { lechon: 45,  rellenoNegro: 45,  pavoAsado: 45,  pocChuc: 45 }
+      },
+      panuchos: {
+        normal:   { lechon: 25,  rellenoNegro: 25,  pavoAsado: 25,  pocChuc: 25 },
+        especial: { lechon: 30,  rellenoNegro: 30,  pavoAsado: 30,  pocChuc: 30 }
+      },
+      tacos: {
+        normal:   { lechon: 25,  rellenoNegro: 25,  pavoAsado: 25,  pocChuc: 25 },
+        especial: { lechon: 30,  rellenoNegro: 30,  pavoAsado: 30,  pocChuc: 30 }
+      },
+      tostadas: {
+        normal:   { lechon: 25,  rellenoNegro: 25,  pavoAsado: 25,  pocChuc: 25 },
+        especial: { lechon: 30,  rellenoNegro: 30,  pavoAsado: 30,  pocChuc: 30 }
+      }
+    };
+
+    // === Catálogo base ===
+    const CATALOGO = [
+      { id: 101, name: 'Tranca',   cat: 'trancas',   img: 'https://images.unsplash.com/photo-1604908811848-025f3b2a8371', desc: 'Pan grande con relleno a elegir', available: true },
+      { id: 201, name: 'Torta',    cat: 'tortas',    img: 'https://images.unsplash.com/photo-1619740462125-0b8a3d9e8643', desc: 'Bolillo con relleno a elegir', available: true },
+      { id: 301, name: 'Panuchos', cat: 'panuchos',  img: 'https://images.unsplash.com/photo-1632516643720-3b3ad72037df', desc: 'Tortilla con frijol y relleno', available: true },
+      { id: 401, name: 'Tacos',    cat: 'tacos',     img: 'https://images.unsplash.com/photo-1552332386-f8dd00dc2f85', desc: 'Orden con salsas al gusto', available: true },
+      { id: 501, name: 'Tostadas', cat: 'tostadas',  img: 'https://images.unsplash.com/photo-1546549039-49ec6f3b2c4b', desc: 'Crujientes con frijol y relleno', available: true },
+    ];
+
+    function getPrice(cat, size, variant){
+      const catTable = PRECIOS[cat] || {};
+      const sizeTable = catTable[size] || {};
+      const val = sizeTable[variant];
+      return Number(val ?? 0);
+    }
+
+    // Helpers para chips de selección
+    function buildSegmented(container, optionsMap, defaultKey, onChange){
+      container.classList.add('segmented');
+      Object.entries(optionsMap).forEach(([key, obj])=>{
+        const btn = document.createElement('button');
+        btn.type = 'button';
+        btn.className = 'seg-btn';
+        btn.dataset.value = key;
+        btn.setAttribute('role','tab');
+        btn.setAttribute('aria-selected', key===defaultKey ? 'true' : 'false');
+        btn.textContent = obj.label || key;
+        if(key===defaultKey) btn.classList.add('active');
+        btn.addEventListener('click',()=>{
+          container.querySelectorAll('.seg-btn').forEach(b=>{ b.classList.remove('active'); b.setAttribute('aria-selected','false'); });
+          btn.classList.add('active');
+          btn.setAttribute('aria-selected','true');
+          onChange?.(key, obj);
+        });
+        // teclado: flechas izquierda/derecha para moverse
+        btn.addEventListener('keydown',(e)=>{
+          if(e.key!=='ArrowRight' && e.key!=='ArrowLeft') return;
+          e.preventDefault();
+          const buttons = Array.from(container.querySelectorAll('.seg-btn'));
+          const i = buttons.indexOf(btn);
+          const next = e.key==='ArrowRight' ? (i+1)%buttons.length : (i-1+buttons.length)%buttons.length;
+          buttons[next].focus();
+        });
+        container.appendChild(btn);
+      });
+    }
+    function getActiveValue(container){
+      return container.querySelector('.seg-btn.active')?.dataset.value;
+    }
+    function getSelText(card, cls){
+      const el = card.querySelector('.'+cls);
+      if(el && el.tagName==='SELECT'){ return el.selectedOptions[0]?.text || ''; }
+      const seg = card.querySelector('.'+cls+'-seg .seg-btn.active');
+      return seg?.textContent || '';
+    }
+
+    function renderMenu(){
+      menuGrid.innerHTML = '';
+      CATALOGO.forEach(({id,name,cat,img,desc,available})=>{
+        const defSize = Object.keys(SIZES)[0];
+        const defVar  = Object.keys(VARIANTES)[0];
+        const price = getPrice(cat, defSize, defVar);
+        const card = document.createElement('article');
+        card.className = 'card';
+        card.dataset.id = String(id);
+        card.dataset.name = name;
+        card.dataset.price = String(price);
+        card.dataset.cat = cat;
+        card.dataset.size = defSize;
+        card.dataset.variant = defVar;
+        card.dataset.available = String(available);
+        card.innerHTML = `
+          <div class="img-wrap">
+            <img src="${img}" alt="${name}" />
+          </div>
+          <div class="card-body">
+            <div class="title-row"><span class="name">${name}</span><span class="price">$${price.toFixed(2)}</span></div>
+            <p class="desc">${desc}</p>
+            <div class="size-seg" aria-label="Selecciona tamaño"></div>
+            <div class="select-wrap">
+              <select class="variant" aria-label="Selecciona estilo">
+                ${Object.entries(VARIANTES).map(([k,v])=>`<option value="${k}">${v.label}</option>`).join('')}
+              </select>
+            </div>
+            <div class="meta"><span class="badge">Elige tamaño y estilo</span></div>
+            <div class="actions-row">
+              <button class="btn view-btn">Ver</button>
+              <button class="btn primary add-btn">Añadir</button>
+            </div>
+          </div>`;
+        const priceEl = card.querySelector('.price');
+        const sizeSeg = card.querySelector('.size-seg');
+        const varSel  = card.querySelector('.variant');
+        const varWrap = varSel.closest('.select-wrap');
+        const recalc = ()=>{
+          const sz = getActiveValue(sizeSeg) || defSize;
+          const vr = varSel.value || defVar;
+          const newPrice = getPrice(cat, sz, vr);
+          card.dataset.price = String(newPrice);
+          card.dataset.size = sz;
+          card.dataset.variant = vr;
+          priceEl.textContent = `$${newPrice.toFixed(2)}`;
+        };
+        buildSegmented(sizeSeg, SIZES, defSize, ()=>recalc());
+        varSel.addEventListener('change', recalc);
+        ;['focus','blur','click'].forEach(evt=>{ varSel.addEventListener(evt, ()=> varWrap.classList.toggle('open', document.activeElement===varSel)); });
+        menuGrid.appendChild(card);
+      });
+    }
+
     yearSpan.textContent = new Date().getFullYear();
 
     // Estado
@@ -305,7 +418,19 @@
     }
 
     function removeFromCart(id){ cart = cart.filter(i=>i.id!==id); updateCartUI(); saveCart(); }
-    function changeQty(id,delta){ const it = cart.find(i=>i.id===id); if(!it) return; it.qty = Math.max(1, it.qty+delta); updateCartUI(); saveCart(); }
+    function changeQty(id, delta){
+      const it = cart.find(i=>i.id===id);
+      if(!it) return;
+      const next = (it.qty || 0) + delta;
+      if(next <= 0){
+        // Si la cantidad llega a 0 o menos, elimina el ítem del carrito
+        cart = cart.filter(i=>i.id !== id);
+      }else{
+        it.qty = next;
+      }
+      updateCartUI();
+      saveCart();
+    }
     function clearCart(){ cart = []; updateCartUI(); saveCart(); }
 
     function updateCartUI(){
@@ -353,8 +478,32 @@
 
     // Listeners UI
     searchInput.addEventListener('input', applyFilters);
-    resetBtn.addEventListener('click', ()=>{ searchInput.value=''; $$('.tab').forEach(t=>t.classList.remove('active')); $$('.tab')[0].classList.add('active'); applyFilters(); });
+    resetBtn.addEventListener('click', ()=>{ searchInput.value=''; $$('.tab').forEach(t=>t.classList.remove('active')); $$('.tab')[0].classList.add('active'); applyFilters();
+    updateAvailabilityUI(); });
     tabs.addEventListener('click', (e)=>{ const t=e.target.closest('.tab'); if(!t) return; $$('.tab').forEach(x=>x.classList.remove('active')); t.classList.add('active'); applyFilters(); });
+
+    // Refresca badges/estado según disponibilidad del dataset
+    function updateAvailabilityUI(){
+      $$('.card', menuGrid).forEach(card=>{
+        const available = String(card.dataset.available).toLowerCase() !== 'false';
+        const addBtn = card.querySelector('.add-btn');
+        const meta = card.querySelector('.meta');
+        let agot = meta?.querySelector('.badge.agotado[data-gen="1"]');
+        if(!available){
+          addBtn?.setAttribute('disabled','');
+          if(!agot && meta){
+            agot = document.createElement('span');
+            agot.className = 'badge agotado';
+            agot.setAttribute('data-gen','1');
+            agot.textContent = 'Agotado';
+            meta.appendChild(agot);
+          }
+        }else{
+          addBtn?.removeAttribute('disabled');
+          agot?.remove();
+        }
+      });
+    }
 
     // Grid: ver y añadir (con disponibilidad y notificación de agotado)
     menuGrid.addEventListener('click', (e)=>{
@@ -376,7 +525,7 @@
         }
         addToCart({
           id: Number(card.dataset.id),
-          name: card.dataset.name,
+          name: `${card.dataset.name} — ${getSelText(card,'variant')} — ${getSelText(card,'size')}`.trim(),
           price: Number(card.dataset.price),
           img: card.querySelector('img').src
         });
@@ -409,9 +558,11 @@
     });
 
     // Init
+    renderMenu();
     loadCart();
     updateCartUI();
     applyFilters();
+    updateAvailabilityUI();
 
     // Sincroniza con cambios externos en localStorage (cada 3s)
     let lastCartSnapshot = localStorage.getItem('cart');
@@ -422,7 +573,26 @@
         try{ cart = JSON.parse(snap||'[]'); }catch{ cart=[] }
         updateCartUI();
       }
+      // si cambias data-available dinámicamente, reevalúa badges/estado
+      updateAvailabilityUI();
     },3000);
+
+    // Self-tests (no afectan al UI)
+    (function testGetPrice(){
+      console.group('Self-tests');
+      // Tests originales
+      console.assert(getPrice('trancas','normal','lechon') === 85, 'Trancas normal Lechón debe ser 85');
+      console.assert(getPrice('trancas','especial','pavoAsado') === 70, 'Trancas especial Pavo Asado debe ser 70');
+      console.assert(getPrice('tortas','especial','pocChuc') === 45, 'Tortas especial Poc Chuc debe ser 45');
+      // Tests adicionales
+      console.assert(getPrice('panuchos','normal','lechon') === 25, 'Panuchos normal Lechón debe ser 25');
+      console.assert(getPrice('tacos','especial','pocChuc') === 30, 'Tacos especial Poc Chuc debe ser 30');
+      console.assert(getPrice('tostadas','normal','rellenoNegro') === 25, 'Tostadas normal Relleno Negro debe ser 25');
+      console.groupEnd();
+    })();
+
+    // Año en footer
+    yearSpan.textContent = new Date().getFullYear();
 
     // Giro del logo al clic
     const brandLogo = document.getElementById('brandLogo');

@@ -85,8 +85,8 @@
     /* Tema oscuro del desplegable nativo y hover de opciones */
     .variant{background-color:#1a1a1a;color:#fff}
     .variant option{background-color:#1a1a1a;color:#fff}
-    .variant option:hover{background-color:#ff4f81;color:#111}
-    .variant option:checked{background-color:#ff8fbf;color:#111}
+    .variant option:hover{background-color:#ff4f81;color:#fff}
+    .variant option:checked{background-color:#ff8fbf;color:#fff}
 
     /* Segmented controls (chips) */
     .segmented{display:flex;gap:8px;flex-wrap:wrap;margin-top:8px}
@@ -95,6 +95,13 @@
     .seg-btn.active{background:var(--bg-gradient);color:#111;border-color:transparent;box-shadow:0 8px 18px rgba(255,79,129,.25)}
     .seg-btn:focus{outline:none;box-shadow:0 0 0 3px rgba(255,79,129,.25)}
     .seg-label{margin-top:10px;font-size:12px;color:var(--muted)}
+
+    /* Addon: Pura Carne */
+    .addon-row{display:flex;gap:8px;align-items:center;margin-top:10px}
+    .addon-btn{padding:10px 12px;border-radius:999px;border:1px solid var(--stroke);background:var(--glass);color:var(--light);font-weight:700;cursor:pointer;transition:transform .12s ease, background .25s ease, box-shadow .25s ease, color .25s ease}
+    .addon-btn:hover{transform:translateY(-1px);background:var(--glass-2)}
+    .addon-btn.active{background:linear-gradient(135deg,#ff3b3b,#ff7878);color:#111;border-color:transparent;box-shadow:0 8px 22px rgba(255,59,59,.25)}
+    .addon-note{font-size:12px;color:var(--muted)}
 
     footer{margin:24px 0;text-align:center;color:var(--muted);font-size:12px}
 
@@ -252,38 +259,41 @@
       pocChuc: { label: 'Poc Chuc' }
     };
 
+    // Addon
+    const ADDON_MEAT = 3;
+    const MEAT_VARIANTS = new Set(['lechon','rellenoNegro','pavoAsado','pocChuc']);
+
     // === PRECIOS reales por categoría, tamaño y variante ===
-    // ⚠️ Valores provisionales tomados de tu referencia. Dime si hay que ajustarlos y los cambio al instante.
     const PRECIOS = {
       trancas: {
-        normal:   { lechon: 85,  rellenoNegro: 90,  pavoAsado: 60,  pocChuc: 65 },
-        especial: { lechon: 95,  rellenoNegro: 100, pavoAsado: 70,  pocChuc: 75 }
+        normal:   { lechon: 38,  rellenoNegro: 38,  pavoAsado: 42,  pocChuc: 55 },
+        especial: { lechon: 50,  rellenoNegro: 50,  pavoAsado: 60,  pocChuc: 65 }
       },
       tortas: {
-        normal:   { lechon: 35,  rellenoNegro: 35,  pavoAsado: 35,  pocChuc: 35 },
-        especial: { lechon: 45,  rellenoNegro: 45,  pavoAsado: 45,  pocChuc: 45 }
+        normal:   { lechon: 35,  rellenoNegro: 35,  pavoAsado: 37,  pocChuc: 50 },
+        especial: { lechon: 45,  rellenoNegro: 45,  pavoAsado: 55,  pocChuc: 60 }
       },
       panuchos: {
-        normal:   { lechon: 25,  rellenoNegro: 25,  pavoAsado: 25,  pocChuc: 25 },
-        especial: { lechon: 30,  rellenoNegro: 30,  pavoAsado: 30,  pocChuc: 30 }
+        normal:   { lechon: 25,  rellenoNegro: 25,  pavoAsado: 28,  pocChuc: 30 },
+        especial: { lechon: 35,  rellenoNegro: 35,  pavoAsado: 35,  pocChuc: 38 }
       },
       tacos: {
-        normal:   { lechon: 25,  rellenoNegro: 25,  pavoAsado: 25,  pocChuc: 25 },
-        especial: { lechon: 30,  rellenoNegro: 30,  pavoAsado: 30,  pocChuc: 30 }
+        normal:   { lechon: 25,  rellenoNegro: 25,  pavoAsado: 28,  pocChuc: 30 },
+        especial: { lechon: 35,  rellenoNegro: 35,  pavoAsado: 38,  pocChuc: 38 }
       },
       tostadas: {
-        normal:   { lechon: 25,  rellenoNegro: 25,  pavoAsado: 25,  pocChuc: 25 },
-        especial: { lechon: 30,  rellenoNegro: 30,  pavoAsado: 30,  pocChuc: 30 }
+        normal:   { lechon: 25,  rellenoNegro: 25,  pavoAsado: 28,  pocChuc: 30 },
+        especial: { lechon: 35,  rellenoNegro: 35,  pavoAsado: 35,  pocChuc: 38 }
       }
     };
 
     // === Catálogo base ===
     const CATALOGO = [
-      { id: 101, name: 'Tranca',   cat: 'trancas',   img: 'https://images.unsplash.com/photo-1604908811848-025f3b2a8371', desc: 'Pan grande con relleno a elegir', available: true },
-      { id: 201, name: 'Torta',    cat: 'tortas',    img: 'https://images.unsplash.com/photo-1619740462125-0b8a3d9e8643', desc: 'Bolillo con relleno a elegir', available: true },
-      { id: 301, name: 'Panuchos', cat: 'panuchos',  img: 'https://images.unsplash.com/photo-1632516643720-3b3ad72037df', desc: 'Tortilla con frijol y relleno', available: true },
-      { id: 401, name: 'Tacos',    cat: 'tacos',     img: 'https://images.unsplash.com/photo-1552332386-f8dd00dc2f85', desc: 'Orden con salsas al gusto', available: true },
-      { id: 501, name: 'Tostadas', cat: 'tostadas',  img: 'https://images.unsplash.com/photo-1546549039-49ec6f3b2c4b', desc: 'Crujientes con frijol y relleno', available: true },
+      { id: 101, name: 'Tranca',   cat: 'trancas',   img: 'https://images.unsplash.com/photo-1604908811848-025f3b2a8371?auto=format&fit=crop&w=1200&q=60', desc: 'Pan grande con relleno a elegir', available: true },
+      { id: 201, name: 'Torta',    cat: 'tortas',    img: 'https://images.unsplash.com/photo-1619740462125-0b8a3d9e8643?auto=format&fit=crop&w=1200&q=60', desc: 'Bolillo con relleno a elegir', available: true },
+      { id: 301, name: 'Panuchos', cat: 'panuchos',  img: 'https://images.unsplash.com/photo-1632516643720-3b3ad72037df?auto=format&fit=crop&w=1200&q=60', desc: 'Tortilla con frijol y relleno', available: true },
+      { id: 401, name: 'Tacos',    cat: 'tacos',     img: 'https://images.unsplash.com/photo-1552332386-f8dd00dc2f85?auto=format&fit=crop&w=1200&q=60', desc: 'Orden con salsas al gusto', available: true },
+      { id: 501, name: 'Tostadas', cat: 'tostadas',  img: 'https://images.unsplash.com/photo-1546549039-49ec6f3b2c4b?auto=format&fit=crop&w=1200&q=60', desc: 'Crujientes con frijol y relleno', available: true },
     ];
 
     function getPrice(cat, size, variant){
@@ -293,7 +303,7 @@
       return Number(val ?? 0);
     }
 
-    // Helpers para chips de selección
+    // Helpers para chips de selección (Tamaño)
     function buildSegmented(container, optionsMap, defaultKey, onChange){
       container.classList.add('segmented');
       Object.entries(optionsMap).forEach(([key, obj])=>{
@@ -333,6 +343,10 @@
       return seg?.textContent || '';
     }
 
+    function isMeatVariant(key){
+      return MEAT_VARIANTS.has(key);
+    }
+
     function renderMenu(){
       menuGrid.innerHTML = '';
       CATALOGO.forEach(({id,name,cat,img,desc,available})=>{
@@ -347,15 +361,20 @@
         card.dataset.cat = cat;
         card.dataset.size = defSize;
         card.dataset.variant = defVar;
+        card.dataset.addon = '0';
         card.dataset.available = String(available);
         card.innerHTML = `
           <div class="img-wrap">
-            <img src="${img}" alt="${name}" />
+            <img src="${img}" alt="${name}" loading="lazy" />
           </div>
           <div class="card-body">
             <div class="title-row"><span class="name">${name}</span><span class="price">$${price.toFixed(2)}</span></div>
             <p class="desc">${desc}</p>
             <div class="size-seg" aria-label="Selecciona tamaño"></div>
+            <div class="addon-row">
+              <button type="button" class="addon-btn" aria-pressed="false" hidden>Pura Carne +$${ADDON_MEAT}</button>
+              <span class="addon-note" hidden>Extra de carne</span>
+            </div>
             <div class="select-wrap">
               <select class="variant" aria-label="Selecciona estilo">
                 ${Object.entries(VARIANTES).map(([k,v])=>`<option value="${k}">${v.label}</option>`).join('')}
@@ -371,18 +390,48 @@
         const sizeSeg = card.querySelector('.size-seg');
         const varSel  = card.querySelector('.variant');
         const varWrap = varSel.closest('.select-wrap');
+        const addonBtn = card.querySelector('.addon-btn');
+        const addonNote = card.querySelector('.addon-note');
+
+        const updateAddonVisibility = ()=>{
+          const vr = varSel.value;
+          const show = isMeatVariant(vr);
+          addonBtn.hidden = !show;
+          addonNote.hidden = !show;
+          if(!show && addonBtn.classList.contains('active')){
+            addonBtn.classList.remove('active');
+            addonBtn.setAttribute('aria-pressed','false');
+            card.dataset.addon = '0';
+          }
+        };
+
         const recalc = ()=>{
           const sz = getActiveValue(sizeSeg) || defSize;
           const vr = varSel.value || defVar;
-          const newPrice = getPrice(cat, sz, vr);
+          const base = getPrice(cat, sz, vr);
+          const extra = card.dataset.addon === '1' ? ADDON_MEAT : 0;
+          const newPrice = base + extra;
           card.dataset.price = String(newPrice);
           card.dataset.size = sz;
           card.dataset.variant = vr;
           priceEl.textContent = `$${newPrice.toFixed(2)}`;
         };
+
+        addonBtn.addEventListener('click',()=>{
+          const active = addonBtn.classList.toggle('active');
+          addonBtn.setAttribute('aria-pressed', active ? 'true' : 'false');
+          addonBtn.textContent = active ? `🍖 Pura Carne +$${ADDON_MEAT}` : `Pura Carne +$${ADDON_MEAT}`;
+          card.dataset.addon = active ? '1' : '0';
+          recalc();
+        });
+
         buildSegmented(sizeSeg, SIZES, defSize, ()=>recalc());
-        varSel.addEventListener('change', recalc);
-        ;['focus','blur','click'].forEach(evt=>{ varSel.addEventListener(evt, ()=> varWrap.classList.toggle('open', document.activeElement===varSel)); });
+        varSel.addEventListener('change', ()=>{ updateAddonVisibility(); recalc(); });
+        ['focus','blur','click'].forEach(evt=>{
+          varSel.addEventListener(evt,()=> varWrap.classList.toggle('open', document.activeElement===varSel));
+        });
+
+        updateAddonVisibility();
         menuGrid.appendChild(card);
       });
     }
@@ -407,13 +456,12 @@
     function showToast(msg){ toast.textContent = msg; toast.classList.add('show'); setTimeout(()=>toast.classList.remove('show'),1200); }
 
     function addToCart({id,name,price,img}){
-      const found = cart.find(i=>i.id===id);
+      const found = cart.find(i=>i.id===id && i.name===name && i.price===price);
       if(found){ found.qty += 1; }
       else { cart.push({id,name,price,qty:1,img}); }
       updateCartUI();
       saveCart();
       showToast('Añadido al carrito');
-      // sonido al agregar
       try{ const s = document.getElementById('sonido-agregar'); s.currentTime = 0; s.play(); }catch(err){}
     }
 
@@ -422,12 +470,8 @@
       const it = cart.find(i=>i.id===id);
       if(!it) return;
       const next = (it.qty || 0) + delta;
-      if(next <= 0){
-        // Si la cantidad llega a 0 o menos, elimina el ítem del carrito
-        cart = cart.filter(i=>i.id !== id);
-      }else{
-        it.qty = next;
-      }
+      if(next <= 0){ cart = cart.filter(i=>i.id !== id); }
+      else{ it.qty = next; }
       updateCartUI();
       saveCart();
     }
@@ -523,9 +567,10 @@
           setTimeout(()=>{ note.classList.remove('mostrar'); setTimeout(()=>note.classList.add('oculto'),350); },1800);
           return;
         }
+        const addonTxt = card.dataset.addon === '1' ? ' + Pura Carne' : '';
         addToCart({
           id: Number(card.dataset.id),
-          name: `${card.dataset.name} — ${getSelText(card,'variant')} — ${getSelText(card,'size')}`.trim(),
+          name: `${card.dataset.name} — ${getSelText(card,'variant')} — ${getSelText(card,'size')}${addonTxt}`.trim(),
           price: Number(card.dataset.price),
           img: card.querySelector('img').src
         });
@@ -573,21 +618,27 @@
         try{ cart = JSON.parse(snap||'[]'); }catch{ cart=[] }
         updateCartUI();
       }
-      // si cambias data-available dinámicamente, reevalúa badges/estado
       updateAvailabilityUI();
     },3000);
 
     // Self-tests (no afectan al UI)
     (function testGetPrice(){
       console.group('Self-tests');
-      // Tests originales
-      console.assert(getPrice('trancas','normal','lechon') === 85, 'Trancas normal Lechón debe ser 85');
-      console.assert(getPrice('trancas','especial','pavoAsado') === 70, 'Trancas especial Pavo Asado debe ser 70');
-      console.assert(getPrice('tortas','especial','pocChuc') === 45, 'Tortas especial Poc Chuc debe ser 45');
-      // Tests adicionales
+      console.assert(getPrice('trancas','normal','lechon') === 38, 'Trancas normal Lechón debe ser 38');
+      console.assert(getPrice('trancas','especial','pavoAsado') === 60, 'Trancas especial Pavo Asado debe ser 60');
+      console.assert(getPrice('trancas','especial','lechon') === 50, 'Trancas especial Lechón debe ser 50');
+      console.assert(getPrice('trancas','normal','pocChuc') === 55, 'Trancas normal Poc Chuc debe ser 55');
+      console.assert(getPrice('trancas','especial','pocChuc') === 65, 'Trancas especial Poc Chuc debe ser 65');
       console.assert(getPrice('panuchos','normal','lechon') === 25, 'Panuchos normal Lechón debe ser 25');
-      console.assert(getPrice('tacos','especial','pocChuc') === 30, 'Tacos especial Poc Chuc debe ser 30');
+      console.assert(getPrice('tacos','especial','pocChuc') === 38, 'Tacos especial Poc Chuc debe ser 38');
       console.assert(getPrice('tostadas','normal','rellenoNegro') === 25, 'Tostadas normal Relleno Negro debe ser 25');
+      console.assert(getPrice('tortas','normal','pavoAsado') === 37, 'Tortas normal Pavo Asado debe ser 37');
+      console.assert(getPrice('tortas','especial','pocChuc') === 60, 'Tortas especial Poc Chuc debe ser 60');
+      console.assert(getPrice('panuchos','especial','pocChuc') === 38, 'Panuchos especial Poc Chuc debe ser 38');
+      console.assert(getPrice('tacos','especial','pavoAsado') === 38, 'Tacos especial Pavo Asado debe ser 38');
+      console.assert(getPrice('tostadas','especial','lechon') === 35, 'Tostadas especial Lechón debe ser 35');
+      console.assert(getPrice('tostadas','especial','pavoAsado') === 35, 'Tostadas especial Pavo Asado debe ser 35');
+      console.assert(getPrice('tacos','normal','lechon') === 25, 'Tacos normal Lechón debe ser 25');
       console.groupEnd();
     })();
 

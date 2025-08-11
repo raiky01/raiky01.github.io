@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Menú - Mi Restaurante</title>
+  <title>Menú - Norma Ruelas</title>
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
   <style>
     :root{
@@ -105,7 +105,7 @@
 
     footer{margin:24px 0;text-align:center;color:var(--muted);font-size:12px}
 
-    /* Modal imagen */
+    /* Modal imagen genérica */
     .modal{position:fixed;inset:0;background:rgba(0,0,0,.75);display:none;align-items:center;justify-content:center;z-index:1001;cursor:zoom-out}
     .modal.show{display:flex}
     .modal-content{max-width:900px;width:95%;position:relative}
@@ -139,12 +139,55 @@
     .toast{position:fixed;left:50%;bottom:100px;transform:translateX(-50%) translateY(20px);background:#111;border:1px solid var(--stroke);padding:10px 14px;border-radius:10px;opacity:0;pointer-events:none;transition:.25s;z-index:75}
     .toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
 
-    /* Funciones integradas de tu código */
+    /* Notificación agotado */
     .notificacion-agotado{position:fixed;top:50%;left:50%;transform:translate(-50%,-50%);padding:15px 20px;background:#ff4d4d;color:#fff;font-weight:700;border-radius:10px;box-shadow:0 8px 20px rgba(0,0,0,.35);opacity:0;transition:opacity .35s ease;z-index:80;text-align:center}
     .notificacion-agotado.mostrar{opacity:1}
     .oculto{display:none}
     .logo.spin{animation:spinY .6s forwards}
     @keyframes spinY{from{transform:rotateY(0)}to{transform:rotateY(360deg)}}
+
+    /* ===== Modal de datos del pedido ===== */
+    .modal-card{
+      background:#111;
+      border:1px solid var(--stroke);
+      border-radius:14px;
+      padding:16px;
+      box-shadow:0 18px 36px rgba(0,0,0,.6);
+      max-width:560px;
+      width:92%;
+      cursor:auto;
+    }
+    .modal-title{
+      margin-bottom:10px;
+      font-size:18px;
+      font-weight:800;
+    }
+    .field{
+      display:flex;
+      flex-direction:column;
+      gap:6px;
+      margin:10px 0;
+    }
+    .field label{
+      font-size:12px;
+      color:var(--muted);
+    }
+    .field input,
+    .field textarea{
+      padding:12px 14px;
+      border-radius:12px;
+      border:1px solid var(--stroke);
+      background:linear-gradient(135deg, rgba(255,255,255,.06), rgba(255,255,255,.03));
+      color:var(--light);
+      font-weight:500;
+    }
+    .field textarea{ resize:vertical; }
+    .modal-actions{
+      display:flex;
+      gap:10px;
+      justify-content:flex-end;
+      margin-top:14px;
+    }
 
     @media (max-width:520px){
       .search{min-width:0;width:100%}
@@ -159,7 +202,7 @@
       <div class="brand">
         <div class="logo" id="brandLogo">Mi</div>
         <div>
-          <h1>Mi Restaurante</h1>
+          <h1>Norma Ruelas</h1>
           <div class="lead">Menú digital — clic en la imagen para ampliar</div>
         </div>
       </div>
@@ -180,7 +223,6 @@
 
   <div class="container">
     <main class="menu-grid" id="menuGrid"></main>
-
     <footer>© <span id="year"></span> Mi Restaurante — Menú digital</footer>
   </div>
 
@@ -208,6 +250,36 @@
       <button class="clear" id="clear">Vaciar carrito</button>
     </footer>
   </aside>
+
+  <!-- Modal de datos del pedido -->
+  <div class="modal" id="orderModal" aria-hidden="true">
+    <div class="modal-content modal-card" role="dialog" aria-labelledby="orderTitle" aria-modal="true" onclick="event.stopPropagation()">
+      <h3 id="orderTitle" class="modal-title">Datos para confirmar pedido</h3>
+      <form id="orderForm" autocomplete="on">
+        <div class="field">
+          <label for="cliNombre">Nombre *</label>
+          <input id="cliNombre" type="text" placeholder="Tu nombre completo" required />
+        </div>
+        <div class="field">
+          <label for="cliTelefono">Teléfono *</label>
+          <input id="cliTelefono" type="tel" inputmode="tel" placeholder="Ej: 9991234567" required />
+        </div>
+        <div class="field">
+          <label for="cliDireccion">Dirección de entrega *</label>
+          <input id="cliDireccion" type="text" placeholder="Calle, número, colonia, referencias" required />
+        </div>
+        <div class="field">
+          <label for="cliNotas">Especificaciones (opcional)</label>
+          <textarea id="cliNotas" rows="3" placeholder="Sin cebolla, poco picante, salsas aparte..."></textarea>
+        </div>
+
+        <div class="modal-actions">
+          <button type="button" class="btn" id="cancelOrder">Cancelar</button>
+          <button type="submit" class="btn primary">Enviar por WhatsApp</button>
+        </div>
+      </form>
+    </div>
+  </div>
 
   <!-- Notificación de producto agotado -->
   <div id="notificacion-agotado" class="notificacion-agotado oculto">Este producto está agotado.</div>
@@ -287,13 +359,15 @@
       }
     };
 
-    // === Catálogo base ===
+    // === Catálogo base con imágenes locales ===
+    // Asegúrate de tener los archivos en /img del mismo proyecto:
+    // tranca.jpg, torta.jpg, panuchos.jpg, tacos.jpg, tostadas.jpg
     const CATALOGO = [
-      { id: 101, name: 'Tranca',   cat: 'trancas',   img: 'https://images.unsplash.com/photo-1604908811848-025f3b2a8371?auto=format&fit=crop&w=1200&q=60', desc: 'Pan grande con relleno a elegir', available: true },
-      { id: 201, name: 'Torta',    cat: 'tortas',    img: 'https://images.unsplash.com/photo-1619740462125-0b8a3d9e8643?auto=format&fit=crop&w=1200&q=60', desc: 'Bolillo con relleno a elegir', available: true },
-      { id: 301, name: 'Panuchos', cat: 'panuchos',  img: 'https://images.unsplash.com/photo-1632516643720-3b3ad72037df?auto=format&fit=crop&w=1200&q=60', desc: 'Tortilla con frijol y relleno', available: true },
-      { id: 401, name: 'Tacos',    cat: 'tacos',     img: 'https://images.unsplash.com/photo-1552332386-f8dd00dc2f85?auto=format&fit=crop&w=1200&q=60', desc: 'Orden con salsas al gusto', available: true },
-      { id: 501, name: 'Tostadas', cat: 'tostadas',  img: 'https://images.unsplash.com/photo-1546549039-49ec6f3b2c4b?auto=format&fit=crop&w=1200&q=60', desc: 'Crujientes con frijol y relleno', available: true },
+      { id: 101, name: 'Tranca',   cat: 'trancas',   img: 'img/tranca.jpg',   desc: 'Pan grande con relleno a elegir', available: true },
+      { id: 201, name: 'Torta',    cat: 'tortas',    img: 'img/torta.jpg',    desc: 'Bolillo con relleno a elegir', available: true },
+      { id: 301, name: 'Panuchos', cat: 'panuchos',  img: 'img/panuchos.png', desc: 'Tortilla con frijol y relleno', available: true },
+      { id: 401, name: 'Tacos',    cat: 'tacos',     img: 'img/taco.jpg',    desc: 'Orden con salsas al gusto', available: true },
+      { id: 501, name: 'Tostadas', cat: 'tostadas',  img: 'img/tostadas.jpg', desc: 'Crujientes con frijol y relleno', available: true },
     ];
 
     function getPrice(cat, size, variant){
@@ -522,9 +596,19 @@
 
     // Listeners UI
     searchInput.addEventListener('input', applyFilters);
-    resetBtn.addEventListener('click', ()=>{ searchInput.value=''; $$('.tab').forEach(t=>t.classList.remove('active')); $$('.tab')[0].classList.add('active'); applyFilters();
-    updateAvailabilityUI(); });
-    tabs.addEventListener('click', (e)=>{ const t=e.target.closest('.tab'); if(!t) return; $$('.tab').forEach(x=>x.classList.remove('active')); t.classList.add('active'); applyFilters(); });
+    resetBtn.addEventListener('click', ()=>{
+      searchInput.value='';
+      $$('.tab').forEach(t=>t.classList.remove('active'));
+      $$('.tab')[0].classList.add('active');
+      applyFilters();
+      updateAvailabilityUI();
+    });
+    tabs.addEventListener('click', (e)=>{
+      const t=e.target.closest('.tab'); if(!t) return;
+      $$('.tab').forEach(x=>x.classList.remove('active'));
+      t.classList.add('active');
+      applyFilters();
+    });
 
     // Refresca badges/estado según disponibilidad del dataset
     function updateAvailabilityUI(){
@@ -577,10 +661,23 @@
       }
     });
 
-    // Modal: cerrar por botón, clic fuera y tecla ESC + restaurar scroll
-    $('#closeModal').addEventListener('click', ()=>{ modal.classList.remove('show'); document.body.style.overflow=''; });
-    modal.addEventListener('click',(e)=>{ if(e.target===modal){ modal.classList.remove('show'); document.body.style.overflow=''; } });
-    document.addEventListener('keydown', (e)=>{ if(e.key === 'Escape' && modal.classList.contains('show')){ modal.classList.remove('show'); document.body.style.overflow=''; } });
+    // Modal imagen: cerrar
+    $('#closeModal').addEventListener('click', ()=>{
+      modal.classList.remove('show');
+      document.body.style.overflow='';
+    });
+    modal.addEventListener('click',(e)=>{
+      if(e.target===modal){
+        modal.classList.remove('show');
+        document.body.style.overflow='';
+      }
+    });
+    document.addEventListener('keydown', (e)=>{
+      if(e.key === 'Escape' && modal.classList.contains('show')){
+        modal.classList.remove('show');
+        document.body.style.overflow='';
+      }
+    });
 
     // Drawer
     cartFab.addEventListener('click', openDrawer);
@@ -589,19 +686,101 @@
 
     clearBtn.addEventListener('click', clearCart);
 
-    // Confirmar pedido por WhatsApp
+    // ===== Pedido con datos del cliente antes de WhatsApp =====
+    const orderModal = document.getElementById('orderModal');
+    const orderForm  = document.getElementById('orderForm');
+    const cancelOrderBtn = document.getElementById('cancelOrder');
+    const cliNombre  = document.getElementById('cliNombre');
+    const cliTelefono= document.getElementById('cliTelefono');
+    const cliDireccion=document.getElementById('cliDireccion');
+    const cliNotas   = document.getElementById('cliNotas');
+
+    function openOrderModal(){
+      orderModal.classList.add('show');
+      orderModal.setAttribute('aria-hidden','false');
+      document.body.style.overflow = 'hidden';
+      // Prefill desde localStorage si existen
+      try{
+        const info = JSON.parse(localStorage.getItem('customer_info')||'{}');
+        if(info.nombre)    cliNombre.value = info.nombre;
+        if(info.telefono)  cliTelefono.value = info.telefono;
+        if(info.direccion) cliDireccion.value = info.direccion;
+      }catch{}
+      cliNombre.focus();
+    }
+    function closeOrderModal(){
+      orderModal.classList.remove('show');
+      orderModal.setAttribute('aria-hidden','true');
+      document.body.style.overflow = '';
+    }
+
+    // Abrir modal desde "Confirmar pedido"
     checkoutBtn.addEventListener('click', () => {
       if (!cart.length) return showToast('Tu carrito está vacío');
-      const telefonoRestaurante = '521234567890'; // Cambia por tu número con prefijo país
-      let mensaje = '📋 *Nuevo pedido*\n\n';
-      cart.forEach(item => { mensaje += `🍽️ ${item.name} x${item.qty} — ${fmt(item.price * item.qty)}\n`; });
-      mensaje += `\n💵 *Total:* ${fmt(cartSubtotal())}\n`;
-      mensaje += `\n📍 Por favor, confirme su dirección de entrega.`;
-      const url = `https://wa.me/${telefonoRestaurante}?text=${encodeURIComponent(mensaje)}`;
-      window.open(url, '_blank');
-      closeDrawer();
+      openOrderModal();
     });
 
+    // Cerrar modal al hacer clic fuera / cancelar / ESC
+    orderModal.addEventListener('click', (e)=>{ if(e.target===orderModal) closeOrderModal(); });
+    cancelOrderBtn.addEventListener('click', closeOrderModal);
+    document.addEventListener('keydown', (e)=>{
+      if(e.key==='Escape' && orderModal.classList.contains('show')) closeOrderModal();
+    });
+// Validación simple de teléfono (10–15 dígitos)
+function validPhone(v){
+  const digits = (v||'').replace(/\D+/g,'');
+  return digits.length>=10 && digits.length<=15;
+}
+
+orderForm.addEventListener('submit', (e)=>{
+  e.preventDefault();
+  const nombre = cliNombre.value.trim();
+  const telefono = cliTelefono.value.trim();
+  const direccion = cliDireccion.value.trim();
+  const notas = cliNotas.value.trim();
+
+  if(!nombre || !telefono || !direccion){
+    return showToast('Completa nombre, teléfono y dirección');
+  }
+  if(!validPhone(telefono)){
+    return showToast('Teléfono inválido. Usa solo dígitos, 10–15 long.');
+  }
+
+  // Guardar para siguientes pedidos
+  try{
+    localStorage.setItem('customer_info', JSON.stringify({nombre, telefono, direccion}));
+  }catch{}
+
+  const telefonoRestaurante = '+529812093221'; // tu número
+  const phoneDigits = (telefonoRestaurante || '').replace(/\D+/g, ''); // SIN '+'
+
+  let mensaje = '📋 *Nuevo pedido*\n\n';
+  mensaje += `👤 *Nombre:* ${nombre}\n`;
+  mensaje += `📞 *Teléfono:* ${telefono}\n`;
+  mensaje += `📍 *Dirección:* ${direccion}\n`;
+  if(notas) mensaje += `📝 *Especificaciones:* ${notas}\n`;
+  mensaje += `\n🛒 *Detalle del pedido:*\n`;
+  cart.forEach(item=>{
+    mensaje += `• ${item.name} x${item.qty} — ${fmt(item.price * item.qty)}\n`;
+  });
+  mensaje += `\n💵 *Total:* ${fmt(cartSubtotal())}`;
+
+  const url = `https://api.whatsapp.com/send?phone=${phoneDigits}&text=${encodeURIComponent(mensaje)}`;
+
+  try {
+    const win = window.open(url, '_blank');
+    if (!win) window.location.href = url; // fallback si bloquea pop-up
+  } catch {
+    window.location.href = url;
+  }
+
+  // Vaciar carrito al enviar
+  clearCart();
+  showToast('¡Pedido enviado! Carrito vaciado');
+
+  closeOrderModal();
+  closeDrawer();
+});
     // Init
     renderMenu();
     loadCart();

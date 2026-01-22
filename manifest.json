@@ -1,0 +1,15 @@
+{
+  "name": "Cordelia Cocina de Mar",
+  "short_name": "Cordelia",
+  "start_url": ".",
+  "display": "standalone",
+  "background_color": "#061214",
+  "theme_color": "#0e6f78",
+  "icons": [
+    {
+      "src": "img/logo.jpg",
+      "sizes": "192x192",
+      "type": "image/png"
+    }
+  ]
+}

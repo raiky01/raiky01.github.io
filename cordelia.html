@@ -4,86 +4,105 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Cordelia Mariscos - Menú</title>
+<title>Cordelia Cocina de Mar — Menú</title>
 
-<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@500;700&family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
 
 <style>
 :root{
-  --primary:#00c2d1;
-  --secondary:#06181c;
-  --light:#ffffff;
-  --glass:rgba(255,255,255,.06);
+  --bg:#0b1f23;
+  --primary:#0e6f78;
+  --gold:#d8b77a;
+  --white:#ffffff;
+  --muted:rgba(255,255,255,.7);
+  --glass:rgba(255,255,255,.05);
   --stroke:rgba(255,255,255,.12);
 }
 
 body{
   margin:0;
-  font-family:'Poppins',sans-serif;
-  background:#06181c;
+  background:radial-gradient(circle at top,#12383d,#081517);
   color:white;
+  font-family:Poppins,sans-serif;
 }
 
 header{
   text-align:center;
-  padding:18px;
+  padding:30px 20px 10px;
 }
 
-.brand-logo{
-  width:110px;
+.logo{
+  width:130px;
   border-radius:50%;
-  margin-bottom:8px;
+  margin-bottom:14px;
 }
 
-.lead{
-  color:#9be7ff;
-  font-size:.9rem;
+h1{
+  font-family:Playfair Display,serif;
+  font-size:2rem;
+  margin:0;
+}
+
+.subtitle{
+  color:var(--gold);
+  letter-spacing:.12em;
+  font-size:.85rem;
+  margin-top:6px;
 }
 
 .tabs{
   display:flex;
   overflow:auto;
-  gap:8px;
-  padding:10px;
+  gap:10px;
+  padding:16px;
 }
 
 .tab{
-  padding:8px 14px;
-  border-radius:20px;
-  background:#093746;
+  padding:8px 16px;
+  border-radius:30px;
   border:1px solid var(--stroke);
+  background:transparent;
   color:white;
   cursor:pointer;
+  font-size:.9rem;
+  transition:.2s;
 }
 
 .tab.active{
-  background:var(--primary);
+  background:var(--gold);
   color:black;
   font-weight:600;
 }
 
 .grid{
   display:grid;
-  grid-template-columns:repeat(auto-fill,minmax(160px,1fr));
-  gap:14px;
-  padding:14px;
+  grid-template-columns:repeat(auto-fill,minmax(170px,1fr));
+  gap:16px;
+  padding:16px;
 }
 
 .card{
-  background:#082c36;
-  border-radius:14px;
-  overflow:hidden;
+  background:var(--glass);
   border:1px solid var(--stroke);
+  border-radius:18px;
+  overflow:hidden;
+  backdrop-filter:blur(8px);
+  transition:.25s;
+}
+
+.card:hover{
+  transform:translateY(-4px);
+  border-color:var(--gold);
 }
 
 .card img{
   width:100%;
-  height:140px;
+  height:160px;
   object-fit:cover;
 }
 
 .card-body{
-  padding:10px;
+  padding:14px;
 }
 
 .card h3{
@@ -92,17 +111,18 @@ header{
 }
 
 .price{
-  color:#00ffd5;
-  font-weight:700;
+  color:var(--gold);
+  font-weight:600;
 }
 
-.btn-add{
-  margin-top:6px;
+.btn{
+  margin-top:8px;
   width:100%;
-  padding:8px;
+  padding:9px;
+  border-radius:12px;
   border:none;
-  border-radius:10px;
   background:var(--primary);
+  color:white;
   font-weight:600;
   cursor:pointer;
 }
@@ -111,18 +131,19 @@ header{
   position:fixed;
   bottom:0;
   width:100%;
-  background:#06181c;
+  background:#071316;
   border-top:1px solid var(--stroke);
-  padding:12px;
+  padding:12px 16px;
 }
 
 .cart button{
   width:100%;
-  padding:12px;
+  padding:14px;
+  border-radius:30px;
   border:none;
-  border-radius:20px;
   background:#25D366;
   font-weight:700;
+  color:black;
 }
 </style>
 </head>
@@ -130,18 +151,18 @@ header{
 <body>
 
 <header>
-<img src="img/logo.jpg" class="brand-logo">
-<h1>Cordelia Mariscos</h1>
-<div class="lead">Frescura del mar — toca para ordenar</div>
+<img src="img/logo.jpg" class="logo">
+<h1>Cordelia</h1>
+<div class="subtitle">COCINA DE MAR</div>
 </header>
 
-<nav class="tabs" id="tabs">
-<button class="tab active" data-cat="all">Todo</button>
-<button class="tab" data-cat="ceviches">Ceviches</button>
-<button class="tab" data-cat="cocteles">Cócteles</button>
-<button class="tab" data-cat="camarones">Camarones</button>
-<button class="tab" data-cat="pescados">Pescados</button>
-<button class="tab" data-cat="especiales">Especiales</button>
+<nav class="tabs">
+<button class="tab active" onclick="render('all')">Todo</button>
+<button class="tab" onclick="render('ceviches')">Ceviches</button>
+<button class="tab" onclick="render('cocteles')">Cócteles</button>
+<button class="tab" onclick="render('camarones')">Camarones</button>
+<button class="tab" onclick="render('pescados')">Pescados</button>
+<button class="tab" onclick="render('especiales')">Especiales</button>
 </nav>
 
 <div class="grid" id="grid"></div>
@@ -151,14 +172,17 @@ header{
 </div>
 
 <script>
-const telefono = "521XXXXXXXXXX"; // TU NÚMERO
+const telefono = "521XXXXXXXXXX";
 
 const productos = [
 { id:1, name:"Ceviche Mixto", cat:"ceviches", price:120, img:"img/ceviche.jpg" },
-{ id:2, name:"Cóctel de Camarón", cat:"cocteles", price:130, img:"img/coctel.jpg" },
-{ id:3, name:"Camarones al Mojo", cat:"camarones", price:180, img:"img/camarones.jpg" },
-{ id:4, name:"Filete Empanizado", cat:"pescados", price:160, img:"img/filete.jpg" },
-{ id:5, name:"Platón Marino", cat:"especiales", price:350, img:"img/platon.jpg" }
+{ id:2, name:"Aguachile Verde", cat:"ceviches", price:140, img:"img/aguachile.jpg" },
+{ id:3, name:"Cóctel de Camarón", cat:"cocteles", price:130, img:"img/coctel.jpg" },
+{ id:4, name:"Camarones al Mojo", cat:"camarones", price:180, img:"img/camarones.jpg" },
+{ id:5, name:"Camarones Empanizados", cat:"camarones", price:175, img:"img/camarones2.jpg" },
+{ id:6, name:"Filete Empanizado", cat:"pescados", price:160, img:"img/filete.jpg" },
+{ id:7, name:"Filete a la Plancha", cat:"pescados", price:170, img:"img/filete2.jpg" },
+{ id:8, name:"Platón Marino", cat:"especiales", price:350, img:"img/platon.jpg" }
 ];
 
 let carrito = [];
@@ -167,51 +191,45 @@ const grid = document.getElementById("grid");
 
 function render(cat="all"){
 grid.innerHTML="";
-productos.filter(p => cat==="all" || p.cat===cat)
-.forEach(p=>{
-const card = document.createElement("div");
+document.querySelectorAll(".tab").forEach(t=>t.classList.remove("active"));
+event?.target?.classList.add("active");
+
+productos.filter(p=>cat==="all"||p.cat===cat).forEach(p=>{
+const card=document.createElement("div");
 card.className="card";
 card.innerHTML=`
 <img src="${p.img}">
 <div class="card-body">
 <h3>${p.name}</h3>
 <div class="price">$${p.price} MXN</div>
-<button class="btn-add" onclick="agregar(${p.id})">Agregar</button>
+<button class="btn" onclick="agregar(${p.id})">Agregar</button>
 </div>`;
 grid.appendChild(card);
 });
 }
 
 function agregar(id){
-const prod = productos.find(p=>p.id===id);
+const prod=productos.find(p=>p.id===id);
 carrito.push(prod);
 alert(prod.name+" agregado");
 }
-
-document.querySelectorAll(".tab").forEach(btn=>{
-btn.onclick=()=>{
-document.querySelector(".tab.active").classList.remove("active");
-btn.classList.add("active");
-render(btn.dataset.cat);
-};
-});
 
 function enviarWhatsApp(){
 if(carrito.length===0){
 alert("Agrega productos primero");
 return;
 }
-let texto="🦐 Pedido Cordelia Mariscos:%0A%0A";
+let msg="🦪 Pedido Cordelia Cocina de Mar:%0A%0A";
 let total=0;
 
 carrito.forEach(p=>{
-texto+=`• ${p.name} - $${p.price}%0A`;
+msg+=`• ${p.name} — $${p.price}%0A`;
 total+=p.price;
 });
 
-texto+=`%0A💰 Total: $${total} MXN`;
+msg+=`%0A💰 Total: $${total} MXN`;
 
-window.open(`https://wa.me/${telefono}?text=${texto}`);
+window.open(`https://wa.me/${telefono}?text=${msg}`);
 }
 
 render();

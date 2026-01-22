@@ -6,11 +6,11 @@
 
 <title>Cordelia Cocina de Mar — Tacos</title>
 
-<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700&family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
 
 <style>
 :root{
-  --bg:#0b1f23;
+  --bg:#071316;
   --primary:#0e6f78;
   --gold:#d8b77a;
   --glass:rgba(255,255,255,.06);
@@ -19,7 +19,7 @@
 
 body{
   margin:0;
-  background:radial-gradient(circle at top,#12383d,#081517);
+  background:linear-gradient(180deg,#081b1f,#050f11);
   color:white;
   font-family:Poppins,sans-serif;
 }
@@ -27,34 +27,31 @@ body{
 /* HEADER */
 header{
   text-align:center;
-  padding:34px 20px 16px;
+  padding:26px 16px 12px;
 }
 
 .logo{
-  width:135px;
+  width:120px;
   border-radius:50%;
-  margin-bottom:14px;
 }
 
 h1{
-  font-family:Playfair Display,serif;
-  font-size:2.2rem;
-  margin:0;
+  margin:10px 0 0;
+  font-size:1.8rem;
 }
 
 .subtitle{
   color:var(--gold);
-  letter-spacing:.14em;
   font-size:.85rem;
-  margin-top:6px;
+  letter-spacing:.14em;
 }
 
-/* GRID PRODUCTOS */
+/* GRID */
 .grid{
   display:grid;
-  grid-template-columns:repeat(2, 1fr);
-  gap:18px;
-  padding:18px;
+  grid-template-columns:repeat(2,1fr);
+  gap:16px;
+  padding:16px;
 }
 
 /* CARD */
@@ -63,8 +60,8 @@ h1{
   border:1px solid var(--stroke);
   border-radius:18px;
   overflow:hidden;
-  backdrop-filter:blur(8px);
-  transition:.25s;
+  backdrop-filter:blur(10px);
+  transition:.2s;
 }
 
 .card:hover{
@@ -74,25 +71,26 @@ h1{
 
 .card img{
   width:100%;
-  height:150px;
+  height:140px;
   object-fit:cover;
 }
 
 .card-body{
-  padding:14px;
+  padding:12px;
 }
 
 .card h3{
   font-size:1rem;
-  margin:0 0 4px;
+  margin:0;
 }
 
 .price{
   color:var(--gold);
   font-weight:600;
+  margin-top:4px;
 }
 
-/* BOTÓN AGREGAR */
+/* BTN */
 .btn{
   margin-top:10px;
   width:100%;
@@ -103,52 +101,45 @@ h1{
   color:white;
   font-weight:600;
   cursor:pointer;
-  transition:.2s;
 }
 
-.btn:hover{
-  background:#11909c;
-}
-
-/* BOTÓN FLOTANTE CARRITO */
+/* FLOAT CART */
 .cart-float{
   position:fixed;
-  bottom:18px;
-  right:18px;
+  bottom:16px;
+  right:16px;
   background:var(--primary);
-  color:white;
-  padding:14px 16px;
+  padding:14px 18px;
   border-radius:50px;
   font-weight:700;
+  box-shadow:0 8px 20px rgba(0,0,0,.45);
   cursor:pointer;
-  box-shadow:0 6px 20px rgba(0,0,0,.45);
 }
 
-/* PANTALLA CARRITO */
+/* CART PAGE */
 .cart-page{
   position:fixed;
   inset:0;
-  background:linear-gradient(180deg,#071316,#050f11);
-  backdrop-filter:blur(14px);
+  background:linear-gradient(180deg,#061214,#040a0c);
   display:none;
   flex-direction:column;
 }
 
+/* HEADER CART */
 .cart-header{
-  padding:18px;
-  border-bottom:1px solid var(--stroke);
+  padding:16px;
   display:flex;
   justify-content:space-between;
-  align-items:center;
+  border-bottom:1px solid var(--stroke);
 }
 
+/* ITEMS */
 .cart-list{
   flex:1;
   overflow:auto;
-  padding:18px;
+  padding:16px;
 }
 
-/* ITEM */
 .cart-item{
   border-bottom:1px solid rgba(255,255,255,.08);
   padding:12px 0;
@@ -170,19 +161,18 @@ h1{
   cursor:pointer;
 }
 
-/* NOTAS */
+/* NOTE */
 .note{
   width:100%;
   margin-top:6px;
-  padding:7px;
+  padding:6px;
   border-radius:8px;
   border:none;
   background:rgba(255,255,255,.08);
   color:white;
-  font-size:.85rem;
 }
 
-/* FOOTER CARRITO */
+/* FOOTER */
 .cart-footer{
   padding:16px;
   border-top:1px solid var(--stroke);
@@ -198,9 +188,7 @@ h1{
   color:black;
   display:flex;
   justify-content:center;
-  align-items:center;
   gap:10px;
-  font-size:1rem;
   box-shadow:0 6px 20px rgba(37,211,102,.45);
   cursor:pointer;
 }
@@ -221,16 +209,14 @@ h1{
 
 <div class="grid" id="grid"></div>
 
-<!-- BOTÓN FLOTANTE -->
 <div class="cart-float" onclick="openCart()">
-🛒 Carrito (<span id="count">0</span>)
+🛒 Pedido (<span id="count">0</span>)
 </div>
 
-<!-- PÁGINA CARRITO -->
 <div class="cart-page" id="cartPage">
 
 <div class="cart-header">
-<strong>Tu pedido</strong>
+<strong>Tu Pedido</strong>
 <button onclick="closeCart()">✖</button>
 </div>
 
@@ -238,7 +224,7 @@ h1{
 
 <div class="cart-footer">
 <div id="total" style="margin-bottom:10px;font-weight:700"></div>
-<button onclick="enviarWhatsApp()">
+<button onclick="sendWhatsApp()">
 <img class="wa-icon" src="https://upload.wikimedia.org/wikipedia/commons/6/6b/WhatsApp.svg">
 Enviar pedido por WhatsApp
 </button>
@@ -247,7 +233,7 @@ Enviar pedido por WhatsApp
 </div>
 
 <script>
-const telefono = "521XXXXXXXXXX"; // CAMBIA TU NÚMERO
+const telefono = "521XXXXXXXXXX";
 
 const productos = [
 { id:1, name:"Taco Hawaiano", price:55, img:"IMG_2658.png" },
@@ -263,8 +249,8 @@ const cartList = document.getElementById("cartList");
 const count = document.getElementById("count");
 const totalDiv = document.getElementById("total");
 
-/* PRODUCTOS */
-function renderProductos(){
+/* RENDER MENU */
+function renderMenu(){
 grid.innerHTML="";
 productos.forEach(p=>{
 const card=document.createElement("div");
@@ -274,43 +260,43 @@ card.innerHTML=`
 <div class="card-body">
 <h3>${p.name}</h3>
 <div class="price">$${p.price} MXN</div>
-<button class="btn" onclick="agregar(${p.id})">Agregar</button>
+<button class="btn" onclick="add(${p.id})">Agregar</button>
 </div>`;
 grid.appendChild(card);
 });
 }
 
-/* AGREGAR */
-function agregar(id){
+/* ADD */
+function add(id){
 let item = carrito.find(i=>i.id===id);
 if(item){
 item.qty++;
 }else{
-const prod = productos.find(p=>p.id===id);
+let prod = productos.find(p=>p.id===id);
 carrito.push({...prod, qty:1, note:""});
 }
-renderCarrito();
+renderCart();
 }
 
-/* RENDER CARRITO */
-function renderCarrito(){
+/* CART */
+function renderCart(){
 cartList.innerHTML="";
-let total=0;
+let total = 0;
 
-carrito.forEach((item,index)=>{
+carrito.forEach((item,i)=>{
 total += item.price * item.qty;
 
-const div=document.createElement("div");
+const div = document.createElement("div");
 div.className="cart-item";
-div.innerHTML=`
-<strong>${item.name}</strong> — $${item.price} MXN
+div.innerHTML = `
+<strong>${item.name}</strong> — $${item.price}
 <div class="qty">
-<button onclick="changeQty(${index},-1)">−</button>
+<button onclick="qty(${i},-1)">−</button>
 <span>${item.qty}</span>
-<button onclick="changeQty(${index},1)">+</button>
-<button onclick="removeItem(${index})">🗑</button>
+<button onclick="qty(${i},1)">+</button>
+<button onclick="removeItem(${i})">🗑</button>
 </div>
-<input class="note" placeholder="Notas: sin cebolla..." value="${item.note}" oninput="saveNote(${index},this.value)">
+<input class="note" placeholder="Notas: sin cebolla..." value="${item.note}" oninput="saveNote(${i},this.value)">
 `;
 cartList.appendChild(div);
 });
@@ -319,25 +305,22 @@ count.textContent = carrito.reduce((a,b)=>a+b.qty,0);
 totalDiv.textContent = "Total: $" + total + " MXN";
 }
 
-/* FUNCIONES */
-function changeQty(index,delta){
-carrito[index].qty += delta;
-if(carrito[index].qty <= 0){
-carrito.splice(index,1);
-}
-renderCarrito();
+function qty(i,delta){
+carrito[i].qty += delta;
+if(carrito[i].qty <= 0) carrito.splice(i,1);
+renderCart();
 }
 
-function removeItem(index){
-carrito.splice(index,1);
-renderCarrito();
+function removeItem(i){
+carrito.splice(i,1);
+renderCart();
 }
 
-function saveNote(index,value){
-carrito[index].note=value;
+function saveNote(i,val){
+carrito[i].note = val;
 }
 
-/* ABRIR / CERRAR */
+/* CART VIEW */
 function openCart(){
 document.getElementById("cartPage").style.display="flex";
 }
@@ -347,7 +330,7 @@ document.getElementById("cartPage").style.display="none";
 }
 
 /* WHATSAPP */
-function enviarWhatsApp(){
+function sendWhatsApp(){
 if(carrito.length===0){
 alert("Agrega productos primero");
 return;
@@ -358,9 +341,7 @@ let total=0;
 
 carrito.forEach(item=>{
 msg += `• ${item.qty}x ${item.name} — $${item.price * item.qty}%0A`;
-if(item.note){
-msg += `   📝 ${item.note}%0A`;
-}
+if(item.note) msg += `   📝 ${item.note}%0A`;
 total += item.price * item.qty;
 });
 
@@ -369,7 +350,7 @@ msg += `%0A💰 Total: $${total} MXN`;
 window.open(`https://wa.me/${telefono}?text=${msg}`);
 }
 
-renderProductos();
+renderMenu();
 </script>
 
 </body>

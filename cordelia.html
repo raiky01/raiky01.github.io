@@ -4,13 +4,15 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Cordelia Cocina de Mar — Tacos</title>
+<title>Cordelia Cocina de Mar</title>
 
-<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+<link rel="manifest" href="manifest.json">
+
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
 
 <style>
 :root{
-  --bg:#071316;
+  --bg:#061214;
   --primary:#0e6f78;
   --gold:#d8b77a;
   --glass:rgba(255,255,255,.06);
@@ -27,26 +29,26 @@ body{
 /* HEADER */
 header{
   text-align:center;
-  padding:26px 16px 12px;
+  padding:22px 14px;
 }
 
 .logo{
-  width:120px;
+  width:115px;
   border-radius:50%;
 }
 
 h1{
   margin:10px 0 0;
-  font-size:1.8rem;
+  font-size:1.7rem;
 }
 
 .subtitle{
   color:var(--gold);
-  font-size:.85rem;
+  font-size:.8rem;
   letter-spacing:.14em;
 }
 
-/* GRID */
+/* GRID MENU */
 .grid{
   display:grid;
   grid-template-columns:repeat(2,1fr);
@@ -54,24 +56,17 @@ h1{
   padding:16px;
 }
 
-/* CARD */
 .card{
   background:var(--glass);
   border:1px solid var(--stroke);
   border-radius:18px;
   overflow:hidden;
   backdrop-filter:blur(10px);
-  transition:.2s;
-}
-
-.card:hover{
-  transform:translateY(-4px);
-  border-color:var(--gold);
 }
 
 .card img{
   width:100%;
-  height:140px;
+  height:135px;
   object-fit:cover;
 }
 
@@ -79,18 +74,11 @@ h1{
   padding:12px;
 }
 
-.card h3{
-  font-size:1rem;
-  margin:0;
-}
-
 .price{
   color:var(--gold);
   font-weight:600;
-  margin-top:4px;
 }
 
-/* BTN */
 .btn{
   margin-top:10px;
   width:100%;
@@ -100,19 +88,17 @@ h1{
   background:var(--primary);
   color:white;
   font-weight:600;
-  cursor:pointer;
 }
 
 /* FLOAT CART */
 .cart-float{
   position:fixed;
-  bottom:16px;
-  right:16px;
+  bottom:14px;
+  right:14px;
   background:var(--primary);
   padding:14px 18px;
   border-radius:50px;
   font-weight:700;
-  box-shadow:0 8px 20px rgba(0,0,0,.45);
   cursor:pointer;
 }
 
@@ -120,12 +106,11 @@ h1{
 .cart-page{
   position:fixed;
   inset:0;
-  background:linear-gradient(180deg,#061214,#040a0c);
+  background:linear-gradient(180deg,#050f11,#020708);
   display:none;
   flex-direction:column;
 }
 
-/* HEADER CART */
 .cart-header{
   padding:16px;
   display:flex;
@@ -133,7 +118,6 @@ h1{
   border-bottom:1px solid var(--stroke);
 }
 
-/* ITEMS */
 .cart-list{
   flex:1;
   overflow:auto;
@@ -141,27 +125,25 @@ h1{
 }
 
 .cart-item{
-  border-bottom:1px solid rgba(255,255,255,.08);
+  border-bottom:1px solid rgba(255,255,255,.1);
   padding:12px 0;
 }
 
 .qty{
   display:flex;
-  gap:10px;
+  gap:8px;
   margin-top:6px;
 }
 
 .qty button{
-  width:28px;
-  height:28px;
+  width:26px;
+  height:26px;
   border-radius:50%;
   border:none;
   background:var(--primary);
   color:white;
-  cursor:pointer;
 }
 
-/* NOTE */
 .note{
   width:100%;
   margin-top:6px;
@@ -180,21 +162,12 @@ h1{
 
 .cart-footer button{
   width:100%;
-  padding:16px;
+  padding:15px;
   border-radius:40px;
   border:none;
   background:linear-gradient(135deg,#25D366,#1ebe5c);
   font-weight:700;
   color:black;
-  display:flex;
-  justify-content:center;
-  gap:10px;
-  box-shadow:0 6px 20px rgba(37,211,102,.45);
-  cursor:pointer;
-}
-
-.wa-icon{
-  width:22px;
 }
 </style>
 </head>
@@ -202,7 +175,7 @@ h1{
 <body>
 
 <header>
-<img src="IMG_2656.jpeg" class="logo">
+<img src="img/logo.jpg" class="logo">
 <h1>Cordelia</h1>
 <div class="subtitle">COCINA DE MAR</div>
 </header>
@@ -224,22 +197,23 @@ h1{
 
 <div class="cart-footer">
 <div id="total" style="margin-bottom:10px;font-weight:700"></div>
-<button onclick="sendWhatsApp()">
-<img class="wa-icon" src="https://upload.wikimedia.org/wikipedia/commons/6/6b/WhatsApp.svg">
-Enviar pedido por WhatsApp
-</button>
+<button onclick="sendWhatsApp()">Enviar pedido por WhatsApp</button>
 </div>
 
 </div>
 
 <script>
+if("serviceWorker" in navigator){
+navigator.serviceWorker.register("sw.js");
+}
+
 const telefono = "521XXXXXXXXXX";
 
 const productos = [
-{ id:1, name:"Taco Hawaiano", price:55, img:"IMG_2658.png" },
-{ id:2, name:"Taco Momia", price:58, img:"IMG_2660.jpeg" },
-{ id:3, name:"Taco Criko", price:60, img:"IMG_2657.jpeg" },
-{ id:4, name:"Taco Juela Camarón", price:65, img:"IMG_2661.jpeg" }
+{ id:1, name:"Taco Hawaiano", price:55, img:"img/taco1.jpg" },
+{ id:2, name:"Taco Momia", price:58, img:"img/taco2.jpg" },
+{ id:3, name:"Taco Criko", price:60, img:"img/taco3.jpg" },
+{ id:4, name:"Taco Juela Camarón", price:65, img:"img/taco4.jpg" }
 ];
 
 let carrito = [];
@@ -249,46 +223,39 @@ const cartList = document.getElementById("cartList");
 const count = document.getElementById("count");
 const totalDiv = document.getElementById("total");
 
-/* RENDER MENU */
 function renderMenu(){
 grid.innerHTML="";
 productos.forEach(p=>{
-const card=document.createElement("div");
-card.className="card";
-card.innerHTML=`
+grid.innerHTML += `
+<div class="card">
 <img src="${p.img}">
 <div class="card-body">
 <h3>${p.name}</h3>
 <div class="price">$${p.price} MXN</div>
 <button class="btn" onclick="add(${p.id})">Agregar</button>
+</div>
 </div>`;
-grid.appendChild(card);
 });
 }
 
-/* ADD */
 function add(id){
 let item = carrito.find(i=>i.id===id);
-if(item){
-item.qty++;
-}else{
+if(item){ item.qty++; }
+else{
 let prod = productos.find(p=>p.id===id);
 carrito.push({...prod, qty:1, note:""});
 }
 renderCart();
 }
 
-/* CART */
 function renderCart(){
 cartList.innerHTML="";
-let total = 0;
+let total=0;
 
 carrito.forEach((item,i)=>{
 total += item.price * item.qty;
-
-const div = document.createElement("div");
-div.className="cart-item";
-div.innerHTML = `
+cartList.innerHTML += `
+<div class="cart-item">
 <strong>${item.name}</strong> — $${item.price}
 <div class="qty">
 <button onclick="qty(${i},-1)">−</button>
@@ -297,17 +264,16 @@ div.innerHTML = `
 <button onclick="removeItem(${i})">🗑</button>
 </div>
 <input class="note" placeholder="Notas: sin cebolla..." value="${item.note}" oninput="saveNote(${i},this.value)">
-`;
-cartList.appendChild(div);
+</div>`;
 });
 
 count.textContent = carrito.reduce((a,b)=>a+b.qty,0);
 totalDiv.textContent = "Total: $" + total + " MXN";
 }
 
-function qty(i,delta){
-carrito[i].qty += delta;
-if(carrito[i].qty <= 0) carrito.splice(i,1);
+function qty(i,d){
+carrito[i].qty += d;
+if(carrito[i].qty<=0) carrito.splice(i,1);
 renderCart();
 }
 
@@ -320,7 +286,6 @@ function saveNote(i,val){
 carrito[i].note = val;
 }
 
-/* CART VIEW */
 function openCart(){
 document.getElementById("cartPage").style.display="flex";
 }
@@ -329,7 +294,6 @@ function closeCart(){
 document.getElementById("cartPage").style.display="none";
 }
 
-/* WHATSAPP */
 function sendWhatsApp(){
 if(carrito.length===0){
 alert("Agrega productos primero");

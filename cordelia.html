@@ -4,15 +4,13 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Cordelia Cocina de Mar</title>
+<title>Cordelia Cocina de Mar — Tacos</title>
 
-<link rel="manifest" href="manifest.json">
-
-<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700&family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
 
 <style>
 :root{
-  --bg:#061214;
+  --bg:#0b1f23;
   --primary:#0e6f78;
   --gold:#d8b77a;
   --glass:rgba(255,255,255,.06);
@@ -21,7 +19,7 @@
 
 body{
   margin:0;
-  background:linear-gradient(180deg,#081b1f,#050f11);
+  background:radial-gradient(circle at top,#12383d,#081517);
   color:white;
   font-family:Poppins,sans-serif;
 }
@@ -29,49 +27,64 @@ body{
 /* HEADER */
 header{
   text-align:center;
-  padding:22px 14px;
+  padding:32px 20px 16px;
 }
 
 .logo{
-  width:115px;
+  width:140px;
   border-radius:50%;
+  margin-bottom:12px;
 }
 
 h1{
-  margin:10px 0 0;
-  font-size:1.7rem;
+  font-family:Playfair Display,serif;
+  font-size:2.2rem;
+  margin:0;
 }
 
 .subtitle{
   color:var(--gold);
-  font-size:.8rem;
   letter-spacing:.14em;
+  font-size:.85rem;
+  margin-top:6px;
 }
 
-/* GRID MENU */
+/* GRID PRODUCTOS */
 .grid{
   display:grid;
-  grid-template-columns:repeat(2,1fr);
-  gap:16px;
-  padding:16px;
+  grid-template-columns:repeat(2, 1fr);
+  gap:18px;
+  padding:18px;
 }
 
+/* CARD */
 .card{
   background:var(--glass);
   border:1px solid var(--stroke);
   border-radius:18px;
   overflow:hidden;
-  backdrop-filter:blur(10px);
+  backdrop-filter:blur(8px);
+  transition:.25s;
+}
+
+.card:hover{
+  transform:translateY(-4px);
+  border-color:var(--gold);
 }
 
 .card img{
   width:100%;
-  height:135px;
+  height:150px;
   object-fit:cover;
 }
 
 .card-body{
-  padding:12px;
+  padding:14px;
+}
+
+.card h3{
+  font-size:1rem;
+  margin:0 0 4px;
 }
 
 .price{
@@ -79,79 +92,93 @@ h1{
   font-weight:600;
 }
 
+/* BOTÓN AGREGAR */
 .btn{
   margin-top:10px;
   width:100%;
-  padding:9px;
+  padding:10px;
   border-radius:14px;
   border:none;
   background:var(--primary);
   color:white;
   font-weight:600;
+  cursor:pointer;
 }
 
-/* FLOAT CART */
+.btn:hover{
+  background:#11909c;
+}
+
+/* BOTÓN FLOTANTE CARRITO */
 .cart-float{
   position:fixed;
-  bottom:14px;
-  right:14px;
+  bottom:18px;
+  right:18px;
   background:var(--primary);
+  color:white;
   padding:14px 18px;
   border-radius:50px;
   font-weight:700;
   cursor:pointer;
+  box-shadow:0 6px 20px rgba(0,0,0,.45);
 }
 
-/* CART PAGE */
+/* PÁGINA CARRITO */
 .cart-page{
   position:fixed;
   inset:0;
-  background:linear-gradient(180deg,#050f11,#020708);
+  background:linear-gradient(180deg,#071316,#050f11);
+  backdrop-filter:blur(14px);
   display:none;
   flex-direction:column;
 }
 
 .cart-header{
-  padding:16px;
+  padding:18px;
+  border-bottom:1px solid var(--stroke);
   display:flex;
   justify-content:space-between;
-  border-bottom:1px solid var(--stroke);
+  align-items:center;
 }
 
 .cart-list{
   flex:1;
   overflow:auto;
-  padding:16px;
+  padding:18px;
 }
 
+/* ITEM */
 .cart-item{
-  border-bottom:1px solid rgba(255,255,255,.1);
+  border-bottom:1px solid rgba(255,255,255,.08);
   padding:12px 0;
 }
 
 .qty{
   display:flex;
-  gap:8px;
+  gap:10px;
   margin-top:6px;
 }
 
 .qty button{
-  width:26px;
-  height:26px;
+  width:28px;
+  height:28px;
   border-radius:50%;
   border:none;
   background:var(--primary);
   color:white;
+  cursor:pointer;
 }
 
+/* NOTAS */
 .note{
   width:100%;
   margin-top:6px;
-  padding:6px;
+  padding:7px;
   border-radius:8px;
   border:none;
   background:rgba(255,255,255,.08);
   color:white;
+  font-size:.85rem;
 }
 
 /* FOOTER */
@@ -162,12 +189,22 @@ h1{
 
 .cart-footer button{
   width:100%;
-  padding:15px;
+  padding:16px;
   border-radius:40px;
   border:none;
   background:linear-gradient(135deg,#25D366,#1ebe5c);
   font-weight:700;
   color:black;
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  gap:10px;
+  box-shadow:0 6px 20px rgba(37,211,102,.45);
+  cursor:pointer;
+}
+
+.wa-icon{
+  width:22px;
 }
 </style>
 </head>
@@ -175,9 +212,9 @@ h1{
 <body>
 
 <header>
-<img src="img/logo.jpg" class="logo">
-<h1>Cordelia</h1>
-<div class="subtitle">COCINA DE MAR</div>
+<img src="IMG_2656.jpeg" class="logo">
+<h1>Cordelia Cocina de Mar</h1>
+<div class="subtitle">TACOS DE MAR</div>
 </header>
 
 <div class="grid" id="grid"></div>
@@ -197,23 +234,22 @@ h1{
 
 <div class="cart-footer">
 <div id="total" style="margin-bottom:10px;font-weight:700"></div>
-<button onclick="sendWhatsApp()">Enviar pedido por WhatsApp</button>
+<button onclick="sendWhatsApp()">
+<img class="wa-icon" src="https://upload.wikimedia.org/wikipedia/commons/6/6b/WhatsApp.svg">
+Enviar pedido por WhatsApp
+</button>
 </div>
 
 </div>
 
 <script>
-if("serviceWorker" in navigator){
-navigator.serviceWorker.register("sw.js");
-}
-
-const telefono = "521XXXXXXXXXX";
+const telefono = "521XXXXXXXXXX"; // CAMBIA TU NÚMERO
 
 const productos = [
-{ id:1, name:"Taco Hawaiano", price:55, img:"img/taco1.jpg" },
-{ id:2, name:"Taco Momia", price:58, img:"img/taco2.jpg" },
-{ id:3, name:"Taco Criko", price:60, img:"img/taco3.jpg" },
-{ id:4, name:"Taco Juela Camarón", price:65, img:"img/taco4.jpg" }
+{ id:1, name:"Taco Hawaiano", price:55, img:"IMG_2658.png" },
+{ id:2, name:"Taco Momia", price:58, img:"IMG_2660.jpeg" },
+{ id:3, name:"Taco Criko", price:60, img:"IMG_2657.jpeg" },
+{ id:4, name:"Taco Juela Camarón", price:65, img:"IMG_2661.jpeg" }
 ];
 
 let carrito = [];
@@ -223,40 +259,47 @@ const cartList = document.getElementById("cartList");
 const count = document.getElementById("count");
 const totalDiv = document.getElementById("total");
 
+/* RENDER MENÚ */
 function renderMenu(){
 grid.innerHTML="";
 productos.forEach(p=>{
-grid.innerHTML += `
-<div class="card">
+const card=document.createElement("div");
+card.className="card";
+card.innerHTML=`
 <img src="${p.img}">
 <div class="card-body">
 <h3>${p.name}</h3>
 <div class="price">$${p.price} MXN</div>
 <button class="btn" onclick="add(${p.id})">Agregar</button>
-</div>
 </div>`;
+grid.appendChild(card);
 });
 }
 
+/* AGREGAR */
 function add(id){
 let item = carrito.find(i=>i.id===id);
-if(item){ item.qty++; }
-else{
+if(item){
+item.qty++;
+}else{
 let prod = productos.find(p=>p.id===id);
 carrito.push({...prod, qty:1, note:""});
 }
 renderCart();
 }
 
+/* RENDER CARRITO */
 function renderCart(){
 cartList.innerHTML="";
 let total=0;
 
 carrito.forEach((item,i)=>{
 total += item.price * item.qty;
-cartList.innerHTML += `
-<div class="cart-item">
-<strong>${item.name}</strong> — $${item.price}
+
+const div=document.createElement("div");
+div.className="cart-item";
+div.innerHTML=`
+<strong>${item.name}</strong> — $${item.price} MXN
 <div class="qty">
 <button onclick="qty(${i},-1)">−</button>
 <span>${item.qty}</span>
@@ -264,16 +307,18 @@ cartList.innerHTML += `
 <button onclick="removeItem(${i})">🗑</button>
 </div>
 <input class="note" placeholder="Notas: sin cebolla..." value="${item.note}" oninput="saveNote(${i},this.value)">
-</div>`;
+`;
+cartList.appendChild(div);
 });
 
 count.textContent = carrito.reduce((a,b)=>a+b.qty,0);
 totalDiv.textContent = "Total: $" + total + " MXN";
 }
 
+/* CONTROLES */
 function qty(i,d){
 carrito[i].qty += d;
-if(carrito[i].qty<=0) carrito.splice(i,1);
+if(carrito[i].qty <= 0) carrito.splice(i,1);
 renderCart();
 }
 
@@ -286,6 +331,7 @@ function saveNote(i,val){
 carrito[i].note = val;
 }
 
+/* ABRIR / CERRAR CARRITO */
 function openCart(){
 document.getElementById("cartPage").style.display="flex";
 }
@@ -294,6 +340,7 @@ function closeCart(){
 document.getElementById("cartPage").style.display="none";
 }
 
+/* WHATSAPP */
 function sendWhatsApp(){
 if(carrito.length===0){
 alert("Agrega productos primero");
@@ -305,7 +352,9 @@ let total=0;
 
 carrito.forEach(item=>{
 msg += `• ${item.qty}x ${item.name} — $${item.price * item.qty}%0A`;
-if(item.note) msg += `   📝 ${item.note}%0A`;
+if(item.note){
+msg += `   📝 ${item.note}%0A`;
+}
 total += item.price * item.qty;
 });
 

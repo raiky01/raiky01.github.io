@@ -6,14 +6,13 @@
 
 <title>Cordelia Cocina de Mar — Tacos</title>
 
-<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@500;700&family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700&family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
 
 <style>
 :root{
   --bg:#0b1f23;
   --primary:#0e6f78;
   --gold:#d8b77a;
-  --white:#ffffff;
   --glass:rgba(255,255,255,.06);
   --stroke:rgba(255,255,255,.12);
 }
@@ -25,6 +24,7 @@ body{
   font-family:Poppins,sans-serif;
 }
 
+/* HEADER */
 header{
   text-align:center;
   padding:34px 20px 16px;
@@ -38,7 +38,7 @@ header{
 
 h1{
   font-family:Playfair Display,serif;
-  font-size:2.1rem;
+  font-size:2.2rem;
   margin:0;
 }
 
@@ -49,7 +49,7 @@ h1{
   margin-top:6px;
 }
 
-/* GRID 2 COLUMNAS */
+/* GRID PRODUCTOS */
 .grid{
   display:grid;
   grid-template-columns:repeat(2, 1fr);
@@ -68,9 +68,8 @@ h1{
 }
 
 .card:hover{
-  transform:translateY(-5px);
+  transform:translateY(-4px);
   border-color:var(--gold);
-  box-shadow:0 10px 25px rgba(0,0,0,.35);
 }
 
 .card img{
@@ -84,8 +83,8 @@ h1{
 }
 
 .card h3{
-  font-size:.98rem;
-  margin:0 0 6px;
+  font-size:1rem;
+  margin:0 0 4px;
 }
 
 .price{
@@ -97,7 +96,7 @@ h1{
 .btn{
   margin-top:10px;
   width:100%;
-  padding:10px;
+  padding:9px;
   border-radius:14px;
   border:none;
   background:var(--primary);
@@ -111,42 +110,59 @@ h1{
   background:#11909c;
 }
 
-/* PANEL CARRITO */
-.cart-panel{
+/* BOTÓN FLOTANTE CARRITO */
+.cart-float{
   position:fixed;
-  bottom:82px;
-  left:12px;
-  right:12px;
-  max-height:45vh;
-  overflow:auto;
-  background:linear-gradient(180deg,#071316,#061214);
-  border:1px solid var(--stroke);
-  border-radius:18px;
-  padding:14px;
-  backdrop-filter:blur(12px);
-  display:none;
+  bottom:18px;
+  right:18px;
+  background:var(--primary);
+  color:white;
+  padding:14px 16px;
+  border-radius:50px;
+  font-weight:700;
+  cursor:pointer;
+  box-shadow:0 6px 20px rgba(0,0,0,.45);
 }
 
-/* ITEM CARRITO */
+/* PANTALLA CARRITO */
+.cart-page{
+  position:fixed;
+  inset:0;
+  background:linear-gradient(180deg,#071316,#050f11);
+  backdrop-filter:blur(14px);
+  display:none;
+  flex-direction:column;
+}
+
+.cart-header{
+  padding:18px;
+  border-bottom:1px solid var(--stroke);
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+}
+
+.cart-list{
+  flex:1;
+  overflow:auto;
+  padding:18px;
+}
+
+/* ITEM */
 .cart-item{
   border-bottom:1px solid rgba(255,255,255,.08);
-  padding:10px 0;
-}
-
-.cart-item:last-child{
-  border-bottom:none;
+  padding:12px 0;
 }
 
 .qty{
   display:flex;
-  align-items:center;
-  gap:8px;
+  gap:10px;
   margin-top:6px;
 }
 
 .qty button{
-  width:26px;
-  height:26px;
+  width:28px;
+  height:28px;
   border-radius:50%;
   border:none;
   background:var(--primary);
@@ -158,7 +174,7 @@ h1{
 .note{
   width:100%;
   margin-top:6px;
-  padding:6px;
+  padding:7px;
   border-radius:8px;
   border:none;
   background:rgba(255,255,255,.08);
@@ -166,19 +182,13 @@ h1{
   font-size:.85rem;
 }
 
-/* BARRA WHATSAPP */
-.cart-bar{
-  position:fixed;
-  bottom:0;
-  width:100%;
-  background:linear-gradient(180deg,#071316,#061214);
+/* FOOTER CARRITO */
+.cart-footer{
+  padding:16px;
   border-top:1px solid var(--stroke);
-  padding:14px 16px;
-  backdrop-filter:blur(10px);
 }
 
-/* BOTÓN WHATSAPP */
-.cart-bar button{
+.cart-footer button{
   width:100%;
   padding:16px;
   border-radius:40px;
@@ -187,23 +197,16 @@ h1{
   font-weight:700;
   color:black;
   display:flex;
-  align-items:center;
   justify-content:center;
+  align-items:center;
   gap:10px;
   font-size:1rem;
   box-shadow:0 6px 20px rgba(37,211,102,.45);
   cursor:pointer;
-  transition:.25s;
-}
-
-.cart-bar button:hover{
-  transform:scale(1.02);
-  box-shadow:0 10px 30px rgba(37,211,102,.6);
 }
 
 .wa-icon{
   width:22px;
-  height:22px;
 }
 </style>
 </head>
@@ -218,16 +221,29 @@ h1{
 
 <div class="grid" id="grid"></div>
 
-<div class="cart-panel" id="cartPanel"></div>
+<!-- BOTÓN FLOTANTE -->
+<div class="cart-float" onclick="openCart()">
+🛒 Carrito (<span id="count">0</span>)
+</div>
 
-<div class="cart-bar">
-<button onclick="toggleCart()">
-🛒 Ver pedido (<span id="count">0</span>)
-</button>
+<!-- PÁGINA CARRITO -->
+<div class="cart-page" id="cartPage">
+
+<div class="cart-header">
+<strong>Tu pedido</strong>
+<button onclick="closeCart()">✖</button>
+</div>
+
+<div class="cart-list" id="cartList"></div>
+
+<div class="cart-footer">
+<div id="total" style="margin-bottom:10px;font-weight:700"></div>
 <button onclick="enviarWhatsApp()">
 <img class="wa-icon" src="https://upload.wikimedia.org/wikipedia/commons/6/6b/WhatsApp.svg">
-Ordenar por WhatsApp
+Enviar pedido por WhatsApp
 </button>
+</div>
+
 </div>
 
 <script>
@@ -243,10 +259,11 @@ const productos = [
 let carrito = [];
 
 const grid = document.getElementById("grid");
-const cartPanel = document.getElementById("cartPanel");
+const cartList = document.getElementById("cartList");
 const count = document.getElementById("count");
+const totalDiv = document.getElementById("total");
 
-/* RENDER PRODUCTOS */
+/* PRODUCTOS */
 function renderProductos(){
 grid.innerHTML="";
 productos.forEach(p=>{
@@ -277,7 +294,7 @@ renderCarrito();
 
 /* RENDER CARRITO */
 function renderCarrito(){
-cartPanel.innerHTML="";
+cartList.innerHTML="";
 let total=0;
 
 carrito.forEach((item,index)=>{
@@ -288,28 +305,22 @@ div.className="cart-item";
 div.innerHTML=`
 <strong>${item.name}</strong> — $${item.price} MXN
 <div class="qty">
-<button onclick="cambiarQty(${index},-1)">−</button>
+<button onclick="changeQty(${index},-1)">−</button>
 <span>${item.qty}</span>
-<button onclick="cambiarQty(${index},1)">+</button>
-<button onclick="eliminar(${index})">🗑</button>
+<button onclick="changeQty(${index},1)">+</button>
+<button onclick="removeItem(${index})">🗑</button>
 </div>
-<input class="note" placeholder="Notas: sin cebolla..." value="${item.note}" oninput="guardarNota(${index},this.value)">
+<input class="note" placeholder="Notas: sin cebolla..." value="${item.note}" oninput="saveNote(${index},this.value)">
 `;
-cartPanel.appendChild(div);
+cartList.appendChild(div);
 });
 
 count.textContent = carrito.reduce((a,b)=>a+b.qty,0);
-
-if(carrito.length){
-const totalDiv=document.createElement("div");
-totalDiv.style.marginTop="10px";
-totalDiv.innerHTML=`<strong>Total: $${total} MXN</strong>`;
-cartPanel.appendChild(totalDiv);
-}
+totalDiv.textContent = "Total: $" + total + " MXN";
 }
 
-/* CAMBIAR CANTIDAD */
-function cambiarQty(index,delta){
+/* FUNCIONES */
+function changeQty(index,delta){
 carrito[index].qty += delta;
 if(carrito[index].qty <= 0){
 carrito.splice(index,1);
@@ -317,23 +328,25 @@ carrito.splice(index,1);
 renderCarrito();
 }
 
-/* ELIMINAR */
-function eliminar(index){
+function removeItem(index){
 carrito.splice(index,1);
 renderCarrito();
 }
 
-/* NOTAS */
-function guardarNota(index,value){
+function saveNote(index,value){
 carrito[index].note=value;
 }
 
-/* MOSTRAR PANEL */
-function toggleCart(){
-cartPanel.style.display = cartPanel.style.display==="block" ? "none" : "block";
+/* ABRIR / CERRAR */
+function openCart(){
+document.getElementById("cartPage").style.display="flex";
 }
 
-/* ENVIAR WHATSAPP */
+function closeCart(){
+document.getElementById("cartPage").style.display="none";
+}
+
+/* WHATSAPP */
 function enviarWhatsApp(){
 if(carrito.length===0){
 alert("Agrega productos primero");

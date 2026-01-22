@@ -6,76 +6,123 @@
 
 <title>Cordelia Mariscos - Menú</title>
 
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
+
 <style>
-body {
-  margin: 0;
-  font-family: Arial, sans-serif;
-  background: #f7fbff;
-  color: #00334d;
+:root{
+  --primary:#00c2d1;
+  --secondary:#06181c;
+  --light:#ffffff;
+  --glass:rgba(255,255,255,.06);
+  --stroke:rgba(255,255,255,.12);
 }
 
-header {
-  background: #0099cc;
-  color: white;
-  text-align: center;
-  padding: 18px;
-  font-size: 1.4rem;
-  font-weight: bold;
+body{
+  margin:0;
+  font-family:'Poppins',sans-serif;
+  background:#06181c;
+  color:white;
 }
 
-.section {
-  margin: 18px;
+header{
+  text-align:center;
+  padding:18px;
 }
 
-.section h2 {
-  margin-bottom: 8px;
-  border-bottom: 2px solid #00a8c7;
-  padding-bottom: 4px;
+.brand-logo{
+  width:110px;
+  border-radius:50%;
+  margin-bottom:8px;
 }
 
-.item {
-  display: flex;
-  align-items: center;
-  margin-bottom: 12px;
-  background: white;
-  padding: 8px;
-  border-radius: 10px;
-  box-shadow: 0 2px 6px rgba(0,0,0,0.08);
+.lead{
+  color:#9be7ff;
+  font-size:.9rem;
 }
 
-.item img {
-  width: 70px;
-  height: 70px;
-  border-radius: 8px;
-  object-fit: cover;
-  margin-right: 10px;
+.tabs{
+  display:flex;
+  overflow:auto;
+  gap:8px;
+  padding:10px;
 }
 
-.item-info {
-  flex: 1;
+.tab{
+  padding:8px 14px;
+  border-radius:20px;
+  background:#093746;
+  border:1px solid var(--stroke);
+  color:white;
+  cursor:pointer;
 }
 
-.item-name {
-  font-weight: bold;
+.tab.active{
+  background:var(--primary);
+  color:black;
+  font-weight:600;
 }
 
-.item-price {
-  color: #0099cc;
-  font-weight: bold;
-  margin-top: 3px;
+.grid{
+  display:grid;
+  grid-template-columns:repeat(auto-fill,minmax(160px,1fr));
+  gap:14px;
+  padding:14px;
 }
 
-.whatsapp {
-  display: block;
-  margin: 20px auto;
-  text-align: center;
-  background: #25D366;
-  color: white;
-  padding: 12px;
-  width: 220px;
-  border-radius: 25px;
-  text-decoration: none;
-  font-weight: bold;
+.card{
+  background:#082c36;
+  border-radius:14px;
+  overflow:hidden;
+  border:1px solid var(--stroke);
+}
+
+.card img{
+  width:100%;
+  height:140px;
+  object-fit:cover;
+}
+
+.card-body{
+  padding:10px;
+}
+
+.card h3{
+  font-size:1rem;
+  margin:0 0 4px;
+}
+
+.price{
+  color:#00ffd5;
+  font-weight:700;
+}
+
+.btn-add{
+  margin-top:6px;
+  width:100%;
+  padding:8px;
+  border:none;
+  border-radius:10px;
+  background:var(--primary);
+  font-weight:600;
+  cursor:pointer;
+}
+
+.cart{
+  position:fixed;
+  bottom:0;
+  width:100%;
+  background:#06181c;
+  border-top:1px solid var(--stroke);
+  padding:12px;
+}
+
+.cart button{
+  width:100%;
+  padding:12px;
+  border:none;
+  border-radius:20px;
+  background:#25D366;
+  font-weight:700;
 }
 </style>
 </head>
@@ -83,72 +130,92 @@ header {
 <body>
 
 <header>
-Cordelia Mariscos 🦐🌊
+<img src="img/logo.jpg" class="brand-logo">
+<h1>Cordelia Mariscos</h1>
+<div class="lead">Frescura del mar — toca para ordenar</div>
 </header>
 
-<div class="section">
-<h2>Entradas</h2>
+<nav class="tabs" id="tabs">
+<button class="tab active" data-cat="all">Todo</button>
+<button class="tab" data-cat="ceviches">Ceviches</button>
+<button class="tab" data-cat="cocteles">Cócteles</button>
+<button class="tab" data-cat="camarones">Camarones</button>
+<button class="tab" data-cat="pescados">Pescados</button>
+<button class="tab" data-cat="especiales">Especiales</button>
+</nav>
 
-<div class="item">
-<img src="PEGAR_FOTO_INSTAGRAM_AQUI">
-<div class="item-info">
-<div class="item-name">Ceviche Mixto</div>
-<div class="item-price">$120 MXN</div>
-</div>
-</div>
+<div class="grid" id="grid"></div>
 
-<div class="item">
-<img src="PEGAR_FOTO_INSTAGRAM_AQUI">
-<div class="item-info">
-<div class="item-name">Cóctel de Camarón</div>
-<div class="item-price">$130 MXN</div>
-</div>
-</div>
+<div class="cart">
+<button onclick="enviarWhatsApp()">📲 Ordenar por WhatsApp</button>
 </div>
 
-<div class="section">
-<h2>Platos Fuertes</h2>
+<script>
+const telefono = "521XXXXXXXXXX"; // TU NÚMERO
 
-<div class="item">
-<img src="PEGAR_FOTO_INSTAGRAM_AQUI">
-<div class="item-info">
-<div class="item-name">Camarones al Mojo</div>
-<div class="item-price">$180 MXN</div>
-</div>
-</div>
+const productos = [
+{ id:1, name:"Ceviche Mixto", cat:"ceviches", price:120, img:"img/ceviche.jpg" },
+{ id:2, name:"Cóctel de Camarón", cat:"cocteles", price:130, img:"img/coctel.jpg" },
+{ id:3, name:"Camarones al Mojo", cat:"camarones", price:180, img:"img/camarones.jpg" },
+{ id:4, name:"Filete Empanizado", cat:"pescados", price:160, img:"img/filete.jpg" },
+{ id:5, name:"Platón Marino", cat:"especiales", price:350, img:"img/platon.jpg" }
+];
 
-<div class="item">
-<img src="PEGAR_FOTO_INSTAGRAM_AQUI">
-<div class="item-info">
-<div class="item-name">Filete Empanizado</div>
-<div class="item-price">$160 MXN</div>
-</div>
-</div>
-</div>
+let carrito = [];
 
-<div class="section">
-<h2>Especialidades</h2>
+const grid = document.getElementById("grid");
 
-<div class="item">
-<img src="PEGAR_FOTO_INSTAGRAM_AQUI">
-<div class="item-info">
-<div class="item-name">Platón Marino</div>
-<div class="item-price">$350 MXN</div>
-</div>
-</div>
+function render(cat="all"){
+grid.innerHTML="";
+productos.filter(p => cat==="all" || p.cat===cat)
+.forEach(p=>{
+const card = document.createElement("div");
+card.className="card";
+card.innerHTML=`
+<img src="${p.img}">
+<div class="card-body">
+<h3>${p.name}</h3>
+<div class="price">$${p.price} MXN</div>
+<button class="btn-add" onclick="agregar(${p.id})">Agregar</button>
+</div>`;
+grid.appendChild(card);
+});
+}
 
-<div class="item">
-<img src="PEGAR_FOTO_INSTAGRAM_AQUI">
-<div class="item-info">
-<div class="item-name">Combo Familiar</div>
-<div class="item-price">$480 MXN</div>
-</div>
-</div>
-</div>
+function agregar(id){
+const prod = productos.find(p=>p.id===id);
+carrito.push(prod);
+alert(prod.name+" agregado");
+}
 
-<a class="whatsapp" href="https://wa.me/5210000000000" target="_blank">
-📲 Pedir por WhatsApp
-</a>
+document.querySelectorAll(".tab").forEach(btn=>{
+btn.onclick=()=>{
+document.querySelector(".tab.active").classList.remove("active");
+btn.classList.add("active");
+render(btn.dataset.cat);
+};
+});
+
+function enviarWhatsApp(){
+if(carrito.length===0){
+alert("Agrega productos primero");
+return;
+}
+let texto="🦐 Pedido Cordelia Mariscos:%0A%0A";
+let total=0;
+
+carrito.forEach(p=>{
+texto+=`• ${p.name} - $${p.price}%0A`;
+total+=p.price;
+});
+
+texto+=`%0A💰 Total: $${total} MXN`;
+
+window.open(`https://wa.me/${telefono}?text=${texto}`);
+}
+
+render();
+</script>
 
 </body>
 </html>

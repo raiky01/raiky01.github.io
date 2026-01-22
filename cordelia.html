@@ -14,7 +14,7 @@
   --primary:#0e6f78;
   --gold:#d8b77a;
   --white:#ffffff;
-  --glass:rgba(255,255,255,.05);
+  --glass:rgba(255,255,255,.06);
   --stroke:rgba(255,255,255,.12);
 }
 
@@ -49,13 +49,15 @@ h1{
   margin-top:6px;
 }
 
+/* GRID 2 COLUMNAS */
 .grid{
   display:grid;
-  grid-template-columns:repeat(auto-fill,minmax(170px,1fr));
+  grid-template-columns:repeat(2, 1fr);
   gap:18px;
   padding:18px;
 }
 
+/* CARD */
 .card{
   background:var(--glass);
   border:1px solid var(--stroke);
@@ -66,13 +68,14 @@ h1{
 }
 
 .card:hover{
-  transform:translateY(-4px);
+  transform:translateY(-5px);
   border-color:var(--gold);
+  box-shadow:0 10px 25px rgba(0,0,0,.35);
 }
 
 .card img{
   width:100%;
-  height:160px;
+  height:150px;
   object-fit:cover;
 }
 
@@ -81,7 +84,7 @@ h1{
 }
 
 .card h3{
-  font-size:1rem;
+  font-size:.98rem;
   margin:0 0 6px;
 }
 
@@ -90,6 +93,7 @@ h1{
   font-weight:600;
 }
 
+/* BOTÓN AGREGAR */
 .btn{
   margin-top:10px;
   width:100%;
@@ -100,25 +104,51 @@ h1{
   color:white;
   font-weight:600;
   cursor:pointer;
+  transition:.2s;
 }
 
+.btn:hover{
+  background:#11909c;
+}
+
+/* BARRA WHATSAPP */
 .cart{
   position:fixed;
   bottom:0;
   width:100%;
-  background:#071316;
+  background:linear-gradient(180deg,#071316,#061214);
   border-top:1px solid var(--stroke);
   padding:14px 16px;
+  backdrop-filter:blur(10px);
 }
 
+/* BOTÓN WHATSAPP PREMIUM */
 .cart button{
   width:100%;
-  padding:15px;
-  border-radius:30px;
+  padding:16px;
+  border-radius:40px;
   border:none;
-  background:#25D366;
+  background:linear-gradient(135deg,#25D366,#1ebe5c);
   font-weight:700;
   color:black;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  gap:10px;
+  font-size:1rem;
+  box-shadow:0 6px 20px rgba(37,211,102,.45);
+  cursor:pointer;
+  transition:.25s;
+}
+
+.cart button:hover{
+  transform:scale(1.02);
+  box-shadow:0 10px 30px rgba(37,211,102,.6);
+}
+
+.wa-icon{
+  width:22px;
+  height:22px;
 }
 </style>
 </head>
@@ -126,7 +156,7 @@ h1{
 <body>
 
 <header>
-<img src="img/logo.jpg" class="IMG_2656.jpeg">
+<img src="IMG_2656.jpeg" class="logo">
 <h1>Cordelia</h1>
 <div class="subtitle">COCINA DE MAR</div>
 </header>
@@ -134,17 +164,20 @@ h1{
 <div class="grid" id="grid"></div>
 
 <div class="cart">
-<button onclick="enviarWhatsApp()">📲 Ordenar por WhatsApp</button>
+<button onclick="enviarWhatsApp()">
+<img class="wa-icon" src="https://upload.wikimedia.org/wikipedia/commons/6/6b/WhatsApp.svg">
+Ordenar por WhatsApp
+</button>
 </div>
 
 <script>
-const telefono = "529812093221"; // CAMBIA AQUÍ TU NÚMERO
+const telefono = "521XXXXXXXXXX"; // CAMBIA TU NÚMERO
 
 const productos = [
-{ id:1, name:"Taco Hawaiano", price:55, img:"img/taco-hawaiano.jpg" },
-{ id:2, name:"Taco Momia", price:58, img:"img/taco-momia.jpg" },
-{ id:3, name:"Taco Criko", price:60, img:"img/taco-criko.jpg" },
-{ id:4, name:"Taco Juela Camarón", price:65, img:"img/taco-juela.jpg" }
+{ id:1, name:"Taco Hawaiano", price:55, img:"IMG_2658.png" },
+{ id:2, name:"Taco Momia", price:58, img:"IMG_2660.jpeg" },
+{ id:3, name:"Taco Criko", price:60, img:"IMG_2657.jpeg" },
+{ id:4, name:"Tostada Spicy", price:65, img:"IMG_2661.jpeg" }
 ];
 
 let carrito = [];

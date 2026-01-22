@@ -25,9 +25,10 @@ body{
   font-family:Poppins,sans-serif;
 }
 
+/* HEADER */
 header{
   text-align:center;
-  padding:34px 20px 16px;
+  padding:34px 20px 12px;
 }
 
 .logo{
@@ -49,10 +50,10 @@ h1{
   margin-top:6px;
 }
 
-/* GRID 2 COLUMNAS */
+/* GRID RESPONSIVE REAL */
 .grid{
   display:grid;
-  grid-template-columns:repeat(2, 1fr);
+  grid-template-columns:repeat(auto-fit, minmax(160px, 1fr));
   gap:18px;
   padding:18px;
 }
@@ -68,14 +69,14 @@ h1{
 }
 
 .card:hover{
-  transform:translateY(-5px);
+  transform:translateY(-6px) scale(1.01);
   border-color:var(--gold);
-  box-shadow:0 10px 25px rgba(0,0,0,.35);
+  box-shadow:0 14px 28px rgba(0,0,0,.35);
 }
 
 .card img{
   width:100%;
-  height:150px;
+  height:155px;
   object-fit:cover;
 }
 
@@ -111,21 +112,34 @@ h1{
   background:#11909c;
 }
 
-/* BARRA WHATSAPP */
-.cart{
+/* TOAST NOTIFICACIÓN */
+.toast{
   position:fixed;
-  bottom:0;
-  width:100%;
-  background:linear-gradient(180deg,#071316,#061214);
-  border-top:1px solid var(--stroke);
-  padding:14px 16px;
-  backdrop-filter:blur(10px);
+  bottom:95px;
+  left:50%;
+  transform:translateX(-50%);
+  background:#0e6f78;
+  padding:10px 16px;
+  border-radius:20px;
+  font-size:.9rem;
+  opacity:0;
+  pointer-events:none;
+  transition:.3s;
 }
 
-/* BOTÓN WHATSAPP PREMIUM */
+/* BOTÓN WHATSAPP FLOTANTE */
+.cart{
+  position:fixed;
+  bottom:16px;
+  left:50%;
+  transform:translateX(-50%);
+  width:calc(100% - 32px);
+  max-width:480px;
+}
+
 .cart button{
   width:100%;
-  padding:16px;
+  padding:15px;
   border-radius:40px;
   border:none;
   background:linear-gradient(135deg,#25D366,#1ebe5c);
@@ -136,14 +150,13 @@ h1{
   justify-content:center;
   gap:10px;
   font-size:1rem;
-  box-shadow:0 6px 20px rgba(37,211,102,.45);
+  box-shadow:0 10px 25px rgba(37,211,102,.45);
   cursor:pointer;
   transition:.25s;
 }
 
 .cart button:hover{
   transform:scale(1.02);
-  box-shadow:0 10px 30px rgba(37,211,102,.6);
 }
 
 .wa-icon{
@@ -163,15 +176,17 @@ h1{
 
 <div class="grid" id="grid"></div>
 
+<div class="toast" id="toast"></div>
+
 <div class="cart">
 <button onclick="enviarWhatsApp()">
 <img class="wa-icon" src="https://upload.wikimedia.org/wikipedia/commons/6/6b/WhatsApp.svg">
-Ordenar por WhatsApp
+<span id="btnText">Ordenar por WhatsApp</span>
 </button>
 </div>
 
 <script>
-const telefono = "521XXXXXXXXXX"; // CAMBIA TU NÚMERO
+const telefono = "521XXXXXXXXXX";
 
 const productos = [
 { id:1, name:"Taco Hawaiano", price:55, img:"IMG_2658.png" },
@@ -181,46 +196,66 @@ const productos = [
 ];
 
 let carrito = [];
+
 const grid = document.getElementById("grid");
+const toast = document.getElementById("toast");
+const btnText = document.getElementById("btnText");
 
 function render(){
-grid.innerHTML="";
-productos.forEach(p=>{
-const card=document.createElement("div");
-card.className="card";
-card.innerHTML=`
-<img src="${p.img}">
-<div class="card-body">
-<h3>${p.name}</h3>
-<div class="price">$${p.price} MXN</div>
-<button class="btn" onclick="agregar(${p.id})">Agregar</button>
-</div>`;
-grid.appendChild(card);
-});
+  grid.innerHTML="";
+  productos.forEach(p=>{
+    const card=document.createElement("div");
+    card.className="card";
+    card.innerHTML=`
+      <img src="${p.img}">
+      <div class="card-body">
+        <h3>${p.name}</h3>
+        <div class="price">$${p.price} MXN</div>
+        <button class="btn" onclick="agregar(${p.id})">Agregar</button>
+      </div>`;
+    grid.appendChild(card);
+  });
 }
 
 function agregar(id){
-const prod=productos.find(p=>p.id===id);
-carrito.push(prod);
-alert(prod.name+" agregado");
+  const prod=productos.find(p=>p.id===id);
+  carrito.push(prod);
+  actualizarBoton();
+  mostrarToast(prod.name + " agregado");
+}
+
+function mostrarToast(text){
+  toast.textContent=text;
+  toast.style.opacity=1;
+  setTimeout(()=>toast.style.opacity=0,1500);
+}
+
+function actualizarBoton(){
+  let total = carrito.reduce((sum,p)=>sum+p.price,0);
+  if(carrito.length===0){
+    btnText.textContent="Ordenar por WhatsApp";
+  } else {
+    btnText.textContent=`Enviar pedido • ${carrito.length} • $${total} MXN`;
+  }
 }
 
 function enviarWhatsApp(){
-if(carrito.length===0){
-alert("Agrega productos primero");
-return;
-}
-let msg="🌮 Pedido Cordelia Cocina de Mar:%0A%0A";
-let total=0;
+  if(carrito.length===0){
+    mostrarToast("Agrega productos primero");
+    return;
+  }
 
-carrito.forEach(p=>{
-msg+=`• ${p.name} — $${p.price}%0A`;
-total+=p.price;
-});
+  let msg="🌮 Pedido Cordelia Cocina de Mar:%0A%0A";
+  let total=0;
 
-msg+=`%0A💰 Total: $${total} MXN`;
+  carrito.forEach(p=>{
+    msg+=`• ${p.name} — $${p.price}%0A`;
+    total+=p.price;
+  });
 
-window.open(`https://wa.me/${telefono}?text=${msg}`);
+  msg+=`%0A💰 Total: $${total} MXN`;
+
+  window.open(`https://wa.me/${telefono}?text=${msg}`);
 }
 
 render();

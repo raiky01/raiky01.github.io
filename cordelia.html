@@ -10,7 +10,7 @@
 
 <style>
 :root{
-  --bg:#0b1f23;
+  --bg:#081517;
   --primary:#0e6f78;
   --gold:#d8b77a;
   --white:#ffffff;
@@ -20,21 +20,32 @@
 
 body{
   margin:0;
-  background:radial-gradient(circle at top,#12383d,#081517);
   color:white;
   font-family:Poppins,sans-serif;
+  background:radial-gradient(circle at top,#12383d,#081517);
+  overflow-x:hidden;
+}
+
+/* EFECTO MAR */
+body::before{
+  content:"";
+  position:fixed;
+  inset:0;
+  background:url("https://www.transparenttextures.com/patterns/waves.png");
+  opacity:.05;
+  pointer-events:none;
 }
 
 /* HEADER */
 header{
   text-align:center;
-  padding:34px 20px 12px;
+  padding:32px 20px 10px;
 }
 
 .logo{
   width:135px;
   border-radius:50%;
-  margin-bottom:14px;
+  margin-bottom:12px;
 }
 
 h1{
@@ -50,7 +61,7 @@ h1{
   margin-top:6px;
 }
 
-/* GRID RESPONSIVE REAL */
+/* GRID RESPONSIVE */
 .grid{
   display:grid;
   grid-template-columns:repeat(auto-fit, minmax(160px, 1fr));
@@ -64,14 +75,15 @@ h1{
   border:1px solid var(--stroke);
   border-radius:18px;
   overflow:hidden;
-  backdrop-filter:blur(8px);
-  transition:.25s;
+  backdrop-filter:blur(10px);
+  transition:.3s;
+  cursor:pointer;
 }
 
 .card:hover{
-  transform:translateY(-6px) scale(1.01);
+  transform:translateY(-7px) scale(1.02);
   border-color:var(--gold);
-  box-shadow:0 14px 28px rgba(0,0,0,.35);
+  box-shadow:0 14px 30px rgba(0,0,0,.4);
 }
 
 .card img{
@@ -85,7 +97,7 @@ h1{
 }
 
 .card h3{
-  font-size:.98rem;
+  font-size:1rem;
   margin:0 0 6px;
 }
 
@@ -94,40 +106,78 @@ h1{
   font-weight:600;
 }
 
-/* BOTÓN AGREGAR */
-.btn{
-  margin-top:10px;
+/* FLOAT CART ICON */
+.cart-float{
+  position:fixed;
+  top:18px;
+  right:18px;
+  background:#0e6f78;
+  padding:10px 14px;
+  border-radius:40px;
+  font-weight:600;
+  cursor:pointer;
+  box-shadow:0 8px 22px rgba(0,0,0,.45);
+  display:flex;
+  align-items:center;
+  gap:6px;
+}
+
+/* TOAST */
+.toast{
+  position:fixed;
+  bottom:110px;
+  left:50%;
+  transform:translateX(-50%);
+  background:#0e6f78;
+  padding:10px 18px;
+  border-radius:30px;
+  opacity:0;
+  transition:.3s;
+  font-size:.9rem;
+}
+
+/* MODAL */
+.modal{
+  position:fixed;
+  inset:0;
+  background:rgba(0,0,0,.6);
+  display:none;
+  justify-content:center;
+  align-items:center;
+  backdrop-filter:blur(8px);
+}
+
+.modal-content{
+  background:#081a1d;
+  border:1px solid var(--stroke);
+  border-radius:20px;
+  width:90%;
+  max-width:420px;
+  overflow:hidden;
+}
+
+.modal img{
   width:100%;
-  padding:10px;
+  height:220px;
+  object-fit:cover;
+}
+
+.modal-body{
+  padding:16px;
+}
+
+.modal button{
+  width:100%;
+  padding:12px;
   border-radius:14px;
   border:none;
   background:var(--primary);
   color:white;
   font-weight:600;
-  cursor:pointer;
-  transition:.2s;
+  margin-top:10px;
 }
 
-.btn:hover{
-  background:#11909c;
-}
-
-/* TOAST NOTIFICACIÓN */
-.toast{
-  position:fixed;
-  bottom:95px;
-  left:50%;
-  transform:translateX(-50%);
-  background:#0e6f78;
-  padding:10px 16px;
-  border-radius:20px;
-  font-size:.9rem;
-  opacity:0;
-  pointer-events:none;
-  transition:.3s;
-}
-
-/* BOTÓN WHATSAPP FLOTANTE */
+/* WHATSAPP BUTTON */
 .cart{
   position:fixed;
   bottom:16px;
@@ -152,16 +202,6 @@ h1{
   font-size:1rem;
   box-shadow:0 10px 25px rgba(37,211,102,.45);
   cursor:pointer;
-  transition:.25s;
-}
-
-.cart button:hover{
-  transform:scale(1.02);
-}
-
-.wa-icon{
-  width:22px;
-  height:22px;
 }
 </style>
 </head>
@@ -174,13 +214,27 @@ h1{
 <div class="subtitle">COCINA DE MAR</div>
 </header>
 
+<div class="cart-float" id="cartFloat">🛒 0</div>
+
 <div class="grid" id="grid"></div>
 
 <div class="toast" id="toast"></div>
 
+<!-- MODAL -->
+<div class="modal" id="modal">
+  <div class="modal-content">
+    <img id="modalImg">
+    <div class="modal-body">
+      <h3 id="modalName"></h3>
+      <div class="price" id="modalPrice"></div>
+      <button onclick="confirmarAgregar()">Agregar al pedido</button>
+    </div>
+  </div>
+</div>
+
 <div class="cart">
 <button onclick="enviarWhatsApp()">
-<img class="wa-icon" src="https://upload.wikimedia.org/wikipedia/commons/6/6b/WhatsApp.svg">
+<img width="22" src="https://upload.wikimedia.org/wikipedia/commons/6/6b/WhatsApp.svg">
 <span id="btnText">Ordenar por WhatsApp</span>
 </button>
 </div>
@@ -196,9 +250,12 @@ const productos = [
 ];
 
 let carrito = [];
+let productoActivo = null;
 
 const grid = document.getElementById("grid");
 const toast = document.getElementById("toast");
+const modal = document.getElementById("modal");
+const cartFloat = document.getElementById("cartFloat");
 const btnText = document.getElementById("btnText");
 
 function render(){
@@ -211,32 +268,43 @@ function render(){
       <div class="card-body">
         <h3>${p.name}</h3>
         <div class="price">$${p.price} MXN</div>
-        <button class="btn" onclick="agregar(${p.id})">Agregar</button>
       </div>`;
+    card.onclick=()=>abrirModal(p);
     grid.appendChild(card);
   });
 }
 
-function agregar(id){
-  const prod=productos.find(p=>p.id===id);
-  carrito.push(prod);
+function abrirModal(prod){
+  productoActivo = prod;
+  modal.style.display="flex";
+  document.getElementById("modalImg").src=prod.img;
+  document.getElementById("modalName").textContent=prod.name;
+  document.getElementById("modalPrice").textContent="$"+prod.price+" MXN";
+}
+
+modal.onclick = e => {
+  if(e.target === modal) modal.style.display="none";
+};
+
+function confirmarAgregar(){
+  carrito.push(productoActivo);
   actualizarBoton();
-  mostrarToast(prod.name + " agregado");
+  mostrarToast(productoActivo.name + " agregado");
+  modal.style.display="none";
 }
 
 function mostrarToast(text){
   toast.textContent=text;
   toast.style.opacity=1;
-  setTimeout(()=>toast.style.opacity=0,1500);
+  setTimeout(()=>toast.style.opacity=0,1600);
 }
 
 function actualizarBoton(){
   let total = carrito.reduce((sum,p)=>sum+p.price,0);
-  if(carrito.length===0){
-    btnText.textContent="Ordenar por WhatsApp";
-  } else {
-    btnText.textContent=`Enviar pedido • ${carrito.length} • $${total} MXN`;
-  }
+  cartFloat.textContent = "🛒 " + carrito.length;
+  btnText.textContent = carrito.length 
+    ? `Enviar pedido • ${carrito.length} • $${total} MXN`
+    : "Ordenar por WhatsApp";
 }
 
 function enviarWhatsApp(){

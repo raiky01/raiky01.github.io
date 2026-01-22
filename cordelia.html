@@ -1,0 +1,232 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Cordelia Mariscos | Menú</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+
+<style>
+
+:root {
+  --azul: #0077b6;
+  --turquesa: #00b4d8;
+  --coral: #ff7f50;
+  --blanco: #ffffff;
+  --gris: #f5faff;
+}
+
+body {
+  margin: 0;
+  font-family: 'Poppins', sans-serif;
+  background: var(--gris);
+  color: #03324d;
+}
+
+/* HEADER */
+header {
+  background: linear-gradient(135deg, var(--azul), var(--turquesa));
+  color: white;
+  text-align: center;
+  padding: 45px 20px;
+  position: relative;
+  overflow: hidden;
+}
+
+header::after {
+  content: "";
+  position: absolute;
+  bottom: -40px;
+  left: 0;
+  width: 100%;
+  height: 120px;
+  background: white;
+  border-radius: 100% 100% 0 0;
+}
+
+header h1 {
+  margin: 0;
+  font-size: 2.4rem;
+}
+
+header p {
+  margin-top: 10px;
+  opacity: 0.95;
+}
+
+/* CONTAINER */
+.container {
+  max-width: 1100px;
+  margin: auto;
+  padding: 20px;
+}
+
+/* SECTION TITLE */
+.section-title {
+  margin: 30px 0 15px;
+  font-size: 1.4rem;
+  font-weight: 600;
+  border-left: 6px solid var(--turquesa);
+  padding-left: 12px;
+}
+
+/* GRID */
+.menu-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  gap: 18px;
+}
+
+/* CARD */
+.card {
+  background: white;
+  border-radius: 18px;
+  overflow: hidden;
+  box-shadow: 0 8px 18px rgba(0,0,0,0.08);
+  transition: 0.25s ease;
+}
+
+.card:hover {
+  transform: translateY(-6px);
+  box-shadow: 0 12px 25px rgba(0,0,0,0.12);
+}
+
+.card img {
+  width: 100%;
+  height: 160px;
+  object-fit: cover;
+}
+
+.card-content {
+  padding: 14px;
+}
+
+.card h3 {
+  margin: 0;
+  font-size: 1rem;
+}
+
+.price {
+  color: var(--coral);
+  font-weight: bold;
+  margin-top: 6px;
+}
+
+/* WHATSAPP FLOAT */
+.whatsapp-btn {
+  position: fixed;
+  bottom: 18px;
+  right: 18px;
+  background: #25D366;
+  color: white;
+  padding: 14px 18px;
+  border-radius: 50px;
+  text-decoration: none;
+  font-weight: bold;
+  box-shadow: 0 6px 18px rgba(0,0,0,0.2);
+  z-index: 999;
+}
+
+.whatsapp-btn:hover {
+  background: #1ebc59;
+}
+
+footer {
+  text-align: center;
+  padding: 30px 10px;
+  font-size: 0.9rem;
+  opacity: 0.7;
+}
+</style>
+</head>
+
+<body>
+
+<header>
+  <h1>Cordelia Mariscos</h1>
+  <p>Frescura del mar a tu mesa 🦐🌊</p>
+</header>
+
+<div class="container">
+
+<!-- ENTRADAS -->
+<div class="section-title">Entradas</div>
+<div class="menu-grid">
+
+  <div class="card">
+    <img src="https://images.unsplash.com/photo-1604908554160-05b9a38e2f1f">
+    <div class="card-content">
+      <h3>Ceviche Mixto</h3>
+      <div class="price">$120 MXN</div>
+    </div>
+  </div>
+
+  <div class="card">
+    <img src="https://images.unsplash.com/photo-1617196034796-73d44c14c76a">
+    <div class="card-content">
+      <h3>Cóctel de Camarón</h3>
+      <div class="price">$130 MXN</div>
+    </div>
+  </div>
+
+</div>
+
+<!-- PLATOS FUERTES -->
+<div class="section-title">Platos Fuertes</div>
+<div class="menu-grid">
+
+  <div class="card">
+    <img src="https://images.unsplash.com/photo-1604908177072-1d94c2a1c51e">
+    <div class="card-content">
+      <h3>Camarones al Mojo</h3>
+      <div class="price">$180 MXN</div>
+    </div>
+  </div>
+
+  <div class="card">
+    <img src="https://images.unsplash.com/photo-1618213832515-cf6f7d5c8f64">
+    <div class="card-content">
+      <h3>Filete Empanizado</h3>
+      <div class="price">$160 MXN</div>
+    </div>
+  </div>
+
+</div>
+
+<!-- ESPECIALES -->
+<div class="section-title">Especialidades</div>
+<div class="menu-grid">
+
+  <div class="card">
+    <img src="https://images.unsplash.com/photo-1589923188900-85dae523342b">
+    <div class="card-content">
+      <h3>Platón Marino</h3>
+      <div class="price">$350 MXN</div>
+    </div>
+  </div>
+
+  <div class="card">
+    <img src="https://images.unsplash.com/photo-1600891964599-f61ba0e24092">
+    <div class="card-content">
+      <h3>Combo Familiar</h3>
+      <div class="price">$480 MXN</div>
+    </div>
+  </div>
+
+</div>
+
+</div>
+
+<!-- WHATSAPP -->
+<a class="whatsapp-btn" href="https://wa.me/5210000000000" target="_blank">
+💬 Pedir por WhatsApp
+</a>
+
+<footer>
+© 2026 Cordelia Mariscos — Menú Digital
+</footer>
+
+</body>
+</html>

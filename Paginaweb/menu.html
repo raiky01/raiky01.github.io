@@ -1,0 +1,256 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Menú — Raiky Pizza</title>
+  <link rel="stylesheet" href="estilos.css">
+</head>
+<body>
+
+<!-- NAVBAR -->
+<nav class="navbar">
+  <a href="index.html" class="navbar-logo">RAIKY <span>●</span> PIZZA</a>
+  <div class="navbar-actions">
+    <button class="cart-btn" onclick="toggleCart()">
+      🛒 <span class="cart-badge" id="cart-count">0</span>
+    </button>
+  </div>
+</nav>
+
+<!-- HERO -->
+<div class="hero" style="padding:24px 20px;">
+  <div class="hero-tag">Campeche, México</div>
+  <div class="hero-title">La mejor pizza<br><span>a tu puerta</span></div>
+  <div class="hero-sub">Ingredientes frescos · Horno de leña · Entrega rápida</div>
+</div>
+<hr class="divider">
+
+<!-- BANNER CERRADO -->
+<div id="closed-banner" style="display:none; background:#fee2e2; color:var(--rojo); text-align:center; padding:12px; font-weight:700; font-size:14px;">
+  ⚠️ Estamos cerrados en este momento. Puedes ver el menú pero no podrás ordenar.
+</div>
+
+<!-- CATEGORÍAS -->
+<div class="categories">
+  <button class="cat-btn active" onclick="filterCat('all', this)">🍽️ Todos</button>
+  <button class="cat-btn" onclick="filterCat('pizza', this)">🍕 Pizzas</button>
+  <button class="cat-btn" onclick="filterCat('taco', this)">🌮 Tacos</button>
+  <button class="cat-btn" onclick="filterCat('bebida', this)">🥤 Bebidas</button>
+  <button class="cat-btn" onclick="filterCat('otro', this)">🛍️ Otros</button>
+</div>
+
+<!-- PRODUCTOS -->
+<div class="products-grid" id="products-grid">
+  <div style="text-align:center; padding:40px; color:var(--texto-suave);">Cargando menú...</div>
+</div>
+
+<!-- CARRITO OVERLAY -->
+<div class="cart-overlay" id="cart-overlay" onclick="toggleCart()"></div>
+
+<!-- CARRITO DRAWER -->
+<div class="cart-drawer" id="cart-drawer">
+  <div class="cart-handle"></div>
+  <div class="cart-title">🛒 Tu pedido</div>
+  <div id="cart-items-list"></div>
+
+  <!-- FORMULARIO -->
+  <div id="order-form-section" style="display:none;">
+    <hr style="margin:16px 0; border:none; border-top:1px solid #eee;">
+    <div style="font-size:15px; font-weight:700; color:var(--azul); margin-bottom:12px;">📋 Datos de entrega</div>
+    <div class="order-form">
+      <div class="form-group">
+        <label class="form-label">Nombre completo</label>
+        <input class="form-input" id="f-name" placeholder="Juan García" type="text">
+        <span class="form-error" id="e-name"></span>
+      </div>
+      <div class="form-group">
+        <label class="form-label">Teléfono</label>
+        <input class="form-input" id="f-phone" placeholder="981 123 4567" type="tel">
+        <span class="form-error" id="e-phone"></span>
+      </div>
+      <div class="form-group">
+        <label class="form-label">Dirección de entrega</label>
+        <input class="form-input" id="f-address" placeholder="Calle 12 #45, Col. Centro" type="text">
+        <span class="form-error" id="e-address"></span>
+      </div>
+      <div class="form-group">
+        <label class="form-label">Referencia (opcional)</label>
+        <input class="form-input" id="f-ref" placeholder="Entre calle 14 y 16, casa azul" type="text">
+      </div>
+    </div>
+    <div style="display:flex; justify-content:space-between; padding:12px 0; font-size:13px; color:var(--texto-suave);">
+      <span>Costo de envío</span><span id="delivery-fee-label">$30</span>
+    </div>
+  </div>
+
+  <div class="cart-total" id="cart-total-row" style="display:none;">
+    <span>Total</span><span id="cart-total-value">$0</span>
+  </div>
+
+  <div id="cart-actions"></div>
+</div>
+
+<script type="module">
+  import { FirebaseService } from './data/firebase-service.js';
+
+  let allProducts = [];
+  let currentCat = 'all';
+  let config = { deliveryFee: 30, isOpen: true, whatsappNumber: '529811234567' };
+
+  Cart.load();
+  Cart.onChange(updateCartUI);
+
+  async function init() {
+    try {
+      config = await FirebaseService.getConfig();
+      if (!config.isOpen) {
+        document.getElementById('closed-banner').style.display = 'block';
+      }
+      document.getElementById('delivery-fee-label').textContent = `$${config.deliveryFee}`;
+      allProducts = await FirebaseService.getMenu();
+      renderProducts(allProducts);
+    } catch (err) {
+      console.error(err);
+      document.getElementById('products-grid').innerHTML =
+        '<div style="text-align:center;padding:40px;color:var(--rojo);">Error cargando el menú. Revisa la consola.</div>';
+    }
+  }
+
+  function renderProducts(products) {
+    const grid = document.getElementById('products-grid');
+    const filtered = currentCat === 'all' ? products : products.filter(p => p.category === currentCat);
+    const available = filtered.filter(p => p.available !== false);
+
+    if (!available.length) {
+      grid.innerHTML = '<div style="text-align:center;padding:40px;color:var(--texto-suave);">No hay productos en esta categoría.</div>';
+      return;
+    }
+
+    grid.innerHTML = available.map(p => `
+      <div class="product-card">
+        ${p.image
+          ? `<img class="product-img" src="${p.image}" alt="${p.name}" onerror="this.style.display='none'">`
+          : `<div class="product-img-placeholder">${categoryIcon(p.category)}</div>`}
+        <div class="product-info">
+          ${p.featured ? '<span class="badge-featured">⭐ Popular</span>' : ''}
+          <div class="product-name">${p.name}</div>
+          <div class="product-desc">${p.description || ''}</div>
+          <div class="product-footer">
+            <div class="product-price">${formatPrice(p.price)}</div>
+            <button class="add-btn" onclick="addToCart(${JSON.stringify({ id: p.id, name: p.name, price: p.price }).replace(/"/g, '&quot;')})">
+              + Agregar
+            </button>
+          </div>
+        </div>
+      </div>
+    `).join('');
+  }
+
+  window.filterCat = function(cat, btn) {
+    currentCat = cat;
+    document.querySelectorAll('.cat-btn').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+    renderProducts(allProducts);
+  };
+
+  window.addToCart = function(product) {
+    Cart.add(product);
+    showToast(`${product.name} agregado 🍕`);
+  };
+
+  window.toggleCart = function() {
+    const overlay = document.getElementById('cart-overlay');
+    const drawer = document.getElementById('cart-drawer');
+    const isOpen = drawer.classList.contains('open');
+    overlay.classList.toggle('open', !isOpen);
+    drawer.classList.toggle('open', !isOpen);
+  };
+
+  function updateCartUI() {
+    document.getElementById('cart-count').textContent = Cart.count;
+    const list = document.getElementById('cart-items-list');
+    const totalRow = document.getElementById('cart-total-row');
+    const actions = document.getElementById('cart-actions');
+    const formSection = document.getElementById('order-form-section');
+
+    if (!Cart.items.length) {
+      list.innerHTML = '<div class="cart-empty">Tu carrito está vacío 🍕<br>¡Agrega algo del menú!</div>';
+      totalRow.style.display = 'none';
+      formSection.style.display = 'none';
+      actions.innerHTML = `<button class="btn-primary" style="width:100%" onclick="toggleCart()">Ver menú</button>`;
+      return;
+    }
+
+    list.innerHTML = Cart.items.map(item => `
+      <div class="cart-item">
+        <div>
+          <div class="cart-item-name">${item.name}</div>
+          <div class="cart-item-price">${formatPrice(item.price)} c/u</div>
+        </div>
+        <div class="qty-control">
+          <button class="qty-btn" onclick="changeQty('${item.id}', ${item.qty - 1})">−</button>
+          <span class="qty-num">${item.qty}</span>
+          <button class="qty-btn" onclick="changeQty('${item.id}', ${item.qty + 1})">+</button>
+        </div>
+      </div>
+    `).join('');
+
+    totalRow.style.display = 'flex';
+    const total = Cart.total + config.deliveryFee;
+    document.getElementById('cart-total-value').textContent = formatPrice(total);
+    formSection.style.display = 'block';
+    actions.innerHTML = `<button class="btn-primary" style="width:100%;margin-top:12px;" onclick="confirmOrder()">📱 Confirmar pedido por WhatsApp</button>`;
+  }
+
+  window.changeQty = function(id, qty) { Cart.setQty(id, qty); };
+
+  window.confirmOrder = async function() {
+    const name = document.getElementById('f-name').value.trim();
+    const phone = document.getElementById('f-phone').value.trim();
+    const address = document.getElementById('f-address').value.trim();
+    const ref = document.getElementById('f-ref').value.trim();
+
+    let valid = true;
+    ['name','phone','address'].forEach(field => {
+      document.getElementById(`e-${field}`).textContent = '';
+      document.getElementById(`f-${field}`).classList.remove('error');
+    });
+
+    if (!name) { document.getElementById('e-name').textContent = 'Requerido'; document.getElementById('f-name').classList.add('error'); valid = false; }
+    if (!phone) { document.getElementById('e-phone').textContent = 'Requerido'; document.getElementById('f-phone').classList.add('error'); valid = false; }
+    if (!address) { document.getElementById('e-address').textContent = 'Requerido'; document.getElementById('f-address').classList.add('error'); valid = false; }
+    if (!valid) return;
+
+    if (!config.isOpen) { showToast('Estamos cerrados en este momento', 'error'); return; }
+
+    try {
+      const orderData = {
+        customer: { name, phone, address: address + (ref ? ` (${ref})` : '') },
+        items: Cart.items,
+        total: Cart.total,
+      };
+      const orderId = await FirebaseService.createOrder(orderData);
+      openWhatsApp({ ...orderData, id: orderId }, config);
+      Cart.clear();
+      window.location.href = `rastreo.html?id=${orderId}`;
+    } catch (err) {
+      showToast('Error al crear el pedido. Intenta de nuevo.', 'error');
+      console.error(err);
+    }
+  };
+
+  init();
+  updateCartUI();
+</script>
+
+<script src="script.js"></script>
+
+<!-- FOOTER -->
+<footer class="footer">
+  <div>© 2024 Raiky Pizza · Campeche, México</div>
+  <div style="margin-top:6px;"><a href="nosotros.html">Sobre nosotros</a> · <a href="contacto.html">Contacto</a></div>
+</footer>
+
+</body>
+</html>

@@ -48,17 +48,21 @@ export const FirebaseService = {
     return { id: snap.id, ...snap.data() };
   },
 
-  listenToOrder(orderId, callback) {
-    return onSnapshot(doc(db, "orders", orderId), snap => {
-      if (snap.exists()) callback({ id: snap.id, ...snap.data() });
-    });
+  listenToOrder(orderId, callback, onError) {
+    return onSnapshot(
+      doc(db, "orders", orderId),
+      snap => { if (snap.exists()) callback({ id: snap.id, ...snap.data() }); },
+      err => onError ? onError(err) : console.error('listenToOrder error:', err)
+    );
   },
 
-  listenToOrders(callback) {
+  listenToOrders(callback, onError) {
     const q = query(collection(db, "orders"), orderBy("createdAt", "desc"));
-    return onSnapshot(q, snap => {
-      callback(snap.docs.map(d => ({ id: d.id, ...d.data() })));
-    });
+    return onSnapshot(
+      q,
+      snap => callback(snap.docs.map(d => ({ id: d.id, ...d.data() }))),
+      err => onError ? onError(err) : console.error('listenToOrders error:', err)
+    );
   },
 
   async updateOrderStatus(orderId, status) {
@@ -86,7 +90,8 @@ export const FirebaseService = {
 
   // --- AUTH ---
   async loginAdmin(email, password) {
-    return signInWithEmailAndPassword(auth, email, password);
+    const credential = await signInWithEmailAndPassword(auth, email, password);
+    return { uid: credential.user.uid, email: credential.user.email };
   },
 
   async logoutAdmin() {

@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Panel Admin — Raiky Pizza</title>
+  <link rel="stylesheet" href="../estilos.css">
+</head>
+<body>
+<div class="admin-layout">
+
+  <!-- SIDEBAR -->
+  <div class="admin-sidebar">
+    <div class="admin-sidebar-logo">RAIKY <span>●</span> PIZZA<br><small style="font-size:10px;opacity:0.6;font-weight:400;">Panel Admin</small></div>
+    <button class="admin-nav-item active" id="nav-pedidos" onclick="showTab('pedidos')">📦 Pedidos</button>
+    <button class="admin-nav-item" id="nav-menu" onclick="showTab('menu')">🍕 Menú</button>
+    <button class="admin-nav-item" id="nav-config" onclick="showTab('config')">⚙️ Configuración</button>
+    <div style="flex:1;"></div>
+    <button class="admin-nav-item" onclick="logout()" style="color:#ff8888;">🚪 Salir</button>
+  </div>
+
+  <!-- MAIN -->
+  <div class="admin-main">
+    <!-- STATS -->
+    <div class="stat-cards">
+      <div class="stat-card"><div class="stat-value" id="stat-today">—</div><div class="stat-label">Pedidos hoy</div></div>
+      <div class="stat-card"><div class="stat-value" id="stat-revenue">—</div><div class="stat-label">Ventas hoy</div></div>
+      <div class="stat-card"><div class="stat-value" id="stat-active">—</div><div class="stat-label">En proceso</div></div>
+    </div>
+
+    <!-- TAB: PEDIDOS -->
+    <div id="tab-pedidos">
+      <div class="admin-header">📦 Pedidos en tiempo real</div>
+      <div id="orders-list"><div style="color:var(--texto-suave);">Cargando pedidos...</div></div>
+    </div>
+
+    <!-- TAB: MENÚ -->
+    <div id="tab-menu" style="display:none;">
+      <div class="admin-header">🍕 Gestión del menú</div>
+      <div id="menu-list"></div>
+    </div>
+
+    <!-- TAB: CONFIG -->
+    <div id="tab-config" style="display:none;">
+      <div class="admin-header">⚙️ Configuración</div>
+      <div id="config-form"></div>
+    </div>
+  </div>
+</div>
+
+<script type="module" src="admin.js"></script>
+</body>
+</html>

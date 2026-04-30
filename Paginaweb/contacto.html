@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Contacto — Raiky Pizza</title>
+  <link rel="stylesheet" href="estilos.css">
+</head>
+<body>
+<nav class="navbar">
+  <a href="menu.html" class="navbar-logo">RAIKY <span>●</span> PIZZA</a>
+  <div class="navbar-actions"><a href="menu.html" class="btn-primary" style="padding:8px 20px;font-size:13px;">🍕 Ordenar</a></div>
+</nav>
+<div class="hero">
+  <div class="hero-tag">Encuéntranos</div>
+  <div class="hero-title">📍 Contacto y <span>ubicación</span></div>
+</div>
+<hr class="divider">
+<div class="section">
+  <div style="display:flex;flex-direction:column;gap:12px;margin-bottom:24px;">
+    <div style="background:white;border-radius:12px;padding:16px;box-shadow:var(--sombra);display:flex;gap:14px;align-items:center;">
+      <div style="font-size:28px;">📞</div>
+      <div>
+        <div style="font-size:12px;font-weight:700;color:var(--azul);">TELÉFONO / WHATSAPP</div>
+        <div id="contact-phone" style="font-size:15px;font-weight:600;margin-top:2px;">Cargando...</div>
+      </div>
+    </div>
+    <div style="background:white;border-radius:12px;padding:16px;box-shadow:var(--sombra);display:flex;gap:14px;align-items:center;">
+      <div style="font-size:28px;">🕐</div>
+      <div>
+        <div style="font-size:12px;font-weight:700;color:var(--azul);">HORARIO</div>
+        <div style="font-size:14px;margin-top:2px;">Lunes a Domingo</div>
+        <div style="font-size:14px;color:var(--texto-suave);">12:00 PM — 10:00 PM</div>
+      </div>
+    </div>
+    <div style="background:white;border-radius:12px;padding:16px;box-shadow:var(--sombra);display:flex;gap:14px;align-items:center;">
+      <div style="font-size:28px;">📍</div>
+      <div>
+        <div style="font-size:12px;font-weight:700;color:var(--azul);">UBICACIÓN</div>
+        <div style="font-size:14px;margin-top:2px;">Campeche, México</div>
+        <div style="font-size:13px;color:var(--texto-suave);">Servicio a domicilio disponible</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Reemplaza este div con el iframe de Google Maps cuando tengas la dirección exacta -->
+  <div style="background:#e8eeff;border-radius:12px;height:200px;display:flex;align-items:center;justify-content:center;color:var(--azul);font-weight:600;text-align:center;margin-bottom:20px;padding:20px;">
+    📍 Mapa<br><span style="font-size:12px;font-weight:400;color:var(--texto-suave);">Agrega aquí el iframe de Google Maps con tu dirección exacta</span>
+  </div>
+
+  <a id="whatsapp-link" href="#" class="btn-primary" style="display:block;text-align:center;margin-bottom:12px;">📱 Escribirnos por WhatsApp</a>
+  <a href="menu.html" class="btn-secondary" style="display:block;text-align:center;">🍕 Hacer un pedido</a>
+</div>
+<footer class="footer"><div>© 2024 Raiky Pizza · Campeche, México</div></footer>
+
+<script type="module">
+  import { FirebaseService } from './data/firebase-service.js';
+  async function loadContact() {
+    try {
+      const config = await FirebaseService.getConfig();
+      const num = config.whatsappNumber || '529811234567';
+      document.getElementById('contact-phone').textContent = num;
+      document.getElementById('whatsapp-link').href = `https://wa.me/${num.replace(/\D/g,'')}`;
+    } catch(e) { console.error(e); }
+  }
+  loadContact();
+</script>
+<script src="script.js"></script>
+</body>
+</html>

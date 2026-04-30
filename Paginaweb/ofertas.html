@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Ofertas — Raiky Pizza</title>
+  <link rel="stylesheet" href="estilos.css">
+</head>
+<body>
+<nav class="navbar">
+  <a href="menu.html" class="navbar-logo">RAIKY <span>●</span> PIZZA</a>
+  <div class="navbar-actions"><a href="menu.html" class="btn-primary" style="padding:8px 20px;font-size:13px;">🍕 Ordenar</a></div>
+</nav>
+<div class="hero">
+  <div class="hero-tag">Precios especiales</div>
+  <div class="hero-title">🔥 Ofertas <span>del día</span></div>
+</div>
+<hr class="divider">
+<div class="section" id="offers-section">
+  <div style="text-align:center;color:var(--texto-suave);padding:32px;">Cargando ofertas...</div>
+</div>
+<footer class="footer"><div>© 2024 Raiky Pizza · Campeche, México</div></footer>
+
+<script type="module">
+  import { FirebaseService } from './data/firebase-service.js';
+
+  async function loadOffers() {
+    try {
+      const menu = await FirebaseService.getMenu();
+      const featured = menu.filter(p => p.featured && p.available !== false);
+      const section = document.getElementById('offers-section');
+      if (!featured.length) {
+        section.innerHTML = '<div style="text-align:center;color:var(--texto-suave);padding:32px;">No hay ofertas activas en este momento.<br>¡Vuelve pronto!</div>';
+        return;
+      }
+      section.innerHTML = '';
+      featured.forEach(p => {
+        const card = document.createElement('div');
+        card.style.cssText = 'background:white;border-radius:12px;box-shadow:var(--sombra);overflow:hidden;margin-bottom:16px;display:flex;';
+        const imgPart = p.image
+          ? `<img src="${p.image}" style="width:120px;object-fit:cover;" alt="" loading="lazy">`
+          : `<div style="width:120px;background:linear-gradient(135deg,#f0f4ff,#e8eeff);display:flex;align-items:center;justify-content:center;font-size:40px;">🍕</div>`;
+        card.innerHTML = `
+          ${imgPart}
+          <div style="padding:14px;flex:1;">
+            <span class="badge-featured">⭐ Oferta</span>
+            <div class="product-name" style="margin-top:4px;"></div>
+            <div class="product-desc" style="margin:4px 0;"></div>
+            <div style="font-size:18px;font-weight:900;color:var(--rojo);">$${p.price}</div>
+            <a href="menu.html" style="font-size:12px;color:var(--azul);font-weight:600;text-decoration:none;">Ver en menú →</a>
+          </div>`;
+        card.querySelector('.product-name').textContent = p.name;
+        card.querySelector('.product-desc').textContent = p.description || '';
+        section.appendChild(card);
+      });
+    } catch (e) { console.error(e); }
+  }
+  loadOffers();
+</script>
+<script src="script.js"></script>
+</body>
+</html>

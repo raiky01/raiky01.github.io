@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Rastreo de pedido — Raiky Pizza</title>
+  <link rel="stylesheet" href="estilos.css">
+</head>
+<body>
+
+<nav class="navbar">
+  <a href="menu.html" class="navbar-logo">RAIKY <span>●</span> PIZZA</a>
+</nav>
+
+<div class="section" style="padding-top:32px;">
+  <div style="text-align:center; margin-bottom:28px;">
+    <div style="font-size:48px; margin-bottom:8px;">🛵</div>
+    <div class="section-title" style="text-align:center;">Estado de tu pedido</div>
+    <div id="order-id-label" style="font-size:12px; color:var(--texto-suave); margin-top:4px;"></div>
+  </div>
+
+  <div id="tracking-content">
+    <div style="text-align:center; color:var(--texto-suave); padding:32px;">Buscando tu pedido...</div>
+  </div>
+
+  <div style="text-align:center; margin-top:32px;">
+    <a href="menu.html" class="btn-secondary">🍕 Hacer otro pedido</a>
+  </div>
+</div>
+
+<script type="module">
+  import { FirebaseService } from './data/firebase-service.js';
+
+  const STEPS = [
+    { key: 'nuevo',      label: '✅ Pedido recibido',    desc: 'Recibimos tu pedido' },
+    { key: 'preparando', label: '👨‍🍳 Preparando',        desc: 'Estamos preparando tu pizza' },
+    { key: 'en_camino',  label: '🛵 En camino',           desc: 'Tu pedido está en camino' },
+    { key: 'entregado',  label: '🎉 Entregado',           desc: '¡Disfruta tu pizza!' },
+  ];
+
+  const params = new URLSearchParams(location.search);
+  const orderId = params.get('id');
+
+  if (!orderId) {
+    document.getElementById('tracking-content').innerHTML =
+      '<div style="text-align:center;color:var(--rojo);padding:32px;">No se encontró el ID del pedido.</div>';
+  } else {
+    document.getElementById('order-id-label').textContent = `Pedido #${orderId.slice(-6).toUpperCase()}`;
+    FirebaseService.listenToOrder(orderId, renderOrder, err => {
+      console.error('Tracking error:', err);
+      document.getElementById('tracking-content').innerHTML =
+        '<div style="text-align:center;color:var(--rojo);padding:32px;">Error conectando. Recarga la página.</div>';
+    });
+  }
+
+  function renderOrder(order) {
+    if (!order) {
+      document.getElementById('tracking-content').innerHTML =
+        '<div style="text-align:center;color:var(--rojo);padding:32px;">Pedido no encontrado.</div>';
+      return;
+    }
+
+    if (order.status === 'cancelado') {
+      document.getElementById('tracking-content').innerHTML = `
+        <div style="text-align:center;background:#fee2e2;border-radius:12px;padding:24px;color:var(--rojo);">
+          <div style="font-size:36px;margin-bottom:8px;">❌</div>
+          <div style="font-weight:700;font-size:16px;">Pedido cancelado</div>
+          <div style="font-size:13px;margin-top:4px;color:#666;">Contáctanos si tienes dudas.</div>
+        </div>`;
+      return;
+    }
+
+    const currentIdx = STEPS.findIndex(s => s.key === order.status);
+
+    const stepsHTML = STEPS.map((step, i) => {
+      const isDone = i < currentIdx;
+      const isActive = i === currentIdx;
+      const isLast = i === STEPS.length - 1;
+      return `
+        <div class="status-step">
+          <div style="display:flex;flex-direction:column;align-items:center;">
+            <div class="status-dot ${isDone ? 'done' : isActive ? 'active' : ''}"></div>
+            ${!isLast ? `<div class="status-line ${isDone ? 'done' : ''}"></div>` : ''}
+          </div>
+          <div class="status-text ${isDone ? 'done' : isActive ? 'active' : ''}" style="padding-left:4px;">
+            <div style="font-weight:${isActive ? '700' : '600'};font-size:${isActive ? '15px' : '13px'};">${step.label}</div>
+            ${isActive ? `<div style="font-size:12px;opacity:0.8;margin-top:2px;">${step.desc}</div>` : ''}
+          </div>
+        </div>`;
+    }).join('');
+
+    const itemsText = (order.items || []).map(i => `${i.name} x${i.qty}`).join(', ');
+
+    const content = document.getElementById('tracking-content');
+    content.innerHTML = `
+      <div class="tracking-status">${stepsHTML}</div>
+      <div style="background:white;border-radius:12px;padding:16px;box-shadow:var(--sombra);margin-top:20px;">
+        <div style="font-size:12px;font-weight:700;color:var(--azul);margin-bottom:8px;">DETALLE DEL PEDIDO</div>
+        <div class="order-items-text" style="font-size:13px;color:var(--texto-suave);margin-bottom:4px;"></div>
+        <div class="order-address" style="font-size:13px;color:var(--texto-suave);"></div>
+        <div style="font-size:15px;font-weight:900;color:var(--rojo);margin-top:8px;">Total: $${order.total || 0}</div>
+      </div>`;
+    content.querySelector('.order-items-text').textContent = `📦 ${itemsText}`;
+    content.querySelector('.order-address').textContent = `📍 ${order.customer?.address || ''}`;
+  }
+</script>
+
+<script src="script.js"></script>
+
+</body>
+</html>

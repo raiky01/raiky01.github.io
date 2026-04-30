@@ -61,22 +61,22 @@
     <div class="order-form">
       <div class="form-group">
         <label class="form-label">Nombre completo</label>
-        <input class="form-input" id="f-name" placeholder="Juan García" type="text">
+        <input class="form-input" id="f-name" placeholder="Juan García" type="text" maxlength="100">
         <span class="form-error" id="e-name"></span>
       </div>
       <div class="form-group">
         <label class="form-label">Teléfono</label>
-        <input class="form-input" id="f-phone" placeholder="981 123 4567" type="tel">
+        <input class="form-input" id="f-phone" placeholder="981 123 4567" type="tel" maxlength="20">
         <span class="form-error" id="e-phone"></span>
       </div>
       <div class="form-group">
         <label class="form-label">Dirección de entrega</label>
-        <input class="form-input" id="f-address" placeholder="Calle 12 #45, Col. Centro" type="text">
+        <input class="form-input" id="f-address" placeholder="Calle 12 #45, Col. Centro" type="text" maxlength="200">
         <span class="form-error" id="e-address"></span>
       </div>
       <div class="form-group">
         <label class="form-label">Referencia (opcional)</label>
-        <input class="form-input" id="f-ref" placeholder="Entre calle 14 y 16, casa azul" type="text">
+        <input class="form-input" id="f-ref" placeholder="Entre calle 14 y 16, casa azul" type="text" maxlength="200">
       </div>
     </div>
     <div style="display:flex; justify-content:space-between; padding:12px 0; font-size:13px; color:var(--texto-suave);">
@@ -127,24 +127,36 @@
       return;
     }
 
-    grid.innerHTML = available.map(p => `
-      <div class="product-card">
-        ${p.image
-          ? `<img class="product-img" src="${p.image}" alt="${p.name}" onerror="this.style.display='none'">`
-          : `<div class="product-img-placeholder">${categoryIcon(p.category)}</div>`}
+    grid.innerHTML = '';
+    available.forEach(p => {
+      const card = document.createElement('div');
+      card.className = 'product-card';
+      const imgPart = p.image
+        ? `<img class="product-img" src="${p.image}" alt="" onerror="this.style.display='none'" loading="lazy">`
+        : `<div class="product-img-placeholder">${categoryIcon(p.category)}</div>`;
+      card.innerHTML = `
+        ${imgPart}
         <div class="product-info">
           ${p.featured ? '<span class="badge-featured">⭐ Popular</span>' : ''}
-          <div class="product-name">${p.name}</div>
-          <div class="product-desc">${p.description || ''}</div>
+          <div class="product-name"></div>
+          <div class="product-desc"></div>
           <div class="product-footer">
             <div class="product-price">${formatPrice(p.price)}</div>
-            <button class="add-btn" onclick="addToCart(${JSON.stringify({ id: p.id, name: p.name, price: p.price }).replace(/"/g, '&quot;')})">
-              + Agregar
-            </button>
+            <button class="add-btn" data-id="${p.id}" data-price="${p.price}">+ Agregar</button>
           </div>
-        </div>
-      </div>
-    `).join('');
+        </div>`;
+      card.querySelector('.product-name').textContent = p.name;
+      card.querySelector('.product-desc').textContent = p.description || '';
+      card.querySelector('.add-btn').dataset.name = p.name;
+      grid.appendChild(card);
+    });
+
+    grid.addEventListener('click', e => {
+      const btn = e.target.closest('.add-btn');
+      if (!btn) return;
+      Cart.add({ id: btn.dataset.id, name: btn.dataset.name, price: Number(btn.dataset.price) });
+      showToast(`${btn.dataset.name} agregado 🍕`);
+    });
   }
 
   window.filterCat = function(cat, btn) {
@@ -152,11 +164,6 @@
     document.querySelectorAll('.cat-btn').forEach(b => b.classList.remove('active'));
     btn.classList.add('active');
     renderProducts(allProducts);
-  };
-
-  window.addToCart = function(product) {
-    Cart.add(product);
-    showToast(`${product.name} agregado 🍕`);
   };
 
   window.toggleCart = function() {
@@ -182,19 +189,26 @@
       return;
     }
 
-    list.innerHTML = Cart.items.map(item => `
-      <div class="cart-item">
+    list.innerHTML = '';
+    Cart.items.forEach(item => {
+      const row = document.createElement('div');
+      row.className = 'cart-item';
+      row.innerHTML = `
         <div>
-          <div class="cart-item-name">${item.name}</div>
+          <div class="cart-item-name"></div>
           <div class="cart-item-price">${formatPrice(item.price)} c/u</div>
         </div>
         <div class="qty-control">
-          <button class="qty-btn" onclick="changeQty('${item.id}', ${item.qty - 1})">−</button>
+          <button class="qty-btn" data-id="${item.id}" data-qty="${item.qty - 1}">−</button>
           <span class="qty-num">${item.qty}</span>
-          <button class="qty-btn" onclick="changeQty('${item.id}', ${item.qty + 1})">+</button>
-        </div>
-      </div>
-    `).join('');
+          <button class="qty-btn" data-id="${item.id}" data-qty="${item.qty + 1}">+</button>
+        </div>`;
+      row.querySelector('.cart-item-name').textContent = item.name;
+      row.querySelectorAll('.qty-btn').forEach(btn =>
+        btn.addEventListener('click', () => Cart.setQty(btn.dataset.id, Number(btn.dataset.qty)))
+      );
+      list.appendChild(row);
+    });
 
     totalRow.style.display = 'flex';
     const total = Cart.total + config.deliveryFee;
@@ -202,8 +216,6 @@
     formSection.style.display = 'block';
     actions.innerHTML = `<button class="btn-primary" style="width:100%;margin-top:12px;" onclick="confirmOrder()">📱 Confirmar pedido por WhatsApp</button>`;
   }
-
-  window.changeQty = function(id, qty) { Cart.setQty(id, qty); };
 
   window.confirmOrder = async function() {
     const name = document.getElementById('f-name').value.trim();
@@ -218,17 +230,20 @@
     });
 
     if (!name) { document.getElementById('e-name').textContent = 'Requerido'; document.getElementById('f-name').classList.add('error'); valid = false; }
-    if (!phone) { document.getElementById('e-phone').textContent = 'Requerido'; document.getElementById('f-phone').classList.add('error'); valid = false; }
-    if (!address) { document.getElementById('e-address').textContent = 'Requerido'; document.getElementById('f-address').classList.add('error'); valid = false; }
+    if (!phone || phone.replace(/\D/g,'').length < 10) { document.getElementById('e-phone').textContent = 'Teléfono inválido (mín. 10 dígitos)'; document.getElementById('f-phone').classList.add('error'); valid = false; }
+    if (!address || address.length < 5) { document.getElementById('e-address').textContent = 'Ingresa una dirección válida'; document.getElementById('f-address').classList.add('error'); valid = false; }
     if (!valid) return;
 
     if (!config.isOpen) { showToast('Estamos cerrados en este momento', 'error'); return; }
+
+    const confirmBtn = document.querySelector('#cart-actions .btn-primary');
+    if (confirmBtn) { confirmBtn.disabled = true; confirmBtn.textContent = 'Enviando...'; }
 
     try {
       const orderData = {
         customer: { name, phone, address: address + (ref ? ` (${ref})` : '') },
         items: Cart.items,
-        total: Cart.total,
+        total: Cart.total + config.deliveryFee,
       };
       const orderId = await FirebaseService.createOrder(orderData);
       openWhatsApp({ ...orderData, id: orderId }, config);
@@ -237,6 +252,7 @@
     } catch (err) {
       showToast('Error al crear el pedido. Intenta de nuevo.', 'error');
       console.error(err);
+      if (confirmBtn) { confirmBtn.disabled = false; confirmBtn.textContent = '📱 Confirmar pedido por WhatsApp'; }
     }
   };
 

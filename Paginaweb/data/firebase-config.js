@@ -4,10 +4,10 @@
 // SEGURIDAD: Las credenciales de Firebase web son públicas por diseño.
 // Protege tus datos con Firebase Security Rules, no ocultando la config.
 export const firebaseConfig = {
-  apiKey: "TU_API_KEY",
-  authDomain: "TU_PROJECT_ID.firebaseapp.com",
-  projectId: "TU_PROJECT_ID",
-  storageBucket: "TU_PROJECT_ID.appspot.com",
-  messagingSenderId: "TU_SENDER_ID",
-  appId: "TU_APP_ID"
+  apiKey: "AIzaSyDhXukLWfKqkxOVygqMwuZC_MCoaErJUuU",
+  authDomain: "raiky-pizza.firebaseapp.com",
+  projectId: "raiky-pizza",
+  storageBucket: "raiky-pizza.firebasestorage.app",
+  messagingSenderId: "970690324444",
+  appId: "1:970690324444:web:8ece6038e13c0e6d0e5119"
 };
